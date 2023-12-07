@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Frontier</title>
+    <link rel="stylesheet" href="../static/stylesheets/base.css">
+    <link rel="stylesheet" href="../static/stylesheets/planet.css">
+    <script src="../static/scripts/test.js"></script>
+</head>
+<body>
+    <div class="topbar">
+        <a class="resource-item">
+            <span class="resource-icon" style="background: url(../static/assets/48px-2-to-3-refrence.png)"></span>
+            <div style="position:relative; width:116px; top:-32px; left:56px;">
+                <span style="position: relative;">Metals</span><br>
+                <span style="position: relative; top: -5px; font-size:10px;" id="gas-amount" >69.420</span>
+            </div>
+        </a>
+        <a class="resource-item">
+            <span class="resource-icon" style="background: url(../static/assets/48px-2-to-3-refrence.png)"></span>
+            <div style="position:relative; width:116px; top:-32px; left:56px;">
+                <span style="position: relative;">Crystals</span><br>
+                <span style="position: relative; top: -5px; font-size:10px;" id="gas-amount" >69.420</span>
+            </div>
+        </a>
+        <a class="resource-item">
+            <span class="resource-icon" style="background: url(../static/assets/48px-2-to-3-refrence.png)"></span>
+            <div style="position:relative; width:116px; top:-32px; left:56px;">
+                <span style="position: relative;">Gases</span><br>
+                <span style="position: relative; top: -5px; font-size:10px;" id="gas-amount" >69.420</span>
+            </div>
+        </a>
+    </div>
+    <div id="game-container" style="display: flex;">
+        <div id="sidebar" class="sidebar">
+            <a class="planet-button" href="overview"     >Overview  </a>
+            <a class="planet-button" href="buildings"    >Buildings </a>
+            <a class="planet-button" href="defense"      >Defense   </a>
+            <a class="planet-button" href="shipyard"     >Shipyard  </a>
+            <a class="planet-button" href="fleet"        >Fleet     </a>
+            <a class="planet-button" href="../technology">Technology</a>
+            <a class="planet-button" href="../galaxy"    >Galaxy    </a>
+            <a class="planet-button" href="../alliance">Alliance</a>
+            <a class="planet-button" href="../chat"      >Hypercom  </a>
+        </div>
+
+        <div id="main-content" class="main-content">
+            <div class="planet-image-container">
+                <div class="planet-header"></div>
+                <div>
+                    <div class="planet-image" style="background: url(../static/assets/planet-building-banner.png) no-repeat; position: absolute;"></div>
+                    <div class="planet-image blue-stripes"></div>
+                    <h2  class="planet-title">Buildings</h2>
+                    <div class="planet-image"></div>
+                </div>
+                <p>(This page is under construction.)</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(5, 150px); grid-gap: 20px; justify-content: left;">
+                <div class="image-container-128px">
+                    <div>
+                        <div class="image-overlay-128px tooltip">
+                            <div class="tooltiptext">Metal Mine</div>
+                        </div>
+                        <img src="../static/assets/128px-refrence.png">
+                    </div>
+                </div>
+                <div class="image-container-128px">
+                    <div>
+                        <div class="image-overlay-128px tooltip">
+                            <div class="tooltiptext">Crystal Mine</div>
+                        </div>
+                        <img src="../static/assets/128px-refrence.png">
+                    </div>
+                </div>
+                <div class="image-container-128px">
+                    <div>
+                        <div class="image-overlay-128px tooltip">
+                            <div class="tooltiptext">Gas Extractor</div>
+                        </div>
+                        <img src="../static/assets/128px-refrence.png">
+                    </div>
+                </div>
+                <div class="image-container-128px">
+                    <div>
+                        <div class="image-overlay-128px tooltip">
+                            <div class="tooltiptext">Factory</div>
+                        </div>
+                        <img src="../static/assets/128px-refrence.png">
+                    </div>
+                </div>
+                <div class="image-container-128px">
+                    <div>
+                        <div class="image-overlay-128px tooltip">
+                            <div class="tooltiptext">Shipyard</div>
+                        </div>
+                        <img src="../static/assets/128px-refrence.png">
+                    </div>
+                </div>
+                <div class="image-container-128px">
+                    <div>
+                        <div class="image-overlay-128px tooltip">
+                            <div class="tooltiptext">Metal Storage</div>
+                        </div>
+                        <img src="../static/assets/128px-refrence.png">
+                    </div>
+                </div>
+                <div class="image-container-128px">
+                    <div>
+                        <div class="image-overlay-128px tooltip">
+                            <div class="tooltiptext">Crystal Storage</div>
+                        </div>
+                        <img src="../static/assets/128px-refrence.png">
+                    </div>
+                </div>
+                <div class="image-container-128px">
+                    <div>
+                        <div class="image-overlay-128px tooltip">
+                            <div class="tooltiptext">Gas Storage</div>
+                        </div>
+                        <img src="../static/assets/128px-refrence.png">
+                    </div>
+                </div>
+                <div class="image-container-128px">
+                    <div>
+                        <div class="image-overlay-128px tooltip">
+                            <div class="tooltiptext">Laboratory</div>
+                        </div>
+                        <img src="../static/assets/128px-refrence.png">
+                    </div>
+                </div>
+                <div class="image-container-128px">
+                    <div>
+                        <div class="image-overlay-128px tooltip">
+                            <div class="tooltiptext">Terraformer</div>
+                        </div>
+                        <img src="../static/assets/128px-refrence.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

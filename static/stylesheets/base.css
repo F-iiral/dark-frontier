@@ -1,0 +1,95 @@
+body {
+    font-family: verdana, arial, helvetica, sans-serif;
+    background-image: url(/static/assets/star-bg.jpg);
+    background-size: cover;
+    height: calc(100vh - 100px);
+
+    --background-color: #151828;
+    --primary-color:    #2b3f5a;
+    --secondary-color:  #2b4a5a;
+    --warn-color:       #b6a147;
+    --error-color:      #cb593a;
+    --ok-color:         #2c7d5a;
+    --text-color:       #ccc;
+}
+p {
+    color: var(--text-color);
+}
+h1 {
+    color: var(--text-color);
+}
+h2 {
+    color: var(--text-color);
+}
+
+.topbar {
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 20px;
+    margin-left: 12%;
+    margin-right: 12%;
+    height: 10%;
+}
+
+.sidebar {
+    margin-left: 12%;
+    margin-right: 1%;
+}
+
+.main-content {
+    flex: 1;
+    background-color: var(--background-color);
+    margin-right: 12%;
+    padding: 20px;
+    padding-top: 0px;
+    border: 2px solid var(--primary-color);
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    height: calc((100vh - 100px) * 0.8);
+    justify-content: center;
+    display: grid;
+}
+
+.blue-stripes {
+    position: absolute;
+    background: url(../assets/blue-stripes-repeating.png) repeat;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 150px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  text-align: center;
+  border: solid var(--primary-color) 2px;
+  border-radius: 2px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 105%;
+  left: 50%;
+  margin-left: -77px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tooltip .tooltiptext::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--primary-color) transparent transparent transparent;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}

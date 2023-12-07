@@ -1,0 +1,91 @@
+.planet-image-container {
+    justify-content: center;
+    display: grid;
+}
+.planet-image {
+    height: 200px;
+    width: 700px;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+}
+.planet-title {
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 15%;
+    margin: 2px;
+    border-top-left-radius: 10px;
+    background: linear-gradient(to left,rgba(0,0,0,0),rgba(0,0,0,1));
+    position: absolute;
+}
+.planet-subtitle {
+    font-style: italic;
+}
+.planet-button {
+    width: 125px;
+    height: 24px;
+    margin: 2px;
+    display: block;
+    color: var(--text-color) !important;
+    text-decoration: none;
+    text-align: center;
+    background: url(../assets/planet-buttons-ui.png) 0px 0px no-repeat;
+}
+.planet-button:hover {
+    background: url(../assets/planet-buttons-ui.png) 0px -24px no-repeat;
+    cursor: pointer;
+}
+.planet-header {
+    position: relative;
+    left: 0px;
+    top: -15px;
+    height: 32px;
+    width: 100%;
+    background: url(../assets/planet-header-ui.png) top center no-repeat;
+}
+
+.resource-item {
+    margin: 0 10px;
+    width: 179px;
+    height: 40px;
+    background: url(../assets/planet-resource-box-ui.png);
+}
+.resource-icon {
+    display: inline-block;
+    height: 32px;
+    width: 48px;
+    position: relative;
+    left: 4px;
+    top: 4px;
+}
+
+.image-container-128px {
+    width: 150px;
+    height: 175px;
+}
+.image-overlay-128px {
+    width: 128px;
+    height: 128px;
+    position: absolute;
+    background: url(../assets/planet-item-outlines-128px.png) no-repeat;
+}
+.image-overlay-128px:hover {
+    cursor: pointer;
+    background: url(../assets/planet-item-outlines-128px-active.png) no-repeat;
+}
+
+.image-container-80px {
+    width: 104px;
+    height: 104px;
+}
+.image-overlay-80px {
+    width: 80px;
+    height: 80px;
+    border-color: var(--primary-color);
+    border-radius: 2px;
+    position: absolute;
+    background: url(../assets/planet-item-outlines-80px.png) no-repeat;
+}
+.image-overlay-80px:hover {
+    cursor: pointer;
+    background: url(../assets/planet-item-outlines-80px-active.png) no-repeat;
+}
