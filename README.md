@@ -5,28 +5,28 @@ Python- (backend) and TypeScript- (frontend) -based online browser game.
 
 ## To-Do
 ### Frontend
-[ ] Add missing assets to every page.
-[ ] Add functionality to the `/planet/overview` page.
-[ ] Add functionality to the `/planet/buildings` page.
-[ ] Add functionality to the `/planet/defenses` page.
-[ ] Add functionality to the `/planet/shipyard` page.
-[ ] Add functionality to the `/planet/fleet` page.
-[ ] Add functionality to the `/technology` page.
-[ ] Add functionality to the `/galaxy` page.
-[ ] Add functionality to the `/alliance` page.
-[ ] Add functionality to the `/chat` page.
-[ ] Add a way to view other user's profiles.
+- [ ] Add missing assets to every page.
+- [ ] Add functionality to the `/planet/overview` page.
+- [ ] Add functionality to the `/planet/buildings` page.
+- [ ] Add functionality to the `/planet/defenses` page.
+- [ ] Add functionality to the `/planet/shipyard` page.
+- [ ] Add functionality to the `/planet/fleet` page.
+- [ ] Add functionality to the `/technology` page.
+- [ ] Add functionality to the `/galaxy` page.
+- [ ] Add functionality to the `/alliance` page.
+- [ ] Add functionality to the `/chat` page.
+- [ ] Add a way to view other user's profiles.
 
 ### Backend
-[ ] Add functionality to the `/planet` API.
-[ ] Add functionality to the `/fleet` API.
-[ ] Add functionality to the `/user` API.
-[ ] Add functionality to the `/galaxy` API.
-[ ] Add functionality to the `/alliance` API.
-[ ] Add functionality to the `/admin` API.
-[ ] Add a mail system between players.
-[ ] Add an alliance system.
-[ ] Add support for multiple galaxies (subdomains + multiple DBs).
+- [ ] Add functionality to the `/planet` API.
+- [ ] Add functionality to the `/fleet` API.
+- [ ] Add functionality to the `/user` API.
+- [ ] Add functionality to the `/galaxy` API.
+- [ ] Add functionality to the `/alliance` API.
+- [ ] Add functionality to the `/admin` API.
+- [ ] Add a mail system between players.
+- [ ] Add an alliance system.
+- [ ] Add support for multiple galaxies (subdomains + multiple DBs).
 
 ## Setup
 
