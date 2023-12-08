@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/base.css') }}">
 </head>
 <body>
-    <div class="main-content" style="position: relative; margin: 4%; height: 60%;">
-        <h1>404 - Page Not Found</h1>
-        <p>Commander! We could not find the requested page.</p>
-        <p>If you believe this is an error, please contact the system administrator.</p>
+    <div class="main-content" style="position: relative; margin: 4%; height: 60%; justify-content: left;">
+        <div>
+            <h1>{{ error_code }} - {{ error_name }}</h1>
+            <p>Commander! {{ error_message }}</p>
+            <p>If you believe this is an error, please contact the system administrator.</p>
+        </div>
     </div>
 </body>
 </html>
