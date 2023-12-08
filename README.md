@@ -29,15 +29,14 @@ Python- (backend) and TypeScript- (frontend) -based online browser game.
 - [ ] Add support for multiple galaxies (subdomains + multiple DBs).
 
 ## Setup
-
 1. Clone the repository to your machine.
 2. Install all requirements.
 3. Create a `.env` file with the following template:
 ```
 DEV_MODE = True
-ARM_CIRCLE = False
-ARM_COUNT = 5
-STAR_CIRCLE = True
+SPIRAL_CIRCLE = True
+SPIRAL_COUNT = 3
+STAR_CIRCLE = False
 STAR_COUNT = 500
 RESOURCE_SPEED = 1.0
 FLEET_SPEED = 1.0

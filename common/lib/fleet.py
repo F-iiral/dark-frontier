@@ -50,8 +50,8 @@ class Fleet():
 
         cursor.execute("""
             INSERT OR REPLACE INTO fleets (
-                fleet_id, owner_id, moving, position_planet, position_system, position_arm,
-                target_planet, target_system, target_arm, arrival_time,
+                fleet_id, owner_id, moving, position_planet, position_system, position_spiral,
+                target_planet, target_system, target_spiral, arrival_time,
                 fighters, interceptors, tac_bombers, str_bombers, frigates, destroyers,
                 cruisers, battlecruisers, battleships, escort_carriers, fleet_carriers, titans,
                 sattelites, small_cargo_ships, big_cargo_ships, colony_ships, science_ships,
@@ -77,8 +77,8 @@ class Fleet():
 
         cursor.execute("""
             SELECT
-                fleet_id, owner_id, moving, position_planet, position_system, position_arm,
-                target_planet, target_system, target_arm, arrival_time,
+                fleet_id, owner_id, moving, position_planet, position_system, position_spiral,
+                target_planet, target_system, target_spiral, arrival_time,
                 fighters, interceptors, tac_bombers, str_bombers,
                 frigates, destroyers, cruisers, battlecruisers, battleships,
                 escort_carriers, fleet_carriers, titans, sattelites, small_cargo_ships,

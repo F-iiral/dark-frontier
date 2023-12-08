@@ -6,7 +6,10 @@ import secrets
 import base64
 import random
 from flask import jsonify
-from common.env import ARM_COUNT, STAR_COUNT
+from hashlib import sha256
+from common.dev import ConsoleShortcuts
+from common.env import SPIRAL_COUNT, STAR_COUNT
+from common.enums import Activity
 from common.lite_flake_id import LiteFlakeID
 from common.lib.user import User
 from common.lib.planet import Planet
@@ -52,10 +55,16 @@ def store_credentials(username: str, password: str, user_id: int) -> str:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
     
-        cursor.execute("INSERT INTO accounts (id, username, password, token, badges) VALUES (?, ?, ?, ?, ?)", (user_id, username, hashed_password, token, 0))
+        cursor.execute("""
+        INSERT INTO accounts (
+            id, username, password, token, badges, activity
+        )
+        VALUES (?, ?, ?, ?, ?, ?)
+        """,
+        (user_id, username, hashed_password, sha256(token.encode("utf-8")).hexdigest(), 0, Activity.OFFLINE.value))
         conn.commit()
     except Exception as e:
-        print(f"Error storing credentials: {e}")
+        print(f"{ConsoleShortcuts.error()} Failed to store credentials: {e}")
     
     return token
 
@@ -70,7 +79,7 @@ def create_account(user_id) -> None:
 
 def find_free_planet() -> Planet:
     while True:
-        random_position_id = random.randint(1, ARM_COUNT) * 100000 + random.randint(1, STAR_COUNT) * 100 + random.randint(1, 11)
+        random_position_id = random.randint(1, SPIRAL_COUNT) * 100000 + random.randint(1, STAR_COUNT) * 100 + random.randint(1, 11)
         new_planet = Planet.get_from_db_by_id(random_position_id)
         
         if new_planet.owner == None:

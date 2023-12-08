@@ -4,10 +4,11 @@ import bcrypt
 import secrets
 import base64
 import os
+from hashlib import sha256
 from common.lite_flake_id import LiteFlakeID
 from common.enums import Badges, Activity
 from common.lib.planet import Planet
-from common.env import ARM_COUNT, STAR_COUNT
+from common.env import SPIRAL_COUNT, STAR_COUNT
 from common.dev import ConsoleShortcuts
 
 ################################
@@ -61,7 +62,7 @@ cursor.execute("""
         gas_amount REAL,
         position_planet INTEGER,
         position_system INTEGER,
-        position_arm INTEGER,
+        position_spiral INTEGER,
         stationed_fleet_id INTEGER,
         inbound_fleet_ids TEXT,
         outbound_fleet_ids TEXT,
@@ -98,10 +99,10 @@ cursor.execute("""
         moving INTEGER,
         position_planet INTEGER,
         position_system INTEGER,
-        position_arm INTEGER,
+        position_spiral INTEGER,
         target_planet INTEGER,
         target_system INTEGER,
-        target_arm INTEGER,
+        target_spiral INTEGER,
         arrival_time REAL,
         fighters REAL,
         interceptors REAL,
@@ -125,12 +126,11 @@ cursor.execute("""
     )
 """); print(f"{ConsoleShortcuts.log()} Set up the 'fleet' table in the main database.")
 conn.commit()
-print(f"{ConsoleShortcuts.log()} Finished setting up the database.")
 
 ###############################
 ### SET UP THE PLANET TABLE ###
 ###############################
-for arm in range(1, ARM_COUNT + 1):   # we do this here because b is not included in the upper bound but wanted
+for arm in range(1, SPIRAL_COUNT + 1):   # we do this here because b is not included in the upper bound but wanted
     for star in range(1, STAR_COUNT):
         for planet in range(1, 11):
             new_planet = Planet()
@@ -149,10 +149,10 @@ token = f"{hex(user_id).removeprefix('0x')}.{hex(int(time.time())).removeprefix(
 
 cursor.execute(
     "INSERT INTO accounts (id, username, password, token, badges, activity) VALUES (?, ?, ?, ?, ?, ?)",
-    (user_id, "Admin", hashed_password, token, Badges.ADMINISTRATOR.value, Activity.OFFLINE.value)
+    (user_id, "Admin", hashed_password, sha256(token.encode("utf-8")).hexdigest(), Badges.ADMINISTRATOR.value, Activity.OFFLINE.value)
 )
 conn.commit()
-print(f"{ConsoleShortcuts.log()} Created the admin account with password: '{password}'.")
+print(f"{ConsoleShortcuts.log()} Created the 'Admin' account with password: '{password}'.")
 
 ######################
 ### FINISH PROCESS ###

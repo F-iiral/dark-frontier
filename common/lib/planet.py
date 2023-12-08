@@ -61,7 +61,7 @@ class Planet():
         cursor.execute("""
             INSERT OR REPLACE INTO planets (
                 planet_id, owner_id, metal_amount, crystal_amount, gas_amount,
-                position_planet, position_system, position_arm,
+                position_planet, position_system, position_spiral,
                 stationed_fleet_id,
                 inbound_fleet_ids,
                 outbound_fleet_ids,
@@ -94,7 +94,7 @@ class Planet():
         cursor.execute("""
             SELECT
                 planet_id, owner_id, metal_amount, crystal_amount, gas_amount,
-                position_planet, position_system, position_arm,
+                position_planet, position_system, position_spiral,
                 stationed_fleet_id, inbound_fleet_ids, outbound_fleet_ids,
                 bld_metal_mine, bld_crystal_mine, bld_gas_mine,
                 bld_metal_storage, bld_crystal_storage, bld_gas_storage,
@@ -157,7 +157,7 @@ class Planet():
         cursor.execute("""
             SELECT
                 planet_id, owner_id, metal_amount, crystal_amount, gas_amount,
-                position_planet, position_system, position_arm,
+                position_planet, position_system, position_spiral,
                 stationed_fleet_id, inbound_fleet_ids, outbound_fleet_ids,
                 bld_metal_mine, bld_crystal_mine, bld_gas_mine,
                 bld_metal_storage, bld_crystal_storage, bld_gas_storage,

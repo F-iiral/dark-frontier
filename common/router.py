@@ -74,7 +74,7 @@ def page_chat():
 @app.route("/api/admin", methods=["POST"])
 def api_admin():
     data = request.get_json()
-    auth_token = request.headers.HTTP_AUTHORIZATION
+    auth_token = request.headers.get("Authorization")
 
     if not (is_valid_token(auth_token))                             : return abort(401)
     if not (is_administrator(auth_token))                           : return abort(403)
@@ -93,7 +93,7 @@ def api_alliance_create():
     data = request.get_json()
     alliance_id = data["allianceID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     if not (is_alliance_owner(alliance_id))                         : return abort(403)
     
     return alliance_create.main()
@@ -103,7 +103,7 @@ def api_alliance_modify():
     data = request.get_json()
     alliance_id = data["allianceID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     if not (is_alliance_owner(alliance_id))                         : return abort(403)
 
     return alliance_modify.main()
@@ -113,7 +113,7 @@ def api_alliance_disband():
     data = request.get_json()
     alliance_id = data["allianceID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     if not (is_alliance_owner(alliance_id))                         : return abort(403)
     
     return alliance_disband.main()
@@ -123,7 +123,7 @@ def api_alliance_join():
     data = request.get_json()
     alliance_id = data["allianceID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     
     return alliance_join.main()
 
@@ -132,7 +132,7 @@ def api_alliance_leave():
     data = request.get_json()
     alliance_id = data["allianceID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     
     return alliance_leave.main()
 
@@ -145,7 +145,7 @@ def api_fleet():
     data = request.get_json()
     fleet_id = data["fleetID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     if not (is_fleet_owner(fleet_id))                               : return abort(403)
     
     return fleet_fleet.main()
@@ -155,7 +155,7 @@ def api_fleet_move():
     data = request.get_json()
     fleet_id = data["fleetID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     if not (is_fleet_owner(fleet_id))                               : return abort(403)
     
     return fleet_move.main()
@@ -165,14 +165,14 @@ def api_fleet_recall():
     data = request.get_json()
     fleet_id = data["fleetID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     if not (is_fleet_owner(fleet_id))                               : return abort(403)
     
     return fleet_recall.main()
 
 @app.route("/api/galaxy", methods=["GET"])
 def api_galaxy():
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     
     return galaxy_galaxy.main()
 
@@ -181,7 +181,7 @@ def api_planet():
     data = request.get_json()
     planet_id = data["planetID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     if not (is_planet_owner(planet_id))                             : return abort(403)
 
     return planet_planet.main()
@@ -191,7 +191,7 @@ def api_planet_building():
     data = request.get_json()
     planet_id = data["planetID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     if not (is_planet_owner(planet_id))                             : return abort(403)
     
     return planet_building.main()
@@ -201,7 +201,7 @@ def api_planet_defenses():
     data = request.get_json()
     planet_id = data["planetID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     if not (is_planet_owner(planet_id))                             : return abort(403)
     
     return planet_defenses.main()
@@ -211,7 +211,7 @@ def api_planet_shipyard():
     data = request.get_json()
     planet_id = data["planetID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     if not (is_planet_owner(planet_id))                             : return abort(403)
     
     return planet_shipyard.main()
@@ -221,7 +221,7 @@ def api_user_technology():
     data = request.get_json()
     user_id = data["userID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     
     return user_technology.main()
 
@@ -230,7 +230,7 @@ def api_user_activity():
     data = request.get_json()
     user_id = data["userID"]
 
-    if not (is_valid_token(request.headers.HTTP_AUTHORIZATION))     : return abort(401)
+    if not (is_valid_token(request.headers.get("Authorization")))   : return abort(401)
     
     return user_activity.main()
 

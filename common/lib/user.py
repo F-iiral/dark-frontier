@@ -34,7 +34,7 @@ class User():
         cursor = conn.cursor()
 
         cursor.execute("""
-            INSERT OR REPLACE INTO user_technologies (
+            INSERT OR REPLACE INTO users (
                 account_id, tec_energy, tec_computing, tec_hyperspace, tec_production,
                 tec_colonization, tec_shield, tec_armor, tec_engine, tec_storage,
                 tec_hangar, tec_conv_weapon, tec_laser, tec_ion, tec_plasma, tec_disruptor
@@ -60,7 +60,7 @@ class User():
                 account_id, tec_energy, tec_computing, tec_hyperspace, tec_production,
                 tec_colonization, tec_shield, tec_armor, tec_engine, tec_storage,
                 tec_hangar, tec_conv_weapon, tec_laser, tec_ion, tec_plasma, tec_disruptor
-            FROM user_technologies
+            FROM users
             WHERE account_id = ?
         """, (account_id,))
 
