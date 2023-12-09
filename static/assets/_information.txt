@@ -30,6 +30,15 @@ planet-shipyard-science-ship-icon.png
 planet-shipyard-colony-ship-icon.png
 
 The following images were created primarily by Dall-E 3:
+planet-building-crystal-mine.png
+planet-building-crystal-storage.png
+planet-building-metal-mine.png
+planet-building-metal-storage.png
+planet-building-gas-mine.png
+planet-building-gas-storage.png
+planet-building-terraformer.png
+planet-building-laboratory.png
+planet-building-factory.png
 planet-overview-banner.png
 planet-building-banner.png
 planet-defense-banner.png
