@@ -39,6 +39,16 @@ planet-building-gas-storage.png
 planet-building-terraformer.png
 planet-building-laboratory.png
 planet-building-factory.png
+planet-defense-aa.png
+planet-defense-railgun.png
+planet-defense-rocket.png
+planet-defense-laser.png
+planet-defense-ion.png
+planet-defense-plasma.png
+planet-defense-disruptor.png
+planet-defense-s-shield.png
+planet-defense-m-shield.png
+planet-defense-l-shield.png
 planet-overview-banner.png
 planet-building-banner.png
 planet-defense-banner.png
