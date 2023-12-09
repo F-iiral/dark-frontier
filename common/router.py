@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, abort, request, Request
-from common.auth_checks import is_valid_token, is_administrator, is_moderator, is_account_owner, is_planet_owner, is_fleet_owner, is_alliance_owner
+from common.auth_checks import is_valid_token, is_administrator, is_moderator, is_planet_owner, is_fleet_owner, is_alliance_owner
 from common.enums import Badges
 import common.routes.alliance.alliance as alliance_alliance
 import common.routes.alliance.create   as alliance_create
@@ -216,15 +216,14 @@ def api_galaxy():
 
 @app.route("/api/planet", methods=["GET"])
 def api_planet():
-    data = RequestData(request.get_json())
     auth_token = request.headers.get("Authorization")
-    planet_id = data.get_data("planetID")
+    planet_id = request.args.get("planet")
 
     if planet_id is None                                            : return abort(400)
     if not (is_valid_token(auth_token))                             : return abort(401)
     if not (is_planet_owner(auth_token, planet_id))                 : return abort(403)
 
-    return planet_planet.main()
+    return planet_planet.main(planet_id)
 
 @app.route("/api/planet/building", methods=["POST"])
 def api_planet_building():
@@ -270,7 +269,6 @@ def api_user_technology():
 
     if user_id is None                                              : return abort(400)
     if not (is_valid_token(auth_token))                             : return abort(401)
-    if not (is_account_owner(auth_token, user_id))                  : return abort(403)
 
     return user_technology.main()
 
@@ -282,7 +280,6 @@ def api_user_activity():
 
     if user_id is None                                              : return abort(400)
     if not (is_valid_token(auth_token))                             : return abort(401)
-    if not (is_account_owner(auth_token, user_id))                  : return abort(403)
 
     return user_activity.main()
 

@@ -1,4 +1,9 @@
-import { setCookie } from "../../common/setCookie"
+export const setCookie = (name: string, value: string, duration: number=30, priority: number=1): void => {
+    const currentDate = new Date();
+    const expirationDate = new Date(currentDate.getTime() + duration * 24 * 60 * 60 * 1000);
+
+    document.cookie = `${name}=${value}; expires=${expirationDate.toUTCString()}; priority=${priority}`;
+};
 
 async function sendUserLoginRequest(username: string, password: string) {
     try {
@@ -22,10 +27,9 @@ async function sendUserLoginRequest(username: string, password: string) {
         }
 
         const jsonResponse = await response.json();
-        console.log(jsonResponse);
-        setCookie("authorization", jsonResponse)
+        setCookie("Authorization", jsonResponse)
     } 
     catch (error) {
-      console.error("Error:", error.message);
+      console.error("Error:", error);
     }
 }

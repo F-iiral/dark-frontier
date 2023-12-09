@@ -1,4 +1,5 @@
 .env
+dist
 **/**.sql
 **/**.js
 **/__pycache__

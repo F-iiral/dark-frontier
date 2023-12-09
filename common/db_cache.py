@@ -40,7 +40,7 @@ class DBCache():
         if planet_id_str in DBCache.recent_planets.keys():
             return DBCache.recent_planets[planet_id_str][0]
         
-        planet = Planet.get_from_db_by_owner(planet_id)
+        planet = Planet.get_from_db_by_id(planet_id)
         DBCache.recent_planets[planet_id_str] = (planet, time.time())
         return planet
     
@@ -51,6 +51,6 @@ class DBCache():
         if fleet_id_str in DBCache.recent_fleets.keys():
             return DBCache.recent_fleets[fleet_id_str][0]
         
-        fleet = Fleet.get_from_db_by_owner(fleet_id)
+        fleet = Fleet.get_from_db_by_id(fleet_id)
         DBCache.recent_fleets[fleet_id_str] = (fleet, time.time())
         return fleet

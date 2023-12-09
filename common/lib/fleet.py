@@ -120,3 +120,54 @@ class Fleet():
         fleet.construction_ships = float(fleet_data[27])
 
         return fleet
+
+    @staticmethod
+    def get_from_db_by_id(fleet_id: int) -> 'Fleet':
+        conn = sqlite3.connect("database/data.sql")
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT
+                fleet_id, owner_id, moving, position_planet, position_system, position_spiral,
+                target_planet, target_system, target_spiral, arrival_time,
+                fighters, interceptors, tac_bombers, str_bombers,
+                frigates, destroyers, cruisers, battlecruisers, battleships,
+                escort_carriers, fleet_carriers, titans, sattelites, small_cargo_ships,
+                big_cargo_ships, colony_ships, science_ships, construction_ships
+            FROM fleets
+            WHERE fleet_id = ?
+        """, (fleet_id,))
+
+        fleet_data = cursor.fetchone()
+        conn.close()
+        if fleet_data is None:
+            print(f"{ConsoleShortcuts.warn()} Could not find 'fleet' by fleet ID {fleet_id}.")
+            return fleet_data
+
+        fleet = Fleet()
+        fleet.fleet_id           = fleet_data[0]
+        fleet.owner_id           = fleet_data[1]
+        fleet.moving             = bool(fleet_data[2])
+        fleet.position           = [fleet_data[3], fleet_data[4], fleet_data[5]]
+        fleet.target             = [fleet_data[6], fleet_data[7], fleet_data[8]] if fleet_data[6] is not None else None
+        fleet.arrival_time       = float(fleet_data[9])                          if fleet_data[9] is not None else None
+        fleet.fighters           = float(fleet_data[10])
+        fleet.interceptors       = float(fleet_data[11])
+        fleet.tac_bombers        = float(fleet_data[12])
+        fleet.str_bombers        = float(fleet_data[13])
+        fleet.frigates           = float(fleet_data[14])
+        fleet.destroyers         = float(fleet_data[15])
+        fleet.cruisers           = float(fleet_data[16])
+        fleet.battlecruisers     = float(fleet_data[17])
+        fleet.battleships        = float(fleet_data[18])
+        fleet.escort_carriers    = float(fleet_data[19])
+        fleet.fleet_carriers     = float(fleet_data[20])
+        fleet.titans             = float(fleet_data[21])
+        fleet.sattelites         = float(fleet_data[22])
+        fleet.small_cargo_ships  = float(fleet_data[23])
+        fleet.big_cargo_ships    = float(fleet_data[24])
+        fleet.colony_ships       = float(fleet_data[25])
+        fleet.science_ships      = float(fleet_data[26])
+        fleet.construction_ships = float(fleet_data[27])
+
+        return fleet

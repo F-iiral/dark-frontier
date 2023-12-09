@@ -6,7 +6,7 @@ import os
 def compile_ts_to_js(file_name: str) -> None:
     if not (file_name.endswith('ts')):
         return
-    command = f"tsc {file_name}"
+    command = f"tsc {file_name} --lib es2015,dom --target es5"
     result = os.system(command)
     backslash = "\\"
     file_name_end = file_name.split(backslash)[-1]
