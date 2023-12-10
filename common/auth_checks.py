@@ -1,4 +1,3 @@
-from hashlib import sha256
 from common.lib.account import Account
 from common.enums import Badges
 from common.db_cache import DBCache
@@ -17,7 +16,7 @@ def _has_badge(token: str | None, badge: Badges) -> bool:
 
 def is_valid_token(token: str | None) -> bool:
     account_to_check = _get_account_from_token(token)
-    return (account_to_check is not None) and (account_to_check.token == sha256(token.encode("utf-8")).hexdigest())
+    return (account_to_check is not None) and (account_to_check.token == token.encode("utf-8"))
 
 def is_administrator(token: str) -> bool:
     return _has_badge(token, Badges.ADMINISTRATOR)

@@ -4,7 +4,6 @@ import bcrypt
 import secrets
 import base64
 import os
-from hashlib import sha256
 from common.lite_flake_id import LiteFlakeID
 from common.enums import Badges, Activity
 from common.lib.planet import Planet
@@ -149,7 +148,7 @@ token = f"{hex(user_id).removeprefix('0x')}.{hex(int(time.time())).removeprefix(
 
 cursor.execute(
     "INSERT INTO accounts (id, username, password, token, badges, activity) VALUES (?, ?, ?, ?, ?, ?)",
-    (user_id, "Admin", hashed_password, sha256(token.encode("utf-8")).hexdigest(), Badges.ADMINISTRATOR.value, Activity.OFFLINE.value)
+    (user_id, "Admin", hashed_password, token, Badges.ADMINISTRATOR.value, Activity.OFFLINE.value)
 )
 conn.commit()
 print(f"{ConsoleShortcuts.log()} Created the 'Admin' account with password: '{password}'.")

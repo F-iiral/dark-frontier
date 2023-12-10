@@ -6,7 +6,6 @@ import secrets
 import base64
 import random
 from flask import jsonify
-from hashlib import sha256
 from common.dev import ConsoleShortcuts
 from common.env import SPIRAL_COUNT, STAR_COUNT
 from common.enums import Activity
@@ -61,7 +60,7 @@ def store_credentials(username: str, password: str, user_id: int) -> str:
         )
         VALUES (?, ?, ?, ?, ?, ?)
         """,
-        (user_id, username, hashed_password, sha256(token.encode("utf-8")).hexdigest(), 0, Activity.OFFLINE.value))
+        (user_id, username, hashed_password, token.encode("utf-8"), 0, Activity.OFFLINE.value))
         conn.commit()
     except Exception as e:
         print(f"{ConsoleShortcuts.error()} Failed to store credentials: {e}")
