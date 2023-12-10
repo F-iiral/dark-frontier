@@ -16,6 +16,7 @@ class Planet():
         self.owner               : User | None   = None
 
         ### Basic Information
+        self.name                : str          = "Colony"
         self.planet_id           : int          = 0
         self.position            : list[int]    = [0, 0, 0]
         self.metal_amount        : float        = 0.0
@@ -53,6 +54,44 @@ class Planet():
         self.def_s_shield        : bool      = False
         self.def_m_shield        : bool      = False
         self.def_l_shield        : bool      = False
+
+    def to_dict(self, *args):
+        return {
+            "owner_id": self.owner_id,
+            "owner": self.owner.to_dict(),
+            "name": self.name,
+            "planet_id": self.planet_id,
+            "position": self.position,
+            "metal_amount": self.metal_amount,
+            "crystal_amount": self.crystal_amount,
+            "gas_amount": self.gas_amount,
+            "stationed_fleet_id ": self.stationed_fleet_id ,
+            "stationed_fleet": self.stationed_fleet.to_dict() if self.stationed_fleet is not None else None ,
+            "inbound_fleet_ids": self.inbound_fleet_ids,
+            "inbound_fleets": [i.to_dict()  if i is not None else None for i in self.inbound_fleets],
+            "outbound_fleet_ids": self.outbound_fleet_ids,
+            "outbound_fleets": [i.to_dict()  if i is not None else None for i in self.outbound_fleets],
+            "bld_metal_mine": self.bld_metal_mine,
+            "bld_crystal_mine": self.bld_crystal_mine,
+            "bld_gas_mine": self.bld_gas_mine,
+            "bld_metal_storage ": self.bld_metal_storage ,
+            "bld_crystal_storage": self.bld_crystal_storage,
+            "bld_gas_storage": self.bld_gas_storage,
+            "bld_factory": self.bld_factory,
+            "bld_shipyard": self.bld_shipyard,
+            "bld_laboratory": self.bld_laboratory,
+            "bld_terraformer": self.bld_terraformer,
+            "def_aa": self.def_aa,
+            "def_rocket": self.def_rocket,
+            "def_railgun": self.def_railgun,
+            "def_laser": self.def_laser,
+            "def_ion": self.def_ion,
+            "def_plasma": self.def_plasma,
+            "def_disruptor": self.def_disruptor,
+            "def_s_shield": self.def_s_shield,
+            "def_m_shield": self.def_m_shield,
+            "def_l_shield": self.def_l_shield,
+        }
 
     def save_to_db(self) -> None:
         conn = sqlite3.connect("database/data.sql")
@@ -114,6 +153,7 @@ class Planet():
         new_planet = Planet()
         new_planet.planet_id            = planet_data[0]
         new_planet.owner_id             = planet_data[1]
+        new_planet.owner                = User.get_from_db_by_owner(planet_data[1])
         new_planet.metal_amount         = float(planet_data[2])
         new_planet.crystal_amount       = float(planet_data[3])
         new_planet.gas_amount           = float(planet_data[4])
@@ -122,9 +162,15 @@ class Planet():
         
         inbound_fleet_ids_str = planet_data[9]
         new_planet.inbound_fleet_ids    = list(map(int, inbound_fleet_ids_str.split(','))) if inbound_fleet_ids_str else []
+        new_planet.inbound_fleets       = []
+        for fleet_id in new_planet.inbound_fleet_ids:
+            new_planet.inbound_fleets.append(Fleet.get_from_db_by_id(fleet_id))
 
         outbound_fleet_ids_str = planet_data[10]
         new_planet.outbound_fleet_ids   = list(map(int, outbound_fleet_ids_str.split(','))) if outbound_fleet_ids_str else []
+        new_planet.outbound_fleets      = []
+        for fleet_id in new_planet.outbound_fleet_ids:
+            new_planet.outbound_fleet_ids.append(Fleet.get_from_db_by_id(fleet_id))
 
         new_planet.bld_metal_mine       = int(planet_data[11])
         new_planet.bld_crystal_mine     = int(planet_data[12])
@@ -177,6 +223,7 @@ class Planet():
         new_planet = Planet()
         new_planet.planet_id            = planet_data[0]
         new_planet.owner_id             = planet_data[1]
+        new_planet.owner                = User.get_from_db_by_owner(planet_data[1])
         new_planet.metal_amount         = float(planet_data[2])
         new_planet.crystal_amount       = float(planet_data[3])
         new_planet.gas_amount           = float(planet_data[4])
@@ -185,9 +232,15 @@ class Planet():
         
         inbound_fleet_ids_str = planet_data[9]
         new_planet.inbound_fleet_ids    = list(map(int, inbound_fleet_ids_str.split(','))) if inbound_fleet_ids_str else []
+        new_planet.inbound_fleets       = []
+        for fleet_id in new_planet.inbound_fleet_ids:
+            new_planet.inbound_fleets.append(Fleet.get_from_db_by_id(fleet_id))
 
         outbound_fleet_ids_str = planet_data[10]
         new_planet.outbound_fleet_ids   = list(map(int, outbound_fleet_ids_str.split(','))) if outbound_fleet_ids_str else []
+        new_planet.outbound_fleets      = []
+        for fleet_id in new_planet.outbound_fleet_ids:
+            new_planet.outbound_fleet_ids.append(Fleet.get_from_db_by_id(fleet_id))
 
         new_planet.bld_metal_mine       = int(planet_data[11])
         new_planet.bld_crystal_mine     = int(planet_data[12])

@@ -1,4 +1,4 @@
-namespace loadResourceCount {
+namespace Overview {
     function getCookie (name: string): string | null {
         const cookies = document.cookie.split('; ');
 
@@ -9,7 +9,7 @@ namespace loadResourceCount {
         return null;
     };
 
-    async function loadResourceCount (planetID: number): Promise<void> {
+    async function loadPlanetOverview (planetID: number): Promise<void> {
         const token = getCookie("Authorization");
         const headers = {
             "Content-Type": "application/json",
@@ -34,6 +34,7 @@ namespace loadResourceCount {
             document.getElementById("metal-amount")!.innerHTML = jsonResponse["metal_amount"];
             document.getElementById("crystal-amount")!.innerHTML = jsonResponse["crystal_amount"];
             document.getElementById("gas-amount")!.innerHTML = jsonResponse["gas_amount"];
+            // Add more here for later use (name, owner, etc.)
         } 
         catch (error) {
             console.error("Error:", error);

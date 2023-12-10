@@ -29,6 +29,27 @@ class User():
         self.tec_plasma         : int       = 0
         self.tec_disruptor      : int       = 0
     
+    def to_dict(self, *args):
+        return {
+            "id": self.id,
+            "account": self.account.to_dict(),
+            "tec_energy": self.tec_energy,
+            "tec_computing": self.tec_computing,
+            "tec_hyperspace": self.tec_hyperspace,
+            "tec_production": self.tec_production,
+            "tec_colonization": self.tec_colonization,
+            "tec_shield": self.tec_shield,
+            "tec_armor": self.tec_armor,
+            "tec_engine": self.tec_engine,
+            "tec_storage": self.tec_storage,
+            "tec_hangar": self.tec_hangar,
+            "tec_conv_weapon": self.tec_conv_weapon,
+            "tec_laser": self.tec_laser,
+            "tec_ion": self.tec_ion,
+            "tec_plasma": self.tec_plasma,
+            "tec_disruptor": self.tec_disruptor
+        }
+
     def save_to_db(self) -> None:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
@@ -72,6 +93,7 @@ class User():
 
         user = User()
         user.id               = user_data[0]
+        user.account          = Account.get_from_db_by_id(user_data[0])
         user.tec_energy       = int(user_data[1])
         user.tec_computing    = int(user_data[2])
         user.tec_hyperspace   = int(user_data[3])

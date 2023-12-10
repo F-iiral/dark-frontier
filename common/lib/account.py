@@ -14,6 +14,15 @@ class Account():
         self.badges         : int   = 0
         self.activity       : int   = 0
     
+    def to_dict(self, *args):
+        """Does not return password and token for security reasons."""
+        return {
+            "id": self.id,
+            "username": self.username,
+            "badges": self.badges,
+            "activity": self.activity,
+        }
+
     def save_to_db(self) -> None:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()

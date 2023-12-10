@@ -217,7 +217,7 @@ def api_galaxy():
 @app.route("/api/planet", methods=["GET"])
 def api_planet():
     auth_token = request.headers.get("Authorization")
-    planet_id = request.args.get("planet")
+    planet_id = request.args.get("planet") if not request.args.get("planet") == 'null' else None
 
     if planet_id is None                                            : return abort(400)
     if not (is_valid_token(auth_token))                             : return abort(401)

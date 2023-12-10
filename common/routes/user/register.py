@@ -73,7 +73,8 @@ def create_account(user_id) -> None:
     new_user.save_to_db()
 
     new_planet = find_free_planet()
-    new_planet.owner_id == user_id
+    new_planet.owner_id = user_id
+    new_planet.name = "Home Planet"
     new_planet.save_to_db()
 
 def find_free_planet() -> Planet:

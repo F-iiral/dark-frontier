@@ -16,7 +16,7 @@ def _has_badge(token: str | None, badge: Badges) -> bool:
 
 def is_valid_token(token: str | None) -> bool:
     account_to_check = _get_account_from_token(token)
-    return (account_to_check is not None) and (account_to_check.token == token.encode("utf-8"))
+    return (account_to_check is not None) and (account_to_check.token == f"b'{token}'") and (not account_to_check.badges & Badges.BANNED.value == Badges.BANNED.value)
 
 def is_administrator(token: str) -> bool:
     return _has_badge(token, Badges.ADMINISTRATOR)
