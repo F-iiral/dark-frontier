@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="../static/stylesheets/base.css">
     <link rel="stylesheet" href="../static/stylesheets/planet.css">
     <script> var exports = {}; </script>
-    <script type="application/javascript" src="../static/scripts/pages/planet/loadResourceCount.js"></script>
+    <script type="application/javascript" src="../static/scripts/pages/planet/loadPlanetPage.js"></script>
     <script type="application/javascript" src="../static/scripts/common/getQueryParameter.js"></script>
 </head>
-<body onload="loadResourceCount(getQueryParam('planet'))">
+<body onload="loadPlanetPage(getQueryParam('planet'), 'shipyard')">
     <div class="topbar">
         <a class="resource-item">
             <span class="resource-icon" style="background: url(../static/assets/48px-2-to-3-refrence.png)"></span>
@@ -36,15 +36,15 @@
     </div>
     <div id="game-container" style="display: flex;">
         <div id="sidebar" class="sidebar">
-            <a class="planet-button" href="overview"     >Overview  </a>
-            <a class="planet-button" href="buildings"    >Buildings </a>
-            <a class="planet-button" href="defense"      >Defense   </a>
-            <a class="planet-button" href="shipyard"     >Shipyard  </a>
-            <a class="planet-button" href="fleet"        >Fleet     </a>
-            <a class="planet-button" href="../technology">Technology</a>
-            <a class="planet-button" href="../galaxy"    >Galaxy    </a>
-            <a class="planet-button" href="../alliance">Alliance</a>
-            <a class="planet-button" href="../chat"      >Hypercom  </a>
+            <a class="planet-button" id="overview-button"  href="overview"     >Overview</a>
+            <a class="planet-button" id="buildings-button" href="buildings"    >Buildings</a>
+            <a class="planet-button" id="defense-button"   href="defense"      >Defense</a>
+            <a class="planet-button" id="shipyard-button"  href="shipyard"     >Shipyard</a>
+            <a class="planet-button" id="fleet-button"     href="fleet"        >Fleet</a>
+            <a class="planet-button"                       href="../technology">Technology</a>
+            <a class="planet-button"                       href="../galaxy"    >Galaxy</a>
+            <a class="planet-button"                       href="../alliance"  >Alliance</a>
+            <a class="planet-button"                       href="../chat"      >Hypercom</a>
         </div>
 
         <div id="main-content" class="main-content">

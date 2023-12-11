@@ -4,6 +4,7 @@ import bcrypt
 import secrets
 import base64
 import os
+import random
 from common.lite_flake_id import LiteFlakeID
 from common.enums import Badges, Activity
 from common.lib.planet import Planet
@@ -85,6 +86,8 @@ cursor.execute("""
         def_s_shield INTEGER,
         def_m_shield INTEGER,
         def_l_shield INTEGER,
+        radius INTEGER,
+        temperature INTEGER,
         FOREIGN KEY(owner_id) REFERENCES accounts(id),
         FOREIGN KEY(stationed_fleet_id) REFERENCES fleets(id),
         FOREIGN KEY(inbound_fleet_ids) REFERENCES fleets(id),
@@ -131,10 +134,14 @@ conn.commit()
 ###############################
 for arm in range(1, SPIRAL_COUNT + 1):   # we do this here because b is not included in the upper bound but wanted
     for star in range(1, STAR_COUNT):
+        star_temp = 2400 + abs(random.normalvariate(0, 1000))
+
         for planet in range(1, 11):
             new_planet = Planet()
             new_planet.position = [arm, star, planet]
             new_planet.planet_id = arm*100000 + star*100 + planet
+            new_planet.radius = int(random.normalvariate(4000, 1000) + 1000)        # 5 sigma chance to be negative
+            new_planet.temperature = int((6 * star_temp)/((planet + 4)**2) - 273)
             new_planet.save_to_db()
     print(f"{ConsoleShortcuts.log()} Fully generated arm {arm}.")
 

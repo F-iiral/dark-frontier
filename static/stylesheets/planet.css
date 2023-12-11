@@ -43,6 +43,21 @@
     background: url(../assets/planet-header-ui.png) top center no-repeat;
 }
 
+.planet-overview-container {
+    float: left;
+    width: calc(100% - 116px);
+    margin-left: 8px;
+}
+.planet-overview-category {
+    text-align: left;
+    font-weight: bold;
+}
+.planet-overview-text {
+    text-align: right;
+    float: right;
+    margin-top: 8px;
+}
+
 .resource-item {
     margin: 0 10px;
     width: 179px;

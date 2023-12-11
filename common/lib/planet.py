@@ -55,6 +55,10 @@ class Planet():
         self.def_m_shield        : bool      = False
         self.def_l_shield        : bool      = False
 
+        ### Planet Specifications
+        self.radius              : int       = 5000
+        self.temperature         : int       = 0
+
     def to_dict(self, *args):
         return {
             "owner_id": self.owner_id,
@@ -91,6 +95,8 @@ class Planet():
             "def_s_shield": self.def_s_shield,
             "def_m_shield": self.def_m_shield,
             "def_l_shield": self.def_l_shield,
+            "radius": self.radius,
+            "temperature": self.temperature,
         }
 
     def save_to_db(self) -> None:
@@ -107,9 +113,10 @@ class Planet():
                 bld_metal_mine, bld_crystal_mine, bld_gas_mine, bld_metal_storage, bld_crystal_storage, bld_gas_storage,
                 bld_factory, bld_shipyard, bld_laboratory, bld_terraformer,
                 def_aa, def_rocket, def_railgun, def_laser, def_ion, def_plasma, def_disruptor,
-                def_s_shield, def_m_shield, def_l_shield
+                def_s_shield, def_m_shield, def_l_shield,
+                radius, temperature
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             self.planet_id,self.owner_id, self.metal_amount, self.crystal_amount, self.gas_amount,
             self.position[0], self.position[1], self.position[2],
@@ -119,7 +126,8 @@ class Planet():
             self.bld_metal_mine, self.bld_crystal_mine, self.bld_gas_mine, self.bld_metal_storage, self.bld_crystal_storage, self.bld_gas_storage,
             self.bld_factory, self.bld_shipyard, self.bld_laboratory, self.bld_terraformer,
             self.def_aa, self.def_rocket, self.def_railgun, self.def_laser, self.def_ion, self.def_plasma, self.def_disruptor,
-            int(self.def_s_shield), int(self.def_m_shield), int(self.def_l_shield)
+            int(self.def_s_shield), int(self.def_m_shield), int(self.def_l_shield),
+            self.radius, self.temperature
         ))
 
         conn.commit()
@@ -139,7 +147,8 @@ class Planet():
                 bld_metal_storage, bld_crystal_storage, bld_gas_storage,
                 bld_factory, bld_shipyard, bld_laboratory, bld_terraformer,
                 def_aa, def_rocket, def_railgun, def_laser, def_ion, def_plasma,
-                def_disruptor, def_s_shield, def_m_shield, def_l_shield
+                def_disruptor, def_s_shield, def_m_shield, def_l_shield,
+                radius, temperature
             FROM planets
             WHERE owner_id = ?
         """, (owner_id,))
@@ -192,6 +201,8 @@ class Planet():
         new_planet.def_s_shield         = bool(planet_data[28])
         new_planet.def_m_shield         = bool(planet_data[29])
         new_planet.def_l_shield         = bool(planet_data[30])
+        new_planet.radius               = int(planet_data[31])
+        new_planet.temperature          = int(planet_data[32])
 
         return new_planet
 
@@ -209,7 +220,8 @@ class Planet():
                 bld_metal_storage, bld_crystal_storage, bld_gas_storage,
                 bld_factory, bld_shipyard, bld_laboratory, bld_terraformer,
                 def_aa, def_rocket, def_railgun, def_laser, def_ion, def_plasma,
-                def_disruptor, def_s_shield, def_m_shield, def_l_shield
+                def_disruptor, def_s_shield, def_m_shield, def_l_shield,
+                radius, temperature
             FROM planets
             WHERE planet_id = ?
         """, (planet_id,))
@@ -262,5 +274,7 @@ class Planet():
         new_planet.def_s_shield         = bool(planet_data[28])
         new_planet.def_m_shield         = bool(planet_data[29])
         new_planet.def_l_shield         = bool(planet_data[30])
+        new_planet.radius               = int(planet_data[31])
+        new_planet.temperature          = int(planet_data[32])
 
         return new_planet

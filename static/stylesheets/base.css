@@ -12,6 +12,12 @@ body {
     --ok-color:         #2c7d5a;
     --text-color:       #ccc;
 }
+span {
+    color: var(--text-color);
+}
+a {
+    color: var(--text-color);
+}
 p {
     color: var(--text-color);
 }
