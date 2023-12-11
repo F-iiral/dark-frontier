@@ -16,7 +16,6 @@ class Planet():
         self.owner               : User | None   = None
 
         ### Basic Information
-        self.name                : str          = "Colony"
         self.planet_id           : int          = 0
         self.position            : list[int]    = [0, 0, 0]
         self.metal_amount        : float        = 0.0
@@ -56,6 +55,7 @@ class Planet():
         self.def_l_shield        : bool      = False
 
         ### Planet Specifications
+        self.name                : str       = "Colony"
         self.radius              : int       = 5000
         self.temperature         : int       = 0
 
@@ -114,9 +114,9 @@ class Planet():
                 bld_factory, bld_shipyard, bld_laboratory, bld_terraformer,
                 def_aa, def_rocket, def_railgun, def_laser, def_ion, def_plasma, def_disruptor,
                 def_s_shield, def_m_shield, def_l_shield,
-                radius, temperature
+                name, radius, temperature
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             self.planet_id,self.owner_id, self.metal_amount, self.crystal_amount, self.gas_amount,
             self.position[0], self.position[1], self.position[2],
@@ -127,7 +127,7 @@ class Planet():
             self.bld_factory, self.bld_shipyard, self.bld_laboratory, self.bld_terraformer,
             self.def_aa, self.def_rocket, self.def_railgun, self.def_laser, self.def_ion, self.def_plasma, self.def_disruptor,
             int(self.def_s_shield), int(self.def_m_shield), int(self.def_l_shield),
-            self.radius, self.temperature
+            self.name, self.radius, self.temperature
         ))
 
         conn.commit()
@@ -148,7 +148,7 @@ class Planet():
                 bld_factory, bld_shipyard, bld_laboratory, bld_terraformer,
                 def_aa, def_rocket, def_railgun, def_laser, def_ion, def_plasma,
                 def_disruptor, def_s_shield, def_m_shield, def_l_shield,
-                radius, temperature
+                name, radius, temperature
             FROM planets
             WHERE owner_id = ?
         """, (owner_id,))
@@ -201,8 +201,9 @@ class Planet():
         new_planet.def_s_shield         = bool(planet_data[28])
         new_planet.def_m_shield         = bool(planet_data[29])
         new_planet.def_l_shield         = bool(planet_data[30])
-        new_planet.radius               = int(planet_data[31])
-        new_planet.temperature          = int(planet_data[32])
+        new_planet.name                 = str(planet_data[31])
+        new_planet.radius               = int(planet_data[32])
+        new_planet.temperature          = int(planet_data[33])
 
         return new_planet
 
@@ -221,7 +222,7 @@ class Planet():
                 bld_factory, bld_shipyard, bld_laboratory, bld_terraformer,
                 def_aa, def_rocket, def_railgun, def_laser, def_ion, def_plasma,
                 def_disruptor, def_s_shield, def_m_shield, def_l_shield,
-                radius, temperature
+                name, radius, temperature
             FROM planets
             WHERE planet_id = ?
         """, (planet_id,))
@@ -274,7 +275,8 @@ class Planet():
         new_planet.def_s_shield         = bool(planet_data[28])
         new_planet.def_m_shield         = bool(planet_data[29])
         new_planet.def_l_shield         = bool(planet_data[30])
-        new_planet.radius               = int(planet_data[31])
-        new_planet.temperature          = int(planet_data[32])
+        new_planet.name                 = str(planet_data[31])
+        new_planet.radius               = int(planet_data[32])
+        new_planet.temperature          = int(planet_data[33])
 
         return new_planet

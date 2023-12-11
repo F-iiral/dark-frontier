@@ -86,6 +86,7 @@ cursor.execute("""
         def_s_shield INTEGER,
         def_m_shield INTEGER,
         def_l_shield INTEGER,
+        name TEXT,
         radius INTEGER,
         temperature INTEGER,
         FOREIGN KEY(owner_id) REFERENCES accounts(id),
