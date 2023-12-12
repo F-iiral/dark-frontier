@@ -12,14 +12,17 @@ class DBCache():
     def purge_cache():
         for item in set(DBCache.recent_users.items()):
             if time.time() - item[1][1] > 3600:
+                item[1].save_to_db()
                 del DBCache.recent_users[item[0]]
         
         for item in set(DBCache.recent_planets.items()):
             if time.time() - item[1][1] > 3600:
+                item[1].save_to_db()
                 del DBCache.recent_planets[item[0]]
         
         for item in set(DBCache.recent_fleets.items()):
             if time.time() - item[1][1] > 3600:
+                item[1].save_to_db()
                 del DBCache.recent_fleets[item[0]]
 
     @staticmethod

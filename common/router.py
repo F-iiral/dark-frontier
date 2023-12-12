@@ -219,23 +219,25 @@ def api_planet():
     auth_token = request.headers.get("Authorization")
     planet_id = request.args.get("planet") if not request.args.get("planet") == 'null' else None
 
-    if planet_id is None                                            : return abort(400)
+    if planet_id is None                                            : return "Parameter 'planet_id' must not be 'None'.", 400
     if not (is_valid_token(auth_token))                             : return abort(401)
     if not (is_planet_owner(auth_token, planet_id))                 : return abort(403)
 
-    return planet_planet.main(planet_id)
+    return planet_planet.main(int(planet_id))
 
 @app.route("/api/planet/building", methods=["POST"])
 def api_planet_building():
     data = RequestData(request.get_json())
     auth_token = request.headers.get("Authorization")
     planet_id = data.get_data("planetID")
+    building_type = data.get_data("building")
 
-    if planet_id is None                                            : return abort(400)
+    if not (isinstance(planet_id, int))                             : return "Parameter 'planet_id' must be 'int'.", 400
+    if not (isinstance(building_type, int))                         : return "Parameter 'building_type' must be 'int'.", 400
     if not (is_valid_token(auth_token))                             : return abort(401)
     if not (is_planet_owner(auth_token, planet_id))                 : return abort(403)
 
-    return planet_building.main()
+    return planet_building.main(planet_id, building_type)
 
 @app.route("/api/planet/defenses", methods=["POST"])
 def api_planet_defenses():

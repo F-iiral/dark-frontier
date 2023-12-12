@@ -89,6 +89,7 @@ cursor.execute("""
         name TEXT,
         radius INTEGER,
         temperature INTEGER,
+        last_checkout REAL,
         FOREIGN KEY(owner_id) REFERENCES accounts(id),
         FOREIGN KEY(stationed_fleet_id) REFERENCES fleets(id),
         FOREIGN KEY(inbound_fleet_ids) REFERENCES fleets(id),

@@ -1,4 +1,8 @@
 import sqlite3
+import time
+import math
+from common.enums import Badges
+from common.env import FLEET_SPEED, RESOURCE_SPEED
 from common.dev import ConsoleShortcuts
 from common.lib.user import User
 from common.lib.fleet import Fleet
@@ -59,6 +63,30 @@ class Planet():
         self.radius              : int       = 5000
         self.temperature         : int       = 0
 
+        ### Resouces Login
+        self.last_checkout       : float    = time.time()
+
+    def update_resource_count(self) -> None:
+        if self.owner.account.badges & Badges.VACATION.value == Badges.VACATION.value: return
+
+        # Bonuses are calculated for a 2900K° star, 1st - 3rd and 8th to 10th position
+        bonus_metal = 1; bonus_gas = 1; bonus_crystals = 1
+        if self.temperature >= 423: bonus_metal = 1.3
+        elif self.temperature >= 210: bonus_metal = 1.2
+        elif self.temperature >= 82: bonus_metal = 1.1
+        if self.temperature <= -184: bonus_gas = 1.3
+        elif self.temperature <= -170: bonus_gas = 1.2
+        elif self.temperature <= -152: bonus_gas = 1.1
+        if bonus_metal == 1 and bonus_gas == 1: bonus_crystals = 1.15
+
+        self.metal_amount   += (8 * self.bld_metal_mine  ) * (time.time() - self.last_checkout) * bonus_metal    * RESOURCE_SPEED
+        self.crystal_amount += (8 * self.bld_crystal_mine) * (time.time() - self.last_checkout) * bonus_crystals * RESOURCE_SPEED
+        self.gas_amount     += (8 * self.bld_gas_mine    ) * (time.time() - self.last_checkout) * bonus_gas      * RESOURCE_SPEED
+
+        if self.metal_amount   > (2 ** (0.5 * self.bld_metal_storage  )) * 500000: self.metal_amount   = self.bld_metal_storage
+        if self.crystal_amount > (2 ** (0.5 * self.bld_crystal_storage)) * 500000: self.crystal_amount = self.bld_crystal_storage
+        if self.gas_amount     > (2 ** (0.5 * self.bld_gas_storage    )) * 500000: self.gas_amount     = self.bld_gas_storage
+
     def to_dict(self, *args):
         return {
             "owner_id": self.owner_id,
@@ -97,6 +125,7 @@ class Planet():
             "def_l_shield": self.def_l_shield,
             "radius": self.radius,
             "temperature": self.temperature,
+            "last_checkout": self.last_checkout
         }
 
     def save_to_db(self) -> None:
@@ -114,9 +143,9 @@ class Planet():
                 bld_factory, bld_shipyard, bld_laboratory, bld_terraformer,
                 def_aa, def_rocket, def_railgun, def_laser, def_ion, def_plasma, def_disruptor,
                 def_s_shield, def_m_shield, def_l_shield,
-                name, radius, temperature
+                name, radius, temperature, last_checkout
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             self.planet_id,self.owner_id, self.metal_amount, self.crystal_amount, self.gas_amount,
             self.position[0], self.position[1], self.position[2],
@@ -127,7 +156,7 @@ class Planet():
             self.bld_factory, self.bld_shipyard, self.bld_laboratory, self.bld_terraformer,
             self.def_aa, self.def_rocket, self.def_railgun, self.def_laser, self.def_ion, self.def_plasma, self.def_disruptor,
             int(self.def_s_shield), int(self.def_m_shield), int(self.def_l_shield),
-            self.name, self.radius, self.temperature
+            self.name, self.radius, self.temperature, self.last_checkout
         ))
 
         conn.commit()
@@ -148,7 +177,7 @@ class Planet():
                 bld_factory, bld_shipyard, bld_laboratory, bld_terraformer,
                 def_aa, def_rocket, def_railgun, def_laser, def_ion, def_plasma,
                 def_disruptor, def_s_shield, def_m_shield, def_l_shield,
-                name, radius, temperature
+                name, radius, temperature, last_checkout
             FROM planets
             WHERE owner_id = ?
         """, (owner_id,))
@@ -204,6 +233,7 @@ class Planet():
         new_planet.name                 = str(planet_data[31])
         new_planet.radius               = int(planet_data[32])
         new_planet.temperature          = int(planet_data[33])
+        new_planet.last_checkout        = float(planet_data[34])
 
         return new_planet
 
@@ -222,7 +252,7 @@ class Planet():
                 bld_factory, bld_shipyard, bld_laboratory, bld_terraformer,
                 def_aa, def_rocket, def_railgun, def_laser, def_ion, def_plasma,
                 def_disruptor, def_s_shield, def_m_shield, def_l_shield,
-                name, radius, temperature
+                name, radius, temperature, last_checkout
             FROM planets
             WHERE planet_id = ?
         """, (planet_id,))
@@ -278,5 +308,6 @@ class Planet():
         new_planet.name                 = str(planet_data[31])
         new_planet.radius               = int(planet_data[32])
         new_planet.temperature          = int(planet_data[33])
+        new_planet.last_checkout        = float(planet_data[34])
 
         return new_planet
