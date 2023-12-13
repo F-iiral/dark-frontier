@@ -1,6 +1,7 @@
 import sqlite3
 from common.dev import ConsoleShortcuts
 from common.lib.account import Account
+from common.env import FLEET_SPEED, RESOURCE_SPEED, STAR_COUNT, SPIRAL_COUNT
 
 class User():
     """
@@ -47,7 +48,13 @@ class User():
             "tec_laser": self.tec_laser,
             "tec_ion": self.tec_ion,
             "tec_plasma": self.tec_plasma,
-            "tec_disruptor": self.tec_disruptor
+            "tec_disruptor": self.tec_disruptor,
+            "galaxy": {
+                "fleet_speed": FLEET_SPEED,
+                "resource_speed": RESOURCE_SPEED,
+                "star_count": STAR_COUNT,
+                "spiral_count": SPIRAL_COUNT
+            }
         }
 
     def save_to_db(self) -> None:

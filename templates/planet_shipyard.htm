@@ -56,7 +56,7 @@
                     <h2  class="planet-title">Shipyard</h2>
                     <div class="planet-image"></div>
                 </div>
-                <p>(This page is under construction.)</p>
+                <p style="color: var(--error-color);" id="planet-news-dislay"> </p>
             </div>
             
             <div style="display: flex;">
@@ -67,6 +67,9 @@
                                 <div class="tooltiptext">Fighter</div>
                             </div>
                             <img src="../static/assets/planet-shipyard-fighter-icon.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-fighter-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -75,6 +78,9 @@
                                 <div class="tooltiptext">Interceptor</div>
                             </div>
                             <img src="../static/assets/planet-shipyard-interceptor-icon.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-interceptor-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -83,6 +89,9 @@
                                 <div class="tooltiptext">Bomber</div>
                             </div>
                             <img src="../static/assets/planet-shipyard-tac-bomber-icon.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-tac-bomber-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -91,6 +100,9 @@
                                 <div class="tooltiptext">Strategic Bomber</div>
                             </div>
                             <img src="../static/assets/planet-shipyard-str-bomber-icon.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-str-bomber-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -99,6 +111,9 @@
                                 <div class="tooltiptext">Frigate</div>
                             </div>
                             <img src="../static/assets/80px-refrence.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-frigate-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -107,6 +122,9 @@
                                 <div class="tooltiptext">Destroyer</div>
                             </div>
                             <img src="../static/assets/80px-refrence.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-destroyer-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -115,6 +133,9 @@
                                 <div class="tooltiptext">Cruiser</div>
                             </div>
                             <img src="../static/assets/planet-shipyard-cruiser-icon.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-cruiser-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -123,6 +144,9 @@
                                 <div class="tooltiptext">Battlecruiser</div>
                             </div>
                             <img src="../static/assets/80px-refrence.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-battlecruiser-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -131,6 +155,9 @@
                                 <div class="tooltiptext">Battleship</div>
                             </div>
                             <img src="../static/assets/planet-shipyard-battleship-icon.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-battleship-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -139,6 +166,9 @@
                                 <div class="tooltiptext">Escort Carrier</div>
                             </div>
                             <img src="../static/assets/planet-shipyard-escort-carrier-icon.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-escort-carrier-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -147,6 +177,9 @@
                                 <div class="tooltiptext">Fleet Carrier</div>
                             </div>
                             <img src="../static/assets/planet-shipyard-fleet-carrier-icon.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-fleet-carrier-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -155,6 +188,9 @@
                                 <div class="tooltiptext">Titan</div>
                             </div>
                             <img src="../static/assets/80px-refrence.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-titan-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -166,6 +202,9 @@
                                 <div class="tooltiptext">Small Cargoship</div>
                             </div>
                             <img src="../static/assets/planet-shipyard-small-cargo-icon.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-small-cargo-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -174,6 +213,9 @@
                                 <div class="tooltiptext">Large Cargoship</div>
                             </div>
                             <img src="../static/assets/planet-shipyard-large-cargo-icon.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-large-cargo-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -182,6 +224,9 @@
                                 <div class="tooltiptext">Sattelites</div>
                             </div>
                             <img src="../static/assets/80px-refrence.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-sattelites-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -190,6 +235,9 @@
                                 <div class="tooltiptext">Colony Ship</div>
                             </div>
                             <img src="../static/assets/planet-shipyard-colony-ship-icon.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-colony-ship-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -198,6 +246,9 @@
                                 <div class="tooltiptext">Science Ship</div>
                             </div>
                             <img src="../static/assets/planet-shipyard-science-ship-icon.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-science-ship-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                     <div class="image-container-80px">
@@ -206,6 +257,9 @@
                                 <div class="tooltiptext">Construction Ship</div>
                             </div>
                             <img src="../static/assets/80px-refrence.png">
+                            <div style="float: left; width: 0px;">
+                                <span id="ship-construction-ship-count" class="image-text-inside-80px">0</span>
+                            </div>
                         </div>
                     </div>
                 </div>
