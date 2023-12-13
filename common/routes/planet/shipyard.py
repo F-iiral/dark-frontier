@@ -42,6 +42,6 @@ def main(planet_id: int, ship_type: int, ship_amount: int) -> tuple:
     planet.metal_amount   -= ship_amount * ship_cost_mult * ship_resources[0]
     planet.crystal_amount -= ship_amount * ship_cost_mult * ship_resources[1]
     planet.gas_amount     -= ship_amount * ship_cost_mult * ship_resources[2]
-    planet.__setattr__(ship_name, planet.__getattribute__(ship_name) + ship_amount)
+    planet.__setattr__(ship_name, planet.__getattribute__(ship_name) + ship_amount) # Need to apply this to the Fleet obj at some point
 
     return 200
