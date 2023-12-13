@@ -15,6 +15,7 @@ import common.routes.planet.planet     as planet_planet
 import common.routes.planet.building   as planet_building
 import common.routes.planet.defenses   as planet_defenses
 import common.routes.planet.shipyard   as planet_shipyard
+import common.routes.planet.spy        as planet_spy
 import common.routes.user.activity     as user_activity
 import common.routes.user.technology   as user_technology
 import common.routes.user.register     as user_register
@@ -244,15 +245,35 @@ def api_planet_defenses():
     data = RequestData(request.get_json())
     auth_token = request.headers.get("Authorization")
     planet_id = data.get_data("planetID")
+    defense_type = data.get_data("defense")
+    defense_amount = data.get_data("amount")
 
-    if planet_id is None                                            : return abort(400)
+    if not (isinstance(planet_id, int))                             : return "Parameter 'planet_id' must be 'int'.", 400
+    if not (isinstance(defense_type, int))                          : return "Parameter 'defense' must be 'int'.", 400
+    if not (isinstance(defense_amount, int))                        : return "Parameter 'amount' must be 'int'.", 400
     if not (is_valid_token(auth_token))                             : return abort(401)
     if not (is_planet_owner(auth_token, planet_id))                 : return abort(403)
 
-    return planet_defenses.main()
+    return planet_defenses.main(planet_id, defense_type, defense_amount)
 
 @app.route("/api/planet/shipyard", methods=["POST"])
 def api_planet_shipyard():
+    data = RequestData(request.get_json())
+    auth_token = request.headers.get("Authorization")
+    planet_id = data.get_data("planetID")
+    ship_type = data.get_data("ship")
+    ship_amount = data.get_data("amount")
+
+    if not (isinstance(planet_id, int))                             : return "Parameter 'planet_id' must be 'int'.", 400
+    if not (isinstance(ship_type, int))                             : return "Parameter 'ship' must be 'int'.", 400
+    if not (isinstance(ship_amount, int))                           : return "Parameter 'amount' must be 'int'.", 400
+    if not (is_valid_token(auth_token))                             : return abort(401)
+    if not (is_planet_owner(auth_token, planet_id))                 : return abort(403)
+
+    return planet_shipyard.main(planet_id, ship_type, ship_amount)
+
+@app.route("/api/planet/spy", methods=["POST"])
+def api_planet():
     data = RequestData(request.get_json())
     auth_token = request.headers.get("Authorization")
     planet_id = data.get_data("planetID")
@@ -261,7 +282,7 @@ def api_planet_shipyard():
     if not (is_valid_token(auth_token))                             : return abort(401)
     if not (is_planet_owner(auth_token, planet_id))                 : return abort(403)
 
-    return planet_shipyard.main()
+    return planet_spy.main()
 
 @app.route("/api/user/technology", methods=["POST"])
 def api_user_technology():
