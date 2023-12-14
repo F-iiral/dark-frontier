@@ -1,9 +1,9 @@
 from flask import abort
+from common.lib.fleet import Fleet
 from common.db_cache import DBCache
 from common.enums import FleetShips
 
 def main(planet_id: int, ship_type: int, ship_amount: int) -> tuple:
-    return abort(501) # not thoroughly tested & no fixed cost
     planet = DBCache.get_planet(planet_id)
     planet.update_resource_count()
 
@@ -42,6 +42,14 @@ def main(planet_id: int, ship_type: int, ship_amount: int) -> tuple:
     planet.metal_amount   -= ship_amount * ship_cost_mult * ship_resources[0]
     planet.crystal_amount -= ship_amount * ship_cost_mult * ship_resources[1]
     planet.gas_amount     -= ship_amount * ship_cost_mult * ship_resources[2]
-    planet.__setattr__(ship_name, planet.__getattribute__(ship_name) + ship_amount) # Need to apply this to the Fleet obj at some point
 
-    return 200
+    if planet.stationed_fleet is not None:
+        planet.stationed_fleet.__setattr__(ship_name, planet.stationed_fleet.__getattribute__(ship_name) + ship_amount)
+    else:
+        new_fleet = Fleet()
+        new_fleet.owner_id = new_fleet.owner_id
+        new_fleet.owner = planet.owner
+        new_fleet.__setattr__(ship_name, ship_amount)
+        planet.stationed_fleet = new_fleet
+
+    return "Successfully constructed.", 200

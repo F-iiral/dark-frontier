@@ -35,4 +35,4 @@ def main(planet_id: int, building_type: int) -> tuple | int:
     planet.gas_amount     -= building_cost * building_resources[2]
     planet.__setattr__(building_name, planet.__getattribute__(building_name) + 1)
 
-    return 200
+    return "Successfully constructed.", 200

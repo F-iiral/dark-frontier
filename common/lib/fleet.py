@@ -1,4 +1,5 @@
 import sqlite3
+from common.lite_flake_id import LiteFlakeID
 from common.dev import ConsoleShortcuts
 from common.lib.user import User
 
@@ -16,7 +17,7 @@ class Fleet():
         self.owner              : User | None   = None
 
         ### Basic Information
-        self.fleet_id           : int               = 0
+        self.fleet_id           : int               = LiteFlakeID.generate_id()
         self.moving             : bool              = False
         self.position           : list[int]         = None
         self.target             : list[int] | None  = None

@@ -206,24 +206,24 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
             document.getElementById("main-content")!.innerHTML += generateShipGrid()
 
             if (jsonResponse.stationed_fleet !== null) {
-                document.getElementById("ship-fighter-count")!.innerHTML = `${jsonResponse.stationed_fleet.fighter}`
-                document.getElementById("ship-interceptor-count")!.innerHTML = `${jsonResponse.stationed_fleet.interceptor}`
-                document.getElementById("ship-tac-bomber-count")!.innerHTML = `${jsonResponse.stationed_fleet.tac_bomber}`
-                document.getElementById("ship-str-bomber-count")!.innerHTML = `${jsonResponse.stationed_fleet.str_bomber}`
-                document.getElementById("ship-frigate-count")!.innerHTML = `${jsonResponse.stationed_fleet.frigate}`
-                document.getElementById("ship-destroyer-count")!.innerHTML = `${jsonResponse.stationed_fleet.destroyer}`
-                document.getElementById("ship-cruiser-count")!.innerHTML = `${jsonResponse.stationed_fleet.cruiser}`
-                document.getElementById("ship-battlecruiser-count")!.innerHTML = `${jsonResponse.stationed_fleet.battlecruiser}`
-                document.getElementById("ship-battleship-count")!.innerHTML = `${jsonResponse.stationed_fleet.battleship}`
-                document.getElementById("ship-escort-carrier-count")!.innerHTML = `${jsonResponse.stationed_fleet.escort_carrier}`
-                document.getElementById("ship-fleet-carrier-count")!.innerHTML = `${jsonResponse.stationed_fleet.fleet_carrier}`
-                document.getElementById("ship-titan-count")!.innerHTML = `${jsonResponse.stationed_fleet.titan}`
-                document.getElementById("ship-cruiser-count")!.innerHTML = `${jsonResponse.stationed_fleet.cruiser}`
-                document.getElementById("ship-battlecruiser-count")!.innerHTML = `${jsonResponse.stationed_fleet.battlecruiser}`
-                document.getElementById("ship-battleship-count")!.innerHTML = `${jsonResponse.stationed_fleet.battleship}`
-                document.getElementById("ship-colony-ship-count")!.innerHTML = `${jsonResponse.stationed_fleet.colony_ship}`
-                document.getElementById("ship-science-ship-count")!.innerHTML = `${jsonResponse.stationed_fleet.science_ship}`
-                document.getElementById("ship-construction-ship-count")!.innerHTML = `${jsonResponse.stationed_fleet.construction_ship}`
+                document.getElementById("ship-fighter-count")!.innerHTML = `${jsonResponse.stationed_fleet.fighters}`
+                document.getElementById("ship-interceptor-count")!.innerHTML = `${jsonResponse.stationed_fleet.interceptors}`
+                document.getElementById("ship-tac-bomber-count")!.innerHTML = `${jsonResponse.stationed_fleet.tac_bombers}`
+                document.getElementById("ship-str-bomber-count")!.innerHTML = `${jsonResponse.stationed_fleet.str_bombers}`
+                document.getElementById("ship-frigate-count")!.innerHTML = `${jsonResponse.stationed_fleet.frigates}`
+                document.getElementById("ship-destroyer-count")!.innerHTML = `${jsonResponse.stationed_fleet.destroyers}`
+                document.getElementById("ship-cruiser-count")!.innerHTML = `${jsonResponse.stationed_fleet.cruisers}`
+                document.getElementById("ship-battlecruiser-count")!.innerHTML = `${jsonResponse.stationed_fleet.battlecruisers}`
+                document.getElementById("ship-battleship-count")!.innerHTML = `${jsonResponse.stationed_fleet.battleships}`
+                document.getElementById("ship-escort-carrier-count")!.innerHTML = `${jsonResponse.stationed_fleet.escort_carriers}`
+                document.getElementById("ship-fleet-carrier-count")!.innerHTML = `${jsonResponse.stationed_fleet.fleet_carriers}`
+                document.getElementById("ship-titan-count")!.innerHTML = `${jsonResponse.stationed_fleet.titans}`
+                document.getElementById("ship-sattelites-count")!.innerHTML = `${jsonResponse.stationed_fleet.sattelites}`
+                document.getElementById("ship-small-cargo-count")!.innerHTML = `${jsonResponse.stationed_fleet.small_cargo_ships}`
+                document.getElementById("ship-large-cargo-count")!.innerHTML = `${jsonResponse.stationed_fleet.small_cargo_ships}`
+                document.getElementById("ship-colony-ship-count")!.innerHTML = `${jsonResponse.stationed_fleet.colony_ships}`
+                document.getElementById("ship-science-ship-count")!.innerHTML = `${jsonResponse.stationed_fleet.science_ships}`
+                document.getElementById("ship-construction-ship-count")!.innerHTML = `${jsonResponse.stationed_fleet.construction_ships}`
             }
         }
 
@@ -231,15 +231,24 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
         const maxMetalAmount = 2 ** (0.5 * jsonResponse.bld_metal_storage) * 500000
         const maxCrystalAmount = 2 ** (0.5 * jsonResponse.bld_crystal_storage) * 500000
         const maxGasAmount = 2 ** (0.5 * jsonResponse.bld_gas_storage) * 500000
+        let metalAmount = jsonResponse.metal_amount
+        let crystalAmount = jsonResponse.crystal_amount
+        let gasAmount = jsonResponse.gas_amount
 
         while (true) {
-            let metalAmount = Math.round(jsonResponse.metal_amount + jsonResponse.bld_metal_mine * jsonResponse.owner.galaxy.resource_speed * 8 * loop_calls)
-            let crystalAmount = Math.round(jsonResponse.crystal_amount + jsonResponse.bld_crystal_mine * jsonResponse.owner.galaxy.resource_speed * 8 * loop_calls)
-            let gasAmount = Math.round(jsonResponse.gas_amount + jsonResponse.bld_gas_mine * jsonResponse.owner.galaxy.resource_speed * 8 * loop_calls)
+            if (metalAmount < maxMetalAmount) { 
+                metalAmount = Math.round(jsonResponse.metal_amount + jsonResponse.bld_metal_mine * jsonResponse.owner.galaxy.resource_speed * 8 * loop_calls)
+            }
+            if (crystalAmount < maxCrystalAmount) {
+                crystalAmount = Math.round(jsonResponse.crystal_amount + jsonResponse.bld_crystal_mine * jsonResponse.owner.galaxy.resource_speed * 8 * loop_calls)
+            }
+            if (gasAmount < maxGasAmount) {
+                gasAmount = Math.round(jsonResponse.gas_amount + jsonResponse.bld_gas_mine * jsonResponse.owner.galaxy.resource_speed * 8 * loop_calls)
+            }
 
-            if (metalAmount < maxMetalAmount) { document.getElementById("metal-amount")!.innerHTML = `${metalAmount.toLocaleString()}`; }
-            if (crystalAmount < maxCrystalAmount) { document.getElementById("crystal-amount")!.innerHTML = `${crystalAmount.toLocaleString()}`; }
-            if (gasAmount < maxGasAmount) { document.getElementById("gas-amount")!.innerHTML = `${gasAmount.toLocaleString()}`; }
+            document.getElementById("metal-amount")!.innerHTML = `${metalAmount}`;
+            document.getElementById("crystal-amount")!.innerHTML = `${crystalAmount}`;
+            document.getElementById("gas-amount")!.innerHTML = `${gasAmount}`; 
             document.getElementById("metal-amount")!.style.setProperty("color", getResourceColor(metalAmount, maxMetalAmount))
             document.getElementById("crystal-amount")!.style.setProperty("color", getResourceColor(crystalAmount, maxCrystalAmount))
             document.getElementById("gas-amount")!.style.setProperty("color", getResourceColor(gasAmount, maxGasAmount))

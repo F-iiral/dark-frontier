@@ -28,7 +28,7 @@ class Planet():
 
         ### Fleets
         self.stationed_fleet_id  : int | None   = None
-        self.stationed_fleet     : Fleet        = None
+        self.stationed_fleet     : Fleet | None = None
         self.inbound_fleet_ids   : list[int]    = None
         self.inbound_fleets      : list[Fleet]  = None
         self.outbound_fleet_ids  : list[int]    = None
@@ -83,9 +83,9 @@ class Planet():
         self.crystal_amount += (8 * self.bld_crystal_mine) * (time.time() - self.last_checkout) * bonus_crystals * RESOURCE_SPEED
         self.gas_amount     += (8 * self.bld_gas_mine    ) * (time.time() - self.last_checkout) * bonus_gas      * RESOURCE_SPEED
 
-        if self.metal_amount   > (2 ** (0.5 * self.bld_metal_storage  )) * 500000: self.metal_amount   = self.bld_metal_storage
-        if self.crystal_amount > (2 ** (0.5 * self.bld_crystal_storage)) * 500000: self.crystal_amount = self.bld_crystal_storage
-        if self.gas_amount     > (2 ** (0.5 * self.bld_gas_storage    )) * 500000: self.gas_amount     = self.bld_gas_storage
+        if self.metal_amount   > (2 ** (0.5 * self.bld_metal_storage  )) * 500000: self.metal_amount   = (2 ** (0.5 * self.bld_metal_storage  )) * 500000
+        if self.crystal_amount > (2 ** (0.5 * self.bld_crystal_storage)) * 500000: self.crystal_amount = (2 ** (0.5 * self.bld_crystal_storage)) * 500000
+        if self.gas_amount     > (2 ** (0.5 * self.bld_gas_storage    )) * 500000: self.gas_amount     = (2 ** (0.5 * self.bld_gas_storage    )) * 500000
 
     def to_dict(self, *args):
         return {
@@ -161,6 +161,11 @@ class Planet():
 
         conn.commit()
         conn.close()
+
+        ### Save all fleets related to this planet, because we nearly never store them on their own.
+        self.stationed_fleet.save_to_db()
+        for fleet in self.inbound_fleets: fleet.save_to_db()
+        for fleet in self.outbound_fleets: fleet.save_to_db()
     
     @staticmethod
     def get_from_db_by_owner(owner_id: int) -> 'Planet':
