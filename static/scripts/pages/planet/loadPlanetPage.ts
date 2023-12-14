@@ -18,6 +18,124 @@ function getResourceColor(value: number, max_value: number): string {
     return "var(--text-color)"
 }
 
+function generateBuildingHTML(id: string, tooltip: string, imgSrc: string, countID: string): string {
+    return `
+    <div class="image-container-128px">
+        <div>
+            <div class="image-overlay-128px tooltip">
+                <div class="tooltiptext">${tooltip}</div>
+            </div>
+            <img src="${imgSrc}" />
+            <div style="float: left; width: 0px;">
+                <span id="${countID}" class="image-text-inside-128px">0</span>
+            </div>
+        </div>
+    </div>
+    `
+}
+function generateDefenseHTML(id: string, tooltip: string, imgSrc: string, countID: string): string {
+    return `
+    <div class="image-container-128px">
+        <div>
+            <div class="image-overlay-128px tooltip">
+                <div class="tooltiptext">${tooltip}</div>
+            </div>
+            <img src="${imgSrc}" />
+            <div style="float: left; width: 0px;">
+                <span id="${countID}" class="image-text-inside-128px">0</span>
+            </div>
+        </div>
+    </div>
+    `
+}
+function generateShipHTML(id: string, tooltip: string, imgSrc: string, countID: string): string {
+    return `
+      <div class="image-container-80px">
+        <div>
+          <div class="image-overlay-80px tooltip">
+            <div class="tooltiptext">${tooltip}</div>
+          </div>
+          <img src="${imgSrc}" />
+          <div style="float: left; width: 0px;">
+            <span id="${countID}" class="image-text-inside-80px">0</span>
+          </div>
+        </div>
+      </div>
+    `
+}
+  
+function generateBuildingGrid(): string {
+    const buildings = [
+        { id: 'bld-metal-mine', tooltip: 'Metal Mine', imgSrc: '../static/assets/planet-building-metal-mine.png', countID: 'bld-metal-mine-count' },
+        { id: 'bld-crystal-mine', tooltip: 'Crystal Mine', imgSrc: '../static/assets/planet-building-crystal-mine.png', countID: 'bld-crystal-mine-count' },
+        { id: 'bld-gas-mine', tooltip: 'Gas Extractor', imgSrc: '../static/assets/planet-building-gas-mine.png', countID: 'bld-gas-mine-count' },
+        { id: 'bld-factory', tooltip: 'Factory', imgSrc: '../static/assets/planet-building-factory.png', countID: 'bld-factory-count' },
+        { id: 'bld-shipyard', tooltip: 'Shipyard', imgSrc: '../static/assets/128px-refrence.png', countID: 'bld-shipyard-count' },
+        { id: 'bld-metal-storage', tooltip: 'Metal Storage', imgSrc: '../static/assets/planet-building-metal-storage.png', countID: 'bld-metal-storage-count' },
+        { id: 'bld-crystal-storage', tooltip: 'Crystal Storage', imgSrc: '../static/assets/planet-building-crystal-storage.png', countID: 'bld-crystal-storage-count' },
+        { id: 'bld-gas-storage', tooltip: 'Gas Storage', imgSrc: '../static/assets/planet-building-gas-storage.png', countID: 'bld-gas-storage-count' },
+        { id: 'bld-laboratory', tooltip: 'Laboratory', imgSrc: '../static/assets/planet-building-laboratory.png', countID: 'bld-laboratory-count' },
+        { id: 'bld-terraformer', tooltip: 'Terraformer', imgSrc: '../static/assets/planet-building-terraformer.png', countID: 'bld-terraformer-count' },
+    ];
+  
+    const buildingHTML = buildings.map(building => generateBuildingHTML(building.id, building.tooltip, building.imgSrc, building.countID)).join('')
+    return `<div style="display: grid; grid-template-columns: repeat(5, 150px); grid-gap: 20px; justify-content: left;">${buildingHTML}</div>`
+}
+function generateDefenseGrid(): string {
+    const defenses = [
+        { id: 'def-aa', tooltip: 'AA Guns', imgSrc: '../static/assets/planet-defense-aa.png', countID: 'def-aa-count' },
+        { id: 'def-railgun', tooltip: 'Railgun Turrets', imgSrc: '../static/assets/planet-defense-railgun.png', countID: 'def-railgun-count' },
+        { id: 'def-rocket', tooltip: 'Rocket Launchers', imgSrc: '../static/assets/planet-defense-rocket.png', countID: 'def-rocket-count' },
+        { id: 'def-laser', tooltip: 'Laser Turrets', imgSrc: '../static/assets/planet-defense-laser.png', countID: 'def-laser-count' },
+        { id: 'def-ion', tooltip: 'Ion Turrets', imgSrc: '../static/assets/planet-defense-ion.png', countID: 'def-ion-count' },
+        { id: 'def-plasma', tooltip: 'Plasma Turrets', imgSrc: '../static/assets/planet-defense-plasma.png', countID: 'def-plasma-count' },
+        { id: 'def-disruptor', tooltip: 'Disruptor Turrets', imgSrc: '../static/assets/planet-defense-disruptor.png', countID: 'def-disruptor-count' },
+        { id: 'def-s-shield', tooltip: 'Small Shield Generator', imgSrc: '../static/assets/planet-defense-s-shield.png', countID: 'def-s-shield-count' },
+        { id: 'def-m-shield', tooltip: 'Large Shield Generator', imgSrc: '../static/assets/planet-defense-m-shield.png', countID: 'def-m-shield-count' },
+        { id: 'def-l-shield', tooltip: 'Planetary Shield Generator', imgSrc: '../static/assets/planet-defense-l-shield.png', countID: 'def-l-shield-count' },
+    ];
+  
+    const defenseHTML = defenses.map(defense => generateDefenseHTML(defense.id, defense.tooltip, defense.imgSrc, defense.countID)).join('')
+    return `<div style="display: grid; grid-template-columns: repeat(5, 150px); grid-gap: 20px; justify-content: left;">${defenseHTML}</div>`
+}
+function generateShipGrid(): string {
+    const militaryShips = [
+        { id: 'ship-fighter', tooltip: 'Fighter', imgSrc: '../static/assets/planet-shipyard-fighter-icon.png', countID: 'ship-fighter-count' },
+        { id: 'ship-interceptor', tooltip: 'Interceptor', imgSrc: '../static/assets/planet-shipyard-interceptor-icon.png', countID: 'ship-interceptor-count' },
+        { id: 'ship-tac-bomber', tooltip: 'Bomber', imgSrc: '../static/assets/planet-shipyard-tac-bomber-icon.png', countID: 'ship-tac-bomber-count' },
+        { id: 'ship-str-bomber', tooltip: 'Strategic Bomber', imgSrc: '../static/assets/planet-shipyard-str-bomber-icon.png', countID: 'ship-str-bomber-count' },
+        { id: 'ship-frigate', tooltip: 'Frigate', imgSrc: '../static/assets/80px-refrence.png', countID: 'ship-frigate-count' },
+        { id: 'ship-destroyer', tooltip: 'Destroyer', imgSrc: '../static/assets/80px-refrence.png', countID: 'ship-destroyer-count' },
+        { id: 'ship-cruiser', tooltip: 'Cruiser', imgSrc: '../static/assets/planet-shipyard-cruiser-icon.png', countID: 'ship-cruiser-count' },
+        { id: 'ship-battlecruiser', tooltip: 'Battlecruiser', imgSrc: '../static/assets/80px-refrence.png', countID: 'ship-battlecruiser-count' },
+        { id: 'ship-battleship', tooltip: 'Battleship', imgSrc: '../static/assets/planet-shipyard-battleship-icon.png', countID: 'ship-battleship-count' },
+        { id: 'ship-escort-carrier', tooltip: 'Escort Carrier', imgSrc: '../static/assets/planet-shipyard-escort-carrier-icon.png', countID: 'ship-escort-carrier-count' },
+        { id: 'ship-fleet-carrier', tooltip: 'Fleet Carrier', imgSrc: '../static/assets/planet-shipyard-fleet-carrier-icon.png', countID: 'ship-fleet-carrier-count' },
+        { id: 'ship-titan', tooltip: 'Titan', imgSrc: '../static/assets/80px-refrence.png', countID: 'ship-titan-count' },
+    ]
+    const civilianShips = [
+        { id: 'ship-small-cargo', tooltip: 'Small Cargoship', imgSrc: '../static/assets/planet-shipyard-small-cargo-icon.png', countID: 'ship-small-cargo-count' },
+        { id: 'ship-large-cargo', tooltip: 'Large Cargoship', imgSrc: '../static/assets/planet-shipyard-large-cargo-icon.png', countID: 'ship-large-cargo-count' },
+        { id: 'ship-sattelites', tooltip: 'Sattelites', imgSrc: '../static/assets/80px-refrence.png', countID: 'ship-sattelites-count' },
+        { id: 'ship-colony-ship', tooltip: 'Colony Ship', imgSrc: '../static/assets/planet-shipyard-colony-ship-icon.png', countID: 'ship-colony-ship-count' },
+        { id: 'ship-science-ship', tooltip: 'Science Ship', imgSrc: '../static/assets/planet-shipyard-science-ship-icon.png', countID: 'ship-science-ship-count' },
+        { id: 'ship-construction-ship', tooltip: 'Construction Ship', imgSrc: '../static/assets/80px-refrence.png', countID: 'ship-construction-ship-count' },
+    ];
+  
+    const militaryShipsHTML = militaryShips.map(ship => generateShipHTML(ship.id, ship.tooltip, ship.imgSrc, ship.countID)).join('')
+    const civilianShipsHTML = civilianShips.map(ship => generateShipHTML(ship.id, ship.tooltip, ship.imgSrc, ship.countID)).join('')
+    return `
+     <div style="display: flex;">
+         <div style="display: grid; grid-template-columns: repeat(4, 104px); grid-gap: 20px; justify-content: left;">
+             ${militaryShipsHTML}
+         </div>
+         <div style="margin-left: 70px; display: grid; grid-template-columns: repeat(2, 104px); grid-gap: 20px; justify-content: left;">
+             ${civilianShipsHTML}
+         </div>
+     </div>
+    `
+}
+
 async function loadPlanetPage (planetID: number, page_name: string): Promise<void> {
     const token = getCookie("Authorization");
     const headers = {
@@ -57,6 +175,8 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
             document.getElementById("planet-temperature")!.innerHTML = `${jsonResponse.temperature} C°`
         }
         else if (page_name == "buildings") {
+            document.getElementById("main-content")!.innerHTML += generateBuildingGrid()
+
             document.getElementById("bld-metal-mine-count")!.innerHTML = jsonResponse.bld_metal_mine.toLocaleString()
             document.getElementById("bld-crystal-mine-count")!.innerHTML = jsonResponse.bld_crystal_mine.toLocaleString()
             document.getElementById("bld-gas-mine-count")!.innerHTML = jsonResponse.bld_gas_mine.toLocaleString()
@@ -69,6 +189,8 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
             document.getElementById("bld-terraformer-count")!.innerHTML = jsonResponse.bld_terraformer.toLocaleString()
         }
         else if (page_name == "defense") {
+            document.getElementById("main-content")!.innerHTML += generateDefenseGrid()
+
             document.getElementById("def-aa-count")!.innerHTML = `${jsonResponse.def_aa}`
             document.getElementById("def-railgun-count")!.innerHTML = `${jsonResponse.def_railgun}`
             document.getElementById("def-rocket-count")!.innerHTML = `${jsonResponse.def_rocket}`
@@ -81,6 +203,8 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
             document.getElementById("def-l-shield-count")!.innerHTML = `${jsonResponse.def_l_shield}`
         }
         else if (page_name == "shipyard") {
+            document.getElementById("main-content")!.innerHTML += generateShipGrid()
+
             if (jsonResponse.stationed_fleet !== null) {
                 document.getElementById("ship-fighter-count")!.innerHTML = `${jsonResponse.stationed_fleet.fighter}`
                 document.getElementById("ship-interceptor-count")!.innerHTML = `${jsonResponse.stationed_fleet.interceptor}`

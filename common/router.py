@@ -273,7 +273,7 @@ def api_planet_shipyard():
     return planet_shipyard.main(planet_id, ship_type, ship_amount)
 
 @app.route("/api/planet/spy", methods=["POST"])
-def api_planet():
+def api_planet_spy():
     data = RequestData(request.get_json())
     auth_token = request.headers.get("Authorization")
     planet_id = data.get_data("planetID")
