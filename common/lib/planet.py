@@ -67,7 +67,8 @@ class Planet():
         self.last_checkout       : float    = time.time()
 
     def update_resource_count(self) -> None:
-        if self.owner.account.badges & Badges.VACATION.value == Badges.VACATION.value: return
+        if self.owner is None: return
+        elif self.owner.account.badges & Badges.VACATION.value == Badges.VACATION.value: return
 
         # Bonuses are calculated for a 2900K° star, 1st - 3rd and 8th to 10th position
         bonus_metal = 1; bonus_gas = 1; bonus_crystals = 1

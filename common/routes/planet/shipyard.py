@@ -5,6 +5,7 @@ from common.enums import FleetShips
 
 def main(planet_id: int, ship_type: int, ship_amount: int) -> tuple:
     planet = DBCache.get_planet(planet_id)
+    if planet is None:                      return "Invalid Planet Id.", 400
     planet.update_resource_count()
 
     ship_mapping = {

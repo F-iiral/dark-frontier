@@ -4,6 +4,7 @@ from common.enums import PlanetDefenses
 
 def main(planet_id: int, defense_type: int, defense_amount: int) -> tuple:
     planet = DBCache.get_planet(planet_id)
+    if planet is None:                      return "Invalid Planet Id.", 400
     planet.update_resource_count()
 
     defense_mapping = {

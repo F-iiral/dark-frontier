@@ -278,11 +278,10 @@ def api_planet_spy():
     auth_token = request.headers.get("Authorization")
     planet_id = data.get_data("planetID")
 
-    if planet_id is None                                            : return abort(400)
+    if not (isinstance(planet_id, int))                             : return "Parameter 'planet_id' must be 'int'.", 400
     if not (is_valid_token(auth_token))                             : return abort(401)
-    if not (is_planet_owner(auth_token, planet_id))                 : return abort(403)
 
-    return planet_spy.main()
+    return planet_spy.main(planet_id, auth_token)
 
 @app.route("/api/user/technology", methods=["POST"])
 def api_user_technology():

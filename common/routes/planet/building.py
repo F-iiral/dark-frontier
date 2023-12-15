@@ -4,6 +4,7 @@ from common.enums import PlanetBuildings
 
 def main(planet_id: int, building_type: int) -> tuple | int:
     planet = DBCache.get_planet(planet_id)
+    if planet is None:                      return "Invalid Planet Id.", 400
     planet.update_resource_count()
     
     building_mapping = {
