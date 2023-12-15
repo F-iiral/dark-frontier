@@ -7,16 +7,16 @@ def main(planet_id: int, defense_type: int, defense_amount: int) -> tuple:
     planet.update_resource_count()
 
     defense_mapping = {
-        PlanetDefenses.AA_GUN.value:    ("def_aa",        [1, 1, 1], 1, False),
-        PlanetDefenses.ROCKET.value:    ("def_rocket",    [1, 1, 1], 1, False),
-        PlanetDefenses.RAILGUN.value:   ("def_railgun",   [1, 1, 1], 1, False),
-        PlanetDefenses.LASER.value:     ("def_laser",     [1, 1, 1], 1, False),
-        PlanetDefenses.ION.value:       ("def_ion",       [1, 1, 1], 1, False),
-        PlanetDefenses.PLASMA.value:    ("def_plasma",    [1, 1, 1], 1, False),
-        PlanetDefenses.DISRUPTOR.value: ("def_disruptor", [1, 1, 1], 1, False),
-        PlanetDefenses.SHIELD_S.value:  ("def_s_shield",  [1, 1, 1], 1, True),
-        PlanetDefenses.SHIELD_M.value:  ("def_m_shield",  [1, 1, 1], 1, True),
-        PlanetDefenses.SHIELD_L.value:  ("def_l_shield",  [1, 1, 1], 1, True),
+        PlanetDefenses.AA_GUN.value:    ("def_aa",        [1,   0,     0],     6000, False), #  1 min for lvl 10 mine
+        PlanetDefenses.ROCKET.value:    ("def_rocket",    [1,   0.1,   0],    30000, False), #  5 min for lvl 10 mine
+        PlanetDefenses.RAILGUN.value:   ("def_railgun",   [1,   0.5, 0.5],    30000, False), #  5 min for lvl 10 mine
+        PlanetDefenses.LASER.value:     ("def_laser",     [0.5, 1,   0.5],   750000, False), #    1 h for lvl 20 mine
+        PlanetDefenses.ION.value:       ("def_ion",       [0.4, 1,   0.5],  1200000, False), #    1 h for lvl 30 mine
+        PlanetDefenses.PLASMA.value:    ("def_plasma",    [0.3, 1,   0.5],  1650000, False), #    1 h for lvl 40 mine
+        PlanetDefenses.DISRUPTOR.value: ("def_disruptor", [0.2, 1,   0.5],  2100000, False), #    1 h for lvl 50 mine
+        PlanetDefenses.SHIELD_S.value:  ("def_s_shield",  [0.2, 1,   0.5],   180000, True),  # 30 min for lvl 10 mine
+        PlanetDefenses.SHIELD_M.value:  ("def_m_shield",  [0.2, 1,   0.5],  3800000, True),  #    2 h for lvl 45 mine
+        PlanetDefenses.SHIELD_L.value:  ("def_l_shield",  [0.2, 1,   0.5], 15000000, True),  #    8 h for lvl 45 mine
     }
     defense_info = defense_mapping.get(defense_type)
     if defense_info is None:

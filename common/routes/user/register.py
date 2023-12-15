@@ -75,6 +75,10 @@ def create_account(user_id) -> None:
     new_planet = find_free_planet()
     new_planet.owner_id = user_id
     new_planet.name = "Home Planet"
+    new_planet.radius += 500
+    new_planet.metal_amount = 100000
+    new_planet.crystal_amount = 100000
+    new_planet.gas_amount = 100000
     new_planet.save_to_db()
 
 def find_free_planet() -> Planet:

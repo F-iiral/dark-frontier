@@ -227,7 +227,7 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
             }
         }
 
-        let loop_calls = 0
+        let loopCalls = 0
         const maxMetalAmount = 2 ** (0.5 * jsonResponse.bld_metal_storage) * 500000
         const maxCrystalAmount = 2 ** (0.5 * jsonResponse.bld_crystal_storage) * 500000
         const maxGasAmount = 2 ** (0.5 * jsonResponse.bld_gas_storage) * 500000
@@ -235,15 +235,26 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
         let crystalAmount = jsonResponse.crystal_amount
         let gasAmount = jsonResponse.gas_amount
 
+        let bonusMetal = 1;
+        let bonusGas = 1;
+        let bonusCrystals = 1
+        if (jsonResponse.temperature >= 423) { bonusMetal = 1.3 }
+        else if (jsonResponse.temperature >= 210) { bonusMetal = 1.2 }
+        else if (jsonResponse.temperature >= 82) { bonusMetal = 1.1 }
+        if (jsonResponse.temperature <= -184) { bonusGas = 1.3 }
+        else if (jsonResponse.temperature <= -170) { bonusGas = 1.2 }
+        else if (jsonResponse.temperature <= -152) { bonusGas = 1.1 }
+        if (bonusMetal == 1 && bonusGas == 1) { bonusCrystals = 1.15 }
+
         while (true) {
             if (metalAmount < maxMetalAmount) { 
-                metalAmount = Math.round(jsonResponse.metal_amount + jsonResponse.bld_metal_mine * jsonResponse.owner.galaxy.resource_speed * 8 * loop_calls)
+                metalAmount = Math.round(jsonResponse.metal_amount + 8 * (jsonResponse.bld_metal_mine ** 1.1) * jsonResponse.owner.galaxy.resource_speed * bonusMetal * loopCalls)
             }
             if (crystalAmount < maxCrystalAmount) {
-                crystalAmount = Math.round(jsonResponse.crystal_amount + jsonResponse.bld_crystal_mine * jsonResponse.owner.galaxy.resource_speed * 8 * loop_calls)
+                crystalAmount = Math.round(jsonResponse.crystal_amount + 8 * (jsonResponse.bld_crystal_mine ** 1.1) * jsonResponse.owner.galaxy.resource_speed * bonusCrystals * loopCalls)
             }
             if (gasAmount < maxGasAmount) {
-                gasAmount = Math.round(jsonResponse.gas_amount + jsonResponse.bld_gas_mine * jsonResponse.owner.galaxy.resource_speed * 8 * loop_calls)
+                gasAmount = Math.round(jsonResponse.gas_amount + 8 * (jsonResponse.bld_gas_mine ** 1.1) * jsonResponse.owner.galaxy.resource_speed * bonusGas * loopCalls)
             }
 
             document.getElementById("metal-amount")!.innerHTML = `${metalAmount}`;
@@ -252,7 +263,7 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
             document.getElementById("metal-amount")!.style.setProperty("color", getResourceColor(metalAmount, maxMetalAmount))
             document.getElementById("crystal-amount")!.style.setProperty("color", getResourceColor(crystalAmount, maxCrystalAmount))
             document.getElementById("gas-amount")!.style.setProperty("color", getResourceColor(gasAmount, maxGasAmount))
-            loop_calls++;
+            loopCalls++;
     
             await new Promise(resolve => setTimeout(resolve, 1000))
         }

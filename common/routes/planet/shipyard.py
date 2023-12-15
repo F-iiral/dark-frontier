@@ -7,27 +7,27 @@ def main(planet_id: int, ship_type: int, ship_amount: int) -> tuple:
     planet = DBCache.get_planet(planet_id)
     planet.update_resource_count()
 
-    defense_mapping = {
-        FleetShips.FIGHTERS.value:           ("fighters",           [1, 1, 1], 1),
-        FleetShips.INTERCEPTORS.value:       ("interceptors",       [1, 1, 1], 1),
-        FleetShips.TAC_BOMBERS.value:        ("tac_bombers",        [1, 1, 1], 1),
-        FleetShips.STR_BOMBERS.value:        ("str_bombers",        [1, 1, 1], 1),
-        FleetShips.FRIGATES.value:           ("frigates",           [1, 1, 1], 1),
-        FleetShips.DESTROYERS.value:         ("destroyers",         [1, 1, 1], 1),
-        FleetShips.CRUISERS.value:           ("cruisers",           [1, 1, 1], 1),
-        FleetShips.BATTLECRUISERS.value:     ("battlecruisers",     [1, 1, 1], 1),
-        FleetShips.BATTLESHIPS.value:        ("battleships",        [1, 1, 1], 1),
-        FleetShips.ESCORT_CARRIERS.value:    ("escort_carriers",    [1, 1, 1], 1),
-        FleetShips.FLEET_CARRIERS.value:     ("fleet_carriers",     [1, 1, 1], 1),
-        FleetShips.TITANS.value:             ("titans",             [1, 1, 1], 1),
-        FleetShips.SATTELITES.value:         ("sattelites",         [1, 1, 1], 1),
-        FleetShips.SMALL_CARGO_SHIPS.value:  ("small_cargo_ships",  [1, 1, 1], 1),
-        FleetShips.BIG_CARGO_SHIPS.value:    ("big_cargo_ships",    [1, 1, 1], 1),
-        FleetShips.COLONY_SHIPS.value:       ("colony_ships",       [1, 1, 1], 1),
-        FleetShips.SCIENCE_SHIPS.value:      ("science_ships",      [1, 1, 1], 1),
-        FleetShips.CONSTRUCTION_SHIPS.value: ("construction_ships", [1, 1, 1], 1),
+    ship_mapping = {
+        FleetShips.FIGHTERS.value:           ("fighters",           [0.5, 1,   0.5],      6000), #  1 min for lvl 10 mine
+        FleetShips.INTERCEPTORS.value:       ("interceptors",       [0.5, 0.5, 1.0],      6000), #  1 min for lvl 10 mine
+        FleetShips.TAC_BOMBERS.value:        ("tac_bombers",        [1,   0.5, 0.5],      6000), #  1 min for lvl 10 mine
+        FleetShips.STR_BOMBERS.value:        ("str_bombers",        [1,   0.5, 0.5],     30000), #  5 min for lvl 10 mine
+        FleetShips.FRIGATES.value:           ("frigates",           [1,   0.8, 0.2],    180000), # 30 min for lvl 10 mine
+        FleetShips.DESTROYERS.value:         ("destroyers",         [1,   0.7, 0.5],    725000), #    2 h for lvl 10 mine
+        FleetShips.CRUISERS.value:           ("cruisers",           [1,   0.7, 0.5],   2500000), #    2 h for lvl 30 mine
+        FleetShips.BATTLECRUISERS.value:     ("battlecruisers",     [1,   0.7, 0.5],   3800000), #    2 h for lvl 45 mine
+        FleetShips.BATTLESHIPS.value:        ("battleships",        [1,   0.8, 1.5],  15000000), #    8 h for lvl 45 mine
+        FleetShips.ESCORT_CARRIERS.value:    ("escort_carriers",    [0.7, 1,   0.5],   2500000), #    2 h for lvl 30 mine
+        FleetShips.FLEET_CARRIERS.value:     ("fleet_carriers",     [0.7, 1,   0.5],  15000000), #    8 h for lvl 45 mine
+        FleetShips.TITANS.value:             ("titans",             [1,   0.8, 0.5], 180000000), #   96 h for lvl 45 mine
+        FleetShips.SATTELITES.value:         ("sattelites",         [0,   1,  0.25],      6000), #  1 min for lvl 10 mine
+        FleetShips.SMALL_CARGO_SHIPS.value:  ("small_cargo_ships",  [0.6, 0.6,   1],     30000), #  5 min for lvl 10 mine
+        FleetShips.BIG_CARGO_SHIPS.value:    ("big_cargo_ships",    [0.6, 0.6,   1],    725000), #  2 h   for lvl 10 mine
+        FleetShips.COLONY_SHIPS.value:       ("colony_ships",       [1,   0.5, 0.7],     30000), #  5 min for lvl 10 mine
+        FleetShips.SCIENCE_SHIPS.value:      ("science_ships",      [1,   0.5, 0.7],     30000), #  5 min for lvl 10 mine
+        FleetShips.CONSTRUCTION_SHIPS.value: ("construction_ships", [1,   0.5, 0.7],     30000), #  5 min for lvl 10 mine
     }
-    ship_info = defense_mapping.get(ship_type)
+    ship_info = ship_mapping.get(ship_type)
     if ship_info is None:
         return "Invalid ship.", 400
 
@@ -51,5 +51,6 @@ def main(planet_id: int, ship_type: int, ship_amount: int) -> tuple:
         new_fleet.owner = planet.owner
         new_fleet.__setattr__(ship_name, ship_amount)
         planet.stationed_fleet = new_fleet
+        planet.stationed_fleet_id = new_fleet.fleet_id
 
     return "Successfully constructed.", 200

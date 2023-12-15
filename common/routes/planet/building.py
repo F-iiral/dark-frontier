@@ -24,7 +24,7 @@ def main(planet_id: int, building_type: int) -> tuple | int:
     
     building_name, building_resources, building_cost_mult = building_info
 
-    building_cost = building_cost_mult * (1.1486984 ** planet.__getattribute__(building_name)) / (planet.bld_factory + 1)
+    building_cost = building_cost_mult * (1.4142135 ** planet.__getattribute__(building_name)) / (planet.bld_factory + 1)
 
     if building_cost * building_resources[0] > planet.metal_amount:   return "Insufficent metal resource.", 400
     if building_cost * building_resources[1] > planet.crystal_amount: return "Insufficent crystals resource.", 400
