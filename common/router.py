@@ -72,8 +72,8 @@ def page_planet_shipyard():
 def page_planet_fleet():
     return render_template("planet_fleet.htm"), 200
 
-@app.route("/technology")
-def page_technology():
+@app.route("/planet/technology")
+def page_planet_technology():
     return render_template("technology.htm"), 200
 
 @app.route("/galaxy")

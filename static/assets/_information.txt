@@ -12,22 +12,111 @@ planet-building-outlines-80px.png
 planet-building-outlines-128px.png
 planet-building-outlines-80px-active.png
 planet-building-outlines-128px-active.png
-star-bg.jpg        (modified from https://www.pexels.com/photo/blue-and-purple-cosmic-sky-956999)
-star-bg-full.jpg   (modified from https://www.pexels.com/photo/blue-and-purple-cosmic-sky-956999)
+star-bg.jpg                             (modified from https://www.pexels.com/photo/blue-and-purple-cosmic-sky-956999)
+star-bg-full.jpg                        (modified from https://www.pexels.com/photo/blue-and-purple-cosmic-sky-956999)
+planet-biome-continental-0-icon.png     (created with Deep-Fold/PixelPlanets)
+planet-biome-continental-1-icon.png     (created with Deep-Fold/PixelPlanets)
+planet-biome-continental-2-icon.png     (created with Deep-Fold/PixelPlanets)
+planet-biome-continental-3-icon.png     (created with Deep-Fold/PixelPlanets)
+planet-biome-continental-4-icon.png     (created with Deep-Fold/PixelPlanets)
+planet-biome-continental-5-icon.png     (created with Deep-Fold/PixelPlanets)
+planet-biome-continental-6-icon.png     (created with Deep-Fold/PixelPlanets)
+planet-biome-continental-7-icon.png     (created with Deep-Fold/PixelPlanets)
+planet-biome-continental-8-icon.png     (created with Deep-Fold/PixelPlanets)
+planet-biome-continental-9-icon.png     (created with Deep-Fold/PixelPlanets)
+planet-biome-desert-0-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-desert-1-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-desert-2-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-desert-3-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-desert-4-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-desert-5-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-desert-6-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-desert-7-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-desert-8-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-desert-9-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-frozen-0-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-frozen-1-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-frozen-2-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-frozen-3-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-frozen-4-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-frozen-5-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-frozen-6-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-frozen-7-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-frozen-8-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-frozen-9-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-jungle-0-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-jungle-1-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-jungle-2-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-jungle-3-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-jungle-4-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-jungle-5-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-jungle-6-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-jungle-7-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-jungle-8-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-jungle-9-icon.png          (created with Deep-Fold/PixelPlanets)
+planet-biome-lava-0-icon.png            (created with Deep-Fold/PixelPlanets)
+planet-biome-lava-1-icon.png            (created with Deep-Fold/PixelPlanets)
+planet-biome-lava-2-icon.png            (created with Deep-Fold/PixelPlanets)
+planet-biome-lava-3-icon.png            (created with Deep-Fold/PixelPlanets)
+planet-biome-lava-4-icon.png            (created with Deep-Fold/PixelPlanets)
+planet-biome-lava-5-icon.png            (created with Deep-Fold/PixelPlanets)
+planet-biome-lava-6-icon.png            (created with Deep-Fold/PixelPlanets)
+planet-biome-lava-7-icon.png            (created with Deep-Fold/PixelPlanets)
+planet-biome-lava-8-icon.png            (created with Deep-Fold/PixelPlanets)
+planet-biome-lava-9-icon.png            (created with Deep-Fold/PixelPlanets)
+planet-biome-lunar-0-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-lunar-1-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-lunar-2-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-lunar-3-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-lunar-4-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-lunar-5-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-lunar-6-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-lunar-7-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-lunar-8-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-lunar-9-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-ocean-0-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-ocean-1-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-ocean-2-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-ocean-3-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-ocean-4-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-ocean-5-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-ocean-6-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-ocean-7-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-ocean-8-icon.png           (created with Deep-Fold/PixelPlanets)
+planet-biome-ocean-9-icon.png           (created with Deep-Fold/PixelPlanets)
 
 The following images were created primarily by me:
 planet-shipyard-fighter-icon.png
 planet-shipyard-interceptor-icon.png
 planet-shipyard-tac-bomber-icon.png
 planet-shipyard-str-bomber-icon.png
+planet-shipyard-frigate-icon.png
+planet-shipyard-destroyer-icon.png
 planet-shipyard-cruiser-icon.png
+planet-shipyard-battlecruiser-icon.png
 planet-shipyard-battleship-icon.png
 planet-shipyard-escort-carrier-icon.png
 planet-shipyard-fleet-carrier-icon.png
+planet-shipyard-titan-icon.png
 planet-shipyard-small-cargo-icon.png
 planet-shipyard-large-cargo-icon.png
+planet-shipyard-sattelites-icon.png
 planet-shipyard-science-ship-icon.png
 planet-shipyard-colony-ship-icon.png
+planet-shipyard-construction-ship-icon.png
+planet-tech-colonization-icon.png
+planet-tech-computing-icon.png
+planet-tech-conv-weapons-icon.png
+planet-tech-disruptor-icon.png
+planet-tech-energy-icon.png
+planet-tech-engine-icon.png
+planet-tech-hangar-icon.png
+planet-tech-hyperspace-icon.png
+planet-tech-ion-icon.png
+planet-tech-laser-icon.png
+planet-tech-plasma-icon.png
+planet-tech-production-icon.png
+planet-tech-storage-icon.png
 
 The following images were created primarily by Dall-E 3:
 planet-building-crystal-mine.png
@@ -39,6 +128,7 @@ planet-building-gas-storage.png
 planet-building-terraformer.png
 planet-building-laboratory.png
 planet-building-factory.png
+planet-building-shipyard.png
 planet-defense-aa.png
 planet-defense-railgun.png
 planet-defense-rocket.png
