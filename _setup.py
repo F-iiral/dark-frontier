@@ -35,6 +35,8 @@ cursor.execute("""
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
         account_id INTEGER PRIMARY KEY,
+        planet_ids TEXT,
+        alliance_id INTEGER,
         tec_energy INTEGER,
         tec_computing INTEGER,
         tec_hyperspace INTEGER,
@@ -129,6 +131,29 @@ cursor.execute("""
         FOREIGN KEY(owner_id) REFERENCES accounts(id)
     )
 """); print(f"{ConsoleShortcuts.log()} Set up the 'fleet' table in the main database.")
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS alliances (
+        id INTEGER PRIMARY KEY,
+        founder_id INTEGER,
+        tag TEXT,
+        name TEXT,
+        pub_description TEXT,
+        prv_description TEXT,
+        owners TEXT,
+        officers TEXT,
+        veterans TEXT,
+        members TEXT,
+        recruits TEXT,
+        wars TEXT,
+        truces TEXT,
+        associations TEXT,
+        join_rule INTEGER,
+        major_power INTEGER,
+        hide_members INTEGER,
+        hide_diplomacy INTEGER,
+        FOREIGN KEY(founder_id) REFERENCES accounts(id)
+    )
+"""); print(f"{ConsoleShortcuts.log()} Set up the 'alliances' table in the main database.")
 conn.commit()
 
 ###############################
