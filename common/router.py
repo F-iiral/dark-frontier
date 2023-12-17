@@ -251,6 +251,7 @@ def api_planet_defenses():
     if not (isinstance(planet_id, int))                             : return "Parameter 'planet_id' must be 'int'.", 400
     if not (isinstance(defense_type, int))                          : return "Parameter 'defense' must be 'int'.", 400
     if not (isinstance(defense_amount, int))                        : return "Parameter 'amount' must be 'int'.", 400
+    if not (defense_amount > 0)                                     : return "Parameter 'amount' must be greater than 0.", 400
     if not (is_valid_token(auth_token))                             : return abort(401)
     if not (is_planet_owner(auth_token, planet_id))                 : return abort(403)
 

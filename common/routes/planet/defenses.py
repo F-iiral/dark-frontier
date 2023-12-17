@@ -26,9 +26,9 @@ def main(planet_id: int, defense_type: int, defense_amount: int) -> tuple:
     defense_name, defense_resources, defense_cost_mult, defense_is_unique = defense_info
 
     if not defense_is_unique:
-        building_cost_metal_limited   = planet.metal_amount / ((planet.bld_factory + 1) * defense_cost_mult * defense_resources[0])
-        building_cost_crystal_limited = planet.crystal_amount / ((planet.bld_factory + 1) * defense_cost_mult * defense_resources[1])
-        building_cost_gas_limited     = planet.gas_amount / ((planet.bld_factory + 1) * defense_cost_mult * defense_resources[2])
+        building_cost_metal_limited   = (planet.metal_amount / ((planet.bld_factory + 1) * defense_cost_mult * defense_resources[0]))   if defense_resources[0] != 0 else float('inf')
+        building_cost_crystal_limited = (planet.crystal_amount / ((planet.bld_factory + 1) * defense_cost_mult * defense_resources[1])) if defense_resources[1] != 0 else float('inf')
+        building_cost_gas_limited     = (planet.gas_amount / ((planet.bld_factory + 1) * defense_cost_mult * defense_resources[2]))     if defense_resources[2] != 0 else float('inf')
 
         defense_amount = int(min(defense_amount, building_cost_metal_limited, building_cost_crystal_limited, building_cost_gas_limited))
 

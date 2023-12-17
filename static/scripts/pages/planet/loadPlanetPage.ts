@@ -18,7 +18,7 @@ function getResourceColor(value: number, max_value: number): string {
     return "var(--text-color)"
 }
 
-function generateInformationBox(jsonResponse: any, id: string, imgSrc: string, name: string, description: string): string {
+function generateBuildingInformationBox(jsonResponse: any, id: string, imgSrc: string, name: string, description: string): string {
     const buildingMapping: Record<string, [number[], number]> = {
         ['bld-metal-mine']: [[0, 1, 1], 480],
         ['bld-crystal-mine']: [[1, 0, 1], 480],
@@ -44,6 +44,7 @@ function generateInformationBox(jsonResponse: any, id: string, imgSrc: string, n
         gasCost = buildingCost * buildingResources[2]
     }
 
+    // To Do: Make this display if one can afford it or not
     return `<div id="${id}-information-box" class="planet-information-box">
     <div style="display: flex;">
             <div style="margin: 10px;">
@@ -55,7 +56,7 @@ function generateInformationBox(jsonResponse: any, id: string, imgSrc: string, n
                 <hr />
                 <div style="display: flex;">
                     <div>
-                        <p style="font-size: 12px;">${metalCost.toLocaleString()} Metals</p>
+                        <p style="font-size: 12px;">${metalCost.toLocaleString()} Metal</p>
                         <p style="font-size: 12px;">${crystalCost.toLocaleString()} Gas</p>
                         <p style="font-size: 12px;">${gasCost.toLocaleString()} Crystals</p>
                         <div style="display: block;">
@@ -64,12 +65,68 @@ function generateInformationBox(jsonResponse: any, id: string, imgSrc: string, n
                         </div>
                     </div>
                     <div class="upgrade-btn-container">
+                        <a class="planet-button" id="${id}-upgrade-button" onclick="sendPlanetBuildingRequest('${id}')">Upgrade</a>
+                    </div>                 
+                </div>
+            </div>
+        </div>
+    </div>`
+}
+function generateDefenseInformationBox(jsonResponse: any, id: string, imgSrc: string, name: string, description: string): string {
+    const defenseMapping: Record<string, [number[], number]> = {
+        ['def-aa']: [[1, 0, 0], 6000],
+        ['def-railgun']: [[1, 0.1, 0], 30000],
+        ['def-rocket']: [[1, 0.5, 0.5], 30000],
+        ['def-laser']: [[0.5, 1, 0.5], 750000],
+        ['def-ion']: [[0.4, 1, 0.5], 1200000],
+        ['def-plasma']: [[0.3, 1, 0.5], 1650000],
+        ['def-disruptor']:[[0.2, 1, 0.5], 2100000],
+        ['def-s-shield']: [[0.2, 1, 0.5], 180000],
+        ['def-m-shield']: [[0.2, 1, 0.5], 3800000],
+        ['def-l-shield']:[[0.2, 1, 0.5], 15000000],
+    };
+    const defenseInfo = defenseMapping[id]
+
+    let metalCost = 0
+    let crystalCost = 0
+    let gasCost = 0
+    let amount = 1
+    if (defenseInfo) {
+        const [buildingResources, buildingCostMult] = defenseInfo
+        const buildingCost = Math.round(buildingCostMult * amount / (jsonResponse.bld_factory + 1))
+        metalCost = buildingCost * buildingResources[0]
+        crystalCost = buildingCost * buildingResources[1]
+        gasCost = buildingCost * buildingResources[2]
+    }
+
+    // To Do: Make this display the total cost, not the one per unit
+    // To Do: Make this display if one can afford it or not
+    return `<div id="${id}-information-box" class="planet-information-box">
+    <div style="display: flex;">
+            <div style="margin: 10px;">
+                <img src="${imgSrc}">
+                <p style="font-weight: bold;">${name}</p>
+            </div>
+            <div>
+                <p>${description}</p>
+                <hr />
+                <div style="display: flex;">
+                    <div>
+                        <p style="font-size: 12px;">${metalCost.toLocaleString()} Metal per Unit</p>
+                        <p style="font-size: 12px;">${crystalCost.toLocaleString()} Gas per Unit</p>
+                        <p style="font-size: 12px;">${gasCost.toLocaleString()} Crystals per Unit</p>
+                        <div style="display: block;">
+                            <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;">info</i>
+                            <p style="font-size: 12px; position:absolute; left: 164px; bottom: -8px;">Technical Details</p>
+                        </div>
+                    </div>
+                    <div class="upgrade-btn-container">
                         <div class="upgrade-input-container">
-                            <span class="upgrade-input-desc">Level</span>
-                            <input type="number" value="0">
+                            <input id="${id}-input-amount" type="number" value="0">
+                            <span class="upgrade-input-desc">Amount</span>
                         </div>
                         <br>
-                        <a class="planet-button" id="${id}-upgrade-button" onclick="sendPlanetBuildingRequest('${id}')">Upgrade</a>
+                        <a class="planet-button" id="${id}-upgrade-button" onclick="sendPlanetDefenseRequest('${id}')">Upgrade</a>
                     </div>                 
                 </div>
             </div>
@@ -92,16 +149,16 @@ function generateBuildingHTML(id: string, tooltip: string, imgSrc: string): stri
     </div>
     `
 }
-function generateDefenseHTML(id: string, tooltip: string, imgSrc: string, countID: string): string {
+function generateDefenseHTML(id: string, tooltip: string, imgSrc: string): string {
     return `
     <div class="image-container-128px">
         <div>
-            <div class="image-overlay-128px tooltip">
+            <div class="image-overlay-128px tooltip" onclick="showDefenseInformation('${id}')">
                 <div class="tooltiptext">${tooltip}</div>
             </div>
             <img src="${imgSrc}" />
             <div style="float: left; width: 0px;">
-                <span id="${countID}" class="image-text-inside-128px">0</span>
+                <span id="${id}-count" class="image-text-inside-128px">0</span>
             </div>
         </div>
     </div>
@@ -153,7 +210,7 @@ function generateBuildingGrid(jsonResponse: any): string {
     ];
   
     const buildingHTML = buildings.map(building => generateBuildingHTML(building.id, building.tooltip, building.imgSrc)).join('')
-    const buildingInfoHTML = buildings.map(building => generateInformationBox(jsonResponse, building.id, building.imgSrc, building.tooltip, building.description)).join('')
+    const buildingInfoHTML = buildings.map(building => generateBuildingInformationBox(jsonResponse, building.id, building.imgSrc, building.tooltip, building.description)).join('')
     return `
     <div id="information-box-container" style="justify-content: center; display: flex;">
         ${buildingInfoHTML}
@@ -162,22 +219,27 @@ function generateBuildingGrid(jsonResponse: any): string {
         ${buildingHTML}
     </div>`
 }
-function generateDefenseGrid(): string {
+function generateDefenseGrid(jsonResponse: any): string {
     const defenses = [
-        { id: 'def-aa', tooltip: 'AA Guns', imgSrc: '../static/assets/planet-defense-aa.png', countID: 'def-aa-count' },
-        { id: 'def-railgun', tooltip: 'Railgun Turrets', imgSrc: '../static/assets/planet-defense-railgun.png', countID: 'def-railgun-count' },
-        { id: 'def-rocket', tooltip: 'Rocket Launchers', imgSrc: '../static/assets/planet-defense-rocket.png', countID: 'def-rocket-count' },
-        { id: 'def-laser', tooltip: 'Laser Turrets', imgSrc: '../static/assets/planet-defense-laser.png', countID: 'def-laser-count' },
-        { id: 'def-ion', tooltip: 'Ion Turrets', imgSrc: '../static/assets/planet-defense-ion.png', countID: 'def-ion-count' },
-        { id: 'def-plasma', tooltip: 'Plasma Turrets', imgSrc: '../static/assets/planet-defense-plasma.png', countID: 'def-plasma-count' },
-        { id: 'def-disruptor', tooltip: 'Disruptor Turrets', imgSrc: '../static/assets/planet-defense-disruptor.png', countID: 'def-disruptor-count' },
-        { id: 'def-s-shield', tooltip: 'Small Shield Generator', imgSrc: '../static/assets/planet-defense-s-shield.png', countID: 'def-s-shield-count' },
-        { id: 'def-m-shield', tooltip: 'Large Shield Generator', imgSrc: '../static/assets/planet-defense-m-shield.png', countID: 'def-m-shield-count' },
-        { id: 'def-l-shield', tooltip: 'Planetary Shield Generator', imgSrc: '../static/assets/planet-defense-l-shield.png', countID: 'def-l-shield-count' },
+        { id: 'def-aa', tooltip: 'AA Guns', imgSrc: '../static/assets/planet-defense-aa.png', description: 'AA Guns are small and not very strong, but they are very cheap and can be constructed en masse.' },
+        { id: 'def-railgun', tooltip: 'Railgun Turrets', imgSrc: '../static/assets/planet-defense-railgun.png', description: 'Railgun turrets use electromagnets to launch hypersonic slugs at the enemy.' },
+        { id: 'def-rocket', tooltip: 'Rocket Launchers', imgSrc: '../static/assets/planet-defense-rocket.png', description: 'Rocket Launchers are able to launch surface-to-orbit missiles tipped with nukes at enemy capital ships.' },
+        { id: 'def-laser', tooltip: 'Laser Turrets', imgSrc: '../static/assets/planet-defense-laser.png', description: 'Laser turrets are ideal to use against small- or midsized ships due to their comparatively low cost and high output.' },
+        { id: 'def-ion', tooltip: 'Ion Turrets', imgSrc: '../static/assets/planet-defense-ion.png', description: 'Ion turrets have the same raw power as lasers, but sacrifice armor for shield strength.' },
+        { id: 'def-plasma', tooltip: 'Plasma Turrets', imgSrc: '../static/assets/planet-defense-plasma.png', description: 'Plasma turrets launch large plasma bolts against medium and large ships to melt their armor away.' },
+        { id: 'def-disruptor', tooltip: 'Disruptor Turrets', imgSrc: '../static/assets/planet-defense-disruptor.png', description: 'Disruptor turrets can be used to rapidly disassemble even large capital ships in orbit.' },
+        { id: 'def-s-shield', tooltip: 'Small Shield', imgSrc: '../static/assets/planet-defense-s-shield.png', description: 'A small shield generator that can protect the area surrounding it from the enemy. Only one can be built.' },
+        { id: 'def-m-shield', tooltip: 'Large Shield', imgSrc: '../static/assets/planet-defense-m-shield.png', description: 'A large shield generator that can protect large regions from the enemy. Only one can be built.' },
+        { id: 'def-l-shield', tooltip: 'Planetary Shield', imgSrc: '../static/assets/planet-defense-l-shield.png', description: 'A gigantic shield generator that can protect the entire planet from the enemy. Only one can be built.' },
     ];
-  
-    const defenseHTML = defenses.map(defense => generateDefenseHTML(defense.id, defense.tooltip, defense.imgSrc, defense.countID)).join('')
-    return `<div style="display: grid; grid-template-columns: repeat(5, 150px); grid-gap: 20px; justify-content: left; background: var(--background-color); z-index: 1">
+    
+    const defenseHTML = defenses.map(defense => generateDefenseHTML(defense.id, defense.tooltip, defense.imgSrc)).join('')
+    const defenseInfoHTML = defenses.map(defense => generateDefenseInformationBox(jsonResponse, defense.id, defense.imgSrc, defense.tooltip, defense.description)).join('')
+    return `
+    <div id="information-box-container" style="justify-content: center; display: flex;">
+        ${defenseInfoHTML}
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(5, 150px); grid-gap: 20px; justify-content: left; background: var(--background-color); z-index: 1">
         ${defenseHTML}
     </div>`
 }
@@ -297,7 +359,7 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
             document.getElementById("bld-terraformer-count")!.innerHTML = jsonResponse.bld_terraformer.toLocaleString()
         }
         else if (page_name == "defense") {
-            document.getElementById("main-content")!.innerHTML += generateDefenseGrid()
+            document.getElementById("main-content")!.innerHTML += generateDefenseGrid(jsonResponse)
 
             document.getElementById("def-aa-count")!.innerHTML = `${jsonResponse.def_aa}`
             document.getElementById("def-railgun-count")!.innerHTML = `${jsonResponse.def_railgun}`

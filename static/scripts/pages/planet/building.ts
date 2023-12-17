@@ -11,7 +11,7 @@ enum Buildings {
     TERRAFORMER     = 10
 }
 
-function _getCookie (name: string): string | null {
+function getCookie_0 (name: string): string | null {
     const cookies = document.cookie.split('; ');
 
     for (const cookie of cookies) {
@@ -24,7 +24,7 @@ function _getCookie (name: string): string | null {
 async function sendPlanetBuildingRequest(id: string): Promise<void> {
     const urlParams = new URLSearchParams(window.location.search)
     const planetID = urlParams.get('planet')
-    const token = _getCookie("Authorization");
+    const token = getCookie_0("Authorization");
     const headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
