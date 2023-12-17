@@ -166,9 +166,11 @@ class Planet():
         conn.close()
 
         ### Save all fleets related to this planet, because we nearly never store them on their own.
-        self.stationed_fleet.save_to_db()
-        for fleet in self.inbound_fleets: fleet.save_to_db()
-        for fleet in self.outbound_fleets: fleet.save_to_db()
+        self.stationed_fleet.save_to_db() if self.stationed_fleet is not None else ...
+        if (self.inbound_fleets is not None) and (self.inbound_fleets != []):
+            for fleet in self.inbound_fleets: fleet.save_to_db()
+        if (self.outbound_fleets is not None) and (self.outbound_fleets != []):
+            for fleet in self.outbound_fleets: fleet.save_to_db()
     
     @staticmethod
     def get_from_db_by_owner(owner_id: int) -> 'Planet':
