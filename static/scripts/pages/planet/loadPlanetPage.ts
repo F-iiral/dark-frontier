@@ -18,16 +18,75 @@ function getResourceColor(value: number, max_value: number): string {
     return "var(--text-color)"
 }
 
-function generateBuildingHTML(id: string, tooltip: string, imgSrc: string, countID: string): string {
+function generateInformationBox(jsonResponse: any, id: string, imgSrc: string, name: string, description: string): string {
+    const buildingMapping: Record<string, [number[], number]> = {
+        ['bld-metal-mine']: [[0, 1, 1], 480],
+        ['bld-crystal-mine']: [[1, 0, 1], 480],
+        ['bld-gas-mine']: [[1, 1, 0], 480],
+        ['bld-factory']: [[0, 1, 1], 240],
+        ['bld-shipyard']: [[1, 0, 1], 240],
+        ['bld-metal-storage']: [[1, 1, 0], 240],
+        ['bld-crystal-storage']: [[1, 1, 0.5], 720],
+        ['bld-gas-storage']: [[1, 0.5, 1], 480],
+        ['bld-laboratory']: [[0.5, 1, 1], 480],
+        ['bld-terraformer']: [[1, 1, 1], 720],
+    };
+    const buildingInfo = buildingMapping[id]
+
+    let metalCost = 0
+    let crystalCost = 0
+    let gasCost = 0
+    if (buildingInfo) {
+        const [buildingResources, buildingCostMult] = buildingInfo
+        const buildingCost = Math.round(buildingCostMult * Math.pow(1.4142135, jsonResponse[`${id.replace(/-/g, '_')}`]) / (jsonResponse.bld_factory + 1))
+        metalCost = buildingCost * buildingResources[0]
+        crystalCost = buildingCost * buildingResources[1]
+        gasCost = buildingCost * buildingResources[2]
+    }
+
+    return `<div id="${id}-information-box" class="planet-information-box">
+    <div style="display: flex;">
+            <div style="margin: 10px;">
+                <img src="${imgSrc}">
+                <p style="font-weight: bold;">${name}</p>
+            </div>
+            <div>
+                <p>${description}</p>
+                <hr />
+                <div style="display: flex;">
+                    <div>
+                        <p style="font-size: 12px;">${metalCost.toLocaleString()} Metals</p>
+                        <p style="font-size: 12px;">${crystalCost.toLocaleString()} Gas</p>
+                        <p style="font-size: 12px;">${gasCost.toLocaleString()} Crystals</p>
+                        <div style="display: block;">
+                            <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;">info</i>
+                            <p style="font-size: 12px; position:absolute; left: 164px; bottom: -8px;">Technical Details</p>
+                        </div>
+                    </div>
+                    <div class="upgrade-btn-container">
+                        <div class="upgrade-input-container">
+                            <span class="upgrade-input-desc">Level</span>
+                            <input type="number" value="0">
+                        </div>
+                        <br>
+                        <a class="planet-button" id="${id}-upgrade-button" onclick="sendPlanetBuildingRequest('${id}')">Upgrade</a>
+                    </div>                 
+                </div>
+            </div>
+        </div>
+    </div>`
+}
+
+function generateBuildingHTML(id: string, tooltip: string, imgSrc: string): string {
     return `
     <div class="image-container-128px">
         <div>
-            <div class="image-overlay-128px tooltip">
+            <div class="image-overlay-128px tooltip" onclick="showBuildingInformation('${id}')">
                 <div class="tooltiptext">${tooltip}</div>
             </div>
             <img src="${imgSrc}" />
             <div style="float: left; width: 0px;">
-                <span id="${countID}" class="image-text-inside-128px">0</span>
+                <span id="${id}-count" class="image-text-inside-128px">0</span>
             </div>
         </div>
     </div>
@@ -79,22 +138,29 @@ function generateTechnologyHTML(id: string, tooltip: string, imgSrc: string, cou
     `
 }
   
-function generateBuildingGrid(): string {
+function generateBuildingGrid(jsonResponse: any): string {
     const buildings = [
-        { id: 'bld-metal-mine', tooltip: 'Metal Mine', imgSrc: '../static/assets/planet-building-metal-mine.png', countID: 'bld-metal-mine-count' },
-        { id: 'bld-crystal-mine', tooltip: 'Crystal Mine', imgSrc: '../static/assets/planet-building-crystal-mine.png', countID: 'bld-crystal-mine-count' },
-        { id: 'bld-gas-mine', tooltip: 'Gas Extractor', imgSrc: '../static/assets/planet-building-gas-mine.png', countID: 'bld-gas-mine-count' },
-        { id: 'bld-factory', tooltip: 'Factory', imgSrc: '../static/assets/planet-building-factory.png', countID: 'bld-factory-count' },
-        { id: 'bld-shipyard', tooltip: 'Shipyard', imgSrc: '../static/assets/planet-building-shipyard.png', countID: 'bld-shipyard-count' },
-        { id: 'bld-metal-storage', tooltip: 'Metal Storage', imgSrc: '../static/assets/planet-building-metal-storage.png', countID: 'bld-metal-storage-count' },
-        { id: 'bld-crystal-storage', tooltip: 'Crystal Storage', imgSrc: '../static/assets/planet-building-crystal-storage.png', countID: 'bld-crystal-storage-count' },
-        { id: 'bld-gas-storage', tooltip: 'Gas Storage', imgSrc: '../static/assets/planet-building-gas-storage.png', countID: 'bld-gas-storage-count' },
-        { id: 'bld-laboratory', tooltip: 'Laboratory', imgSrc: '../static/assets/planet-building-laboratory.png', countID: 'bld-laboratory-count' },
-        { id: 'bld-terraformer', tooltip: 'Terraformer', imgSrc: '../static/assets/planet-building-terraformer.png', countID: 'bld-terraformer-count' },
+        { id: 'bld-metal-mine', tooltip: 'Metal Refinery', imgSrc: '../static/assets/planet-building-metal-mine.png', description: 'This mine produces useable metals from various ores, with production increasing with each level.' },
+        { id: 'bld-crystal-mine', tooltip: 'Crystal Mine', imgSrc: '../static/assets/planet-building-crystal-mine.png', description: 'This mine mines useable crystals from the ground, with production increasing with each level.' },
+        { id: 'bld-gas-mine', tooltip: 'Gas Extractor', imgSrc: '../static/assets/planet-building-gas-mine.png', description: 'This mine extracts useable gases from the ocean, with production increasing with each level.' },
+        { id: 'bld-factory', tooltip: 'Factory', imgSrc: '../static/assets/planet-building-factory.png', description: 'The factory drastically reduces the resources required to upgrade all other buildings.' },
+        { id: 'bld-shipyard', tooltip: 'Shipyard', imgSrc: '../static/assets/planet-building-shipyard.png', description: 'A shipyard allows you to produce ships, with each upgrade increasing the size of ships and speed of construction.' },
+        { id: 'bld-metal-storage', tooltip: 'Metal Depot', imgSrc: '../static/assets/planet-building-metal-storage.png', description: 'This depot stores metals produced by the metal refinery. Upgrades increase storage capacity.' },
+        { id: 'bld-crystal-storage', tooltip: 'Crystal Depot', imgSrc: '../static/assets/planet-building-crystal-storage.png', description: 'This depot stores crystals produced by the crystal mine. Upgrades increase storage capacity.' },
+        { id: 'bld-gas-storage', tooltip: 'Gas Storage', imgSrc: '../static/assets/planet-building-gas-storage.png', description: 'This depot stores gases produced by the gas extractor. Upgrades incerases storage capacity.' },
+        { id: 'bld-laboratory', tooltip: 'Laboratory', imgSrc: '../static/assets/planet-building-laboratory.png', description: 'The laboratory enables you to conduct research on emerging technologies or enhance existing ones.' },
+        { id: 'bld-terraformer', tooltip: 'Terraformer', imgSrc: '../static/assets/planet-building-terraformer.png', description: 'The terraformer allows you to construct additional buildings after the entire planet has been covered.' },
     ];
   
-    const buildingHTML = buildings.map(building => generateBuildingHTML(building.id, building.tooltip, building.imgSrc, building.countID)).join('')
-    return `<div style="display: grid; grid-template-columns: repeat(5, 150px); grid-gap: 20px; justify-content: left;">${buildingHTML}</div>`
+    const buildingHTML = buildings.map(building => generateBuildingHTML(building.id, building.tooltip, building.imgSrc)).join('')
+    const buildingInfoHTML = buildings.map(building => generateInformationBox(jsonResponse, building.id, building.imgSrc, building.tooltip, building.description)).join('')
+    return `
+    <div id="information-box-container" style="justify-content: center; display: flex;">
+        ${buildingInfoHTML}
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(5, 150px); grid-gap: 20px; justify-content: left; background: var(--background-color); z-index: 1; position: sticky;">
+        ${buildingHTML}
+    </div>`
 }
 function generateDefenseGrid(): string {
     const defenses = [
@@ -111,7 +177,9 @@ function generateDefenseGrid(): string {
     ];
   
     const defenseHTML = defenses.map(defense => generateDefenseHTML(defense.id, defense.tooltip, defense.imgSrc, defense.countID)).join('')
-    return `<div style="display: grid; grid-template-columns: repeat(5, 150px); grid-gap: 20px; justify-content: left;">${defenseHTML}</div>`
+    return `<div style="display: grid; grid-template-columns: repeat(5, 150px); grid-gap: 20px; justify-content: left; background: var(--background-color); z-index: 1">
+        ${defenseHTML}
+    </div>`
 }
 function generateShipGrid(): string {
     const militaryShips = [
@@ -141,10 +209,10 @@ function generateShipGrid(): string {
     const civilianShipsHTML = civilianShips.map(ship => generateShipHTML(ship.id, ship.tooltip, ship.imgSrc, ship.countID)).join('')
     return `
      <div style="display: flex;">
-         <div style="display: grid; grid-template-columns: repeat(4, 104px); grid-gap: 20px; justify-content: left;">
+         <div style="display: grid; grid-template-columns: repeat(4, 104px); grid-gap: 20px; justify-content: left; background: var(--background-color); z-index: 1">
             ${militaryShipsHTML}
          </div>
-         <div style="margin-left: 70px; display: grid; grid-template-columns: repeat(2, 104px); grid-gap: 20px; justify-content: left;">
+         <div style="margin-left: 70px; display: grid; grid-template-columns: repeat(2, 104px); grid-gap: 20px; justify-content: left; background: var(--background-color); z-index: 1">
             ${civilianShipsHTML}
          </div>
      </div>
@@ -170,7 +238,9 @@ function generateTechnologyGrid(): string {
     ];
   
     const defenseHTML = technologies.map(technologies => generateTechnologyHTML(technologies.id, technologies.tooltip, technologies.imgSrc, technologies.countID)).join('')
-    return `<div style="display: grid; grid-template-columns: repeat(5, 104px); grid-gap: 20px; justify-content: center;">${defenseHTML}</div>`
+    return `<div style="display: grid; grid-template-columns: repeat(5, 104px); grid-gap: 20px; justify-content: center; background: var(--background-color); z-index: 1">
+        ${defenseHTML}
+    </div>`
 }
 
 async function loadPlanetPage (planetID: number, page_name: string): Promise<void> {
@@ -213,7 +283,7 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
             document.getElementById("planet-temperature")!.innerHTML = `${jsonResponse.temperature} C°`
         }
         else if (page_name == "buildings") {
-            document.getElementById("main-content")!.innerHTML += generateBuildingGrid()
+            document.getElementById("main-content")!.innerHTML += generateBuildingGrid(jsonResponse)
 
             document.getElementById("bld-metal-mine-count")!.innerHTML = jsonResponse.bld_metal_mine.toLocaleString()
             document.getElementById("bld-crystal-mine-count")!.innerHTML = jsonResponse.bld_crystal_mine.toLocaleString()
