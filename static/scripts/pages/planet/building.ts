@@ -12,14 +12,14 @@ enum Buildings {
 }
 
 function getCookie_0 (name: string): string | null {
-    const cookies = document.cookie.split('; ');
+    const cookies = document.cookie.split('; ')
 
     for (const cookie of cookies) {
-        const [cookieName, cookieValue] = cookie.split('=');
-        if (cookieName === name) { return cookieValue; }
+        const [cookieName, cookieValue] = cookie.split('=')
+        if (cookieName === name) { return cookieValue }
     }
-    return null;
-};
+    return null
+}
 
 async function sendPlanetBuildingRequest(id: string): Promise<void> {
     const urlParams = new URLSearchParams(window.location.search)

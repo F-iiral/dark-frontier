@@ -1,12 +1,12 @@
 function getCookie (name: string): string | null {
-    const cookies = document.cookie.split('; ');
+    const cookies = document.cookie.split('; ')
 
     for (const cookie of cookies) {
-        const [cookieName, cookieValue] = cookie.split('=');
-        if (cookieName === name) { return cookieValue; }
+        const [cookieName, cookieValue] = cookie.split('=')
+        if (cookieName === name) { return cookieValue }
     }
-    return null;
-};
+    return null
+}
 
 function getResourceColor(value: number, max_value: number): string {
     if (value >= max_value * 0.99) {
@@ -133,6 +133,78 @@ function generateDefenseInformationBox(jsonResponse: any, id: string, imgSrc: st
         </div>
     </div>`
 }
+function generateShipInformationBox(jsonResponse: any, id: string, imgSrc: string, name: string, description: string): string {
+    const shipMapping: Record<string, [number[], number]> = {
+        ["ship-fighter"]: [[0.5, 1, 0.5], 6000],
+        ["ship-interceptor"]: [[0.5, 0.5, 1.0], 6000],
+        ["ship-tac-bomber"]: [[1, 0.5, 0.5], 6000],
+        ["ship-str-bomber"]: [[1, 0.5, 0.5], 30000],
+        ["ship-frigate"]: [[1, 0.8, 0.2], 180000],
+        ["ship-destroyer"]: [[1, 0.7, 0.5], 725000],
+        ["ship-cruiser"]: [[1, 0.7, 0.5], 2500000],
+        ["ship-battlecruiser"]: [[1, 0.7, 0.5], 3800000],
+        ["ship-battleship"]: [[1, 0.8, 1.5], 15000000],
+        ["ship-escort-carrier"]: [[0.7, 1, 0.5], 2500000],
+        ["ship-fleet-carrier"]: [[0.7, 1, 0.5], 15000000],
+        ["ship-titan"]: [[1, 0.8, 0.5], 180000000],
+        ["ship-sattelites"]: [[0, 1, 0.25], 6000],
+        ["ship-small-cargo"]: [[0.6, 0.6, 1], 30000],
+        ["ship-large-cargo"]: [[0.6, 0.6, 1], 725000],
+        ["ship-colony-ship"]: [[1, 0.5, 0.7], 30000],
+        ["ship-science-ship"]: [[1, 0.5, 0.7], 30000],
+        ["ship-construction-ship"]: [[1, 0.5, 0.7], 30000],
+    };
+    const shipInfo = shipMapping[id]
+
+    let metalCost = 0
+    let crystalCost = 0
+    let gasCost = 0
+    let amount = 1
+    console.log(shipInfo)
+    if (shipInfo) {
+        const [shipResources, shipCostMult] = shipInfo
+        const shipCost = Math.round((shipCostMult * amount) / Math.log2(jsonResponse.bld_shipyard + 1))
+        metalCost = shipCost * shipResources[0]
+        crystalCost = shipCost * shipResources[1]
+        gasCost = shipCost * shipResources[2]
+    }
+
+    // To Do: Make this display the total cost, not the one per unit
+    // To Do: Make this display if one can afford it or not
+    return `<div id="${id}-information-box" class="planet-information-box">
+    <div style="display: flex;">
+            <div style="margin: 16px;">
+                <div style="width: 118px;">
+                    <img src="${imgSrc}">
+                    <p style="font-weight: bold;">${name}</p>
+                </div>
+            </div>
+            <div>
+                <p>${description}</p>
+                <hr />
+                <div style="display: flex;">
+                    <div>
+                        <p style="font-size: 12px;">${metalCost.toLocaleString()} Metal per Unit</p>
+                        <p style="font-size: 12px;">${crystalCost.toLocaleString()} Gas per Unit</p>
+                        <p style="font-size: 12px;">${gasCost.toLocaleString()} Crystals per Unit</p>
+                        <div style="display: block;">
+                            <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;">info</i>
+                            <p style="font-size: 12px; position:absolute; left: 164px; bottom: -8px;">Technical Details</p>
+                        </div>
+                    </div>
+                    <div class="upgrade-btn-container">
+                        <div class="upgrade-input-container">
+                            <input id="${id}-input-amount" type="number" value="0">
+                            <span class="upgrade-input-desc">Amount</span>
+                        </div>
+                        <br>
+                        <a class="planet-button" id="${id}-upgrade-button" onclick="sendPlanetDefenseRequest('${id}')">Upgrade</a>
+                    </div>                 
+                </div>
+            </div>
+        </div>
+    </div>`
+}
 
 function generateBuildingHTML(id: string, tooltip: string, imgSrc: string): string {
     return `
@@ -164,16 +236,16 @@ function generateDefenseHTML(id: string, tooltip: string, imgSrc: string): strin
     </div>
     `
 }
-function generateShipHTML(id: string, tooltip: string, imgSrc: string, countID: string): string {
+function generateShipHTML(id: string, tooltip: string, imgSrc: string): string {
     return `
       <div class="image-container-80px">
         <div>
-          <div class="image-overlay-80px tooltip">
+          <div class="image-overlay-80px tooltip" onclick="showShipInformation('${id}')">
             <div class="tooltiptext">${tooltip}</div>
           </div>
           <img src="${imgSrc}" />
           <div style="float: left; width: 0px;">
-            <span id="${countID}" class="image-text-inside-80px">0</span>
+            <span id="${id}-count" class="image-text-inside-80px">0</span>
           </div>
         </div>
       </div>
@@ -243,41 +315,45 @@ function generateDefenseGrid(jsonResponse: any): string {
         ${defenseHTML}
     </div>`
 }
-function generateShipGrid(): string {
-    const militaryShips = [
-        { id: 'ship-fighter', tooltip: 'Fighter', imgSrc: '../static/assets/planet-shipyard-fighter-icon.png', countID: 'ship-fighter-count' },
-        { id: 'ship-interceptor', tooltip: 'Interceptor', imgSrc: '../static/assets/planet-shipyard-interceptor-icon.png', countID: 'ship-interceptor-count' },
-        { id: 'ship-tac-bomber', tooltip: 'Bomber', imgSrc: '../static/assets/planet-shipyard-tac-bomber-icon.png', countID: 'ship-tac-bomber-count' },
-        { id: 'ship-str-bomber', tooltip: 'Strategic Bomber', imgSrc: '../static/assets/planet-shipyard-str-bomber-icon.png', countID: 'ship-str-bomber-count' },
-        { id: 'ship-frigate', tooltip: 'Frigate', imgSrc: '../static/assets/planet-shipyard-frigate-icon.png', countID: 'ship-frigate-count' },
-        { id: 'ship-destroyer', tooltip: 'Destroyer', imgSrc: '../static/assets/planet-shipyard-destroyer-icon.png', countID: 'ship-destroyer-count' },
-        { id: 'ship-cruiser', tooltip: 'Cruiser', imgSrc: '../static/assets/planet-shipyard-cruiser-icon.png', countID: 'ship-cruiser-count' },
-        { id: 'ship-escort-carrier', tooltip: 'Escort Carrier', imgSrc: '../static/assets/planet-shipyard-escort-carrier-icon.png', countID: 'ship-escort-carrier-count' },
-        { id: 'ship-battlecruiser', tooltip: 'Battlecruiser', imgSrc: '../static/assets/planet-shipyard-battlecruiser-icon.png', countID: 'ship-battlecruiser-count' },
-        { id: 'ship-battleship', tooltip: 'Battleship', imgSrc: '../static/assets/planet-shipyard-battleship-icon.png', countID: 'ship-battleship-count' },
-        { id: 'ship-fleet-carrier', tooltip: 'Fleet Carrier', imgSrc: '../static/assets/planet-shipyard-fleet-carrier-icon.png', countID: 'ship-fleet-carrier-count' },
-        { id: 'ship-titan', tooltip: 'Titan', imgSrc: '../static/assets/planet-shipyard-titan-icon.png', countID: 'ship-titan-count' },
+function generateShipGrid(jsonResponse: any): string {
+    var militaryShips = [
+        { id: 'ship-fighter', tooltip: 'Fighter', imgSrc: '../static/assets/planet-shipyard-fighter-icon.png', description: 'Fighters are small but cheap craft that can be produced easily to escort larger fleet groups.' },
+        { id: 'ship-interceptor', tooltip: 'Interceptor', imgSrc: '../static/assets/planet-shipyard-interceptor-icon.png', description: 'Interceptors are an evolution of fighters that focuses on speed, making them much faster and more agile.' },
+        { id: 'ship-tac-bomber', tooltip: 'Bomber', imgSrc: '../static/assets/planet-shipyard-tac-bomber-icon.png', description: 'Bombers are designed to carry nukes and other big weapons to destroy capital ships with raw firepower.' },
+        { id: 'ship-str-bomber', tooltip: 'Strategic Bomber', imgSrc: '../static/assets/planet-shipyard-str-bomber-icon.png', description: 'Strategic bombers were designed to carry out long distance bombing runs on other planets.' },
+        { id: 'ship-frigate', tooltip: 'Frigate', imgSrc: '../static/assets/planet-shipyard-frigate-icon.png', description: 'Frigates are ideal for interstellar patrol duties and planetary defense forces.' },
+        { id: 'ship-destroyer', tooltip: 'Destroyer', imgSrc: '../static/assets/planet-shipyard-destroyer-icon.png', description: 'Destroyers form the backbone of any interstellar strike force, as they are fast and can operate as escorts.' },
+        { id: 'ship-cruiser', tooltip: 'Cruiser', imgSrc: '../static/assets/planet-shipyard-cruiser-icon.png', description: 'Cruisers are large enough to operate independently and cross galactic distances without refueling at all.' },
+        { id: 'ship-escort-carrier', tooltip: 'Escort Carrier', imgSrc: '../static/assets/planet-shipyard-escort-carrier-icon.png', description: 'Escort Carriers were designed to transport small Fighters that cannot cross interstellar distances themselves.' },
+        { id: 'ship-battlecruiser', tooltip: 'Battlecruiser', imgSrc: '../static/assets/planet-shipyard-battlecruiser-icon.png', description: 'Battlecruisers were designed to outgun everything they cant run from and outrun anything they do not outgun.' },
+        { id: 'ship-battleship', tooltip: 'Battleship', imgSrc: '../static/assets/planet-shipyard-battleship-icon.png', description: 'Battleships carry heavy guns, are well armored and have strong shields, making them the flagship of an interstellar strike force.' },
+        { id: 'ship-fleet-carrier', tooltip: 'Fleet Carrier', imgSrc: '../static/assets/planet-shipyard-fleet-carrier-icon.png', description: 'Fleet Carriers are a larger version of the Escort Carries and are fast enough to keep pace with Cruisers.' },
+        { id: 'ship-titan', tooltip: 'Titan', imgSrc: '../static/assets/planet-shipyard-titan-icon.png', description: 'Titans are gigantic and ludicrously expensive flagships only few can afford. They are a navy\'s pride.' },
     ]
-    const civilianShips = [
-        { id: 'ship-small-cargo', tooltip: 'Small Cargoship', imgSrc: '../static/assets/planet-shipyard-small-cargo-icon.png', countID: 'ship-small-cargo-count' },
-        { id: 'ship-large-cargo', tooltip: 'Large Cargoship', imgSrc: '../static/assets/planet-shipyard-large-cargo-icon.png', countID: 'ship-large-cargo-count' },
-        { id: 'ship-sattelites', tooltip: 'Sattelites', imgSrc: '../static/assets/planet-shipyard-sattelites-icon.png', countID: 'ship-sattelites-count' },
-        { id: 'ship-colony-ship', tooltip: 'Colony Ship', imgSrc: '../static/assets/planet-shipyard-colony-ship-icon.png', countID: 'ship-colony-ship-count' },
-        { id: 'ship-science-ship', tooltip: 'Science Ship', imgSrc: '../static/assets/planet-shipyard-science-ship-icon.png', countID: 'ship-science-ship-count' },
-        { id: 'ship-construction-ship', tooltip: 'Construction Ship', imgSrc: '../static/assets/planet-shipyard-construction-ship-icon.png', countID: 'ship-construction-ship-count' },
+    var civilianShips = [
+        { id: 'ship-small-cargo', tooltip: 'Small Cargoship', imgSrc: '../static/assets/planet-shipyard-small-cargo-icon.png', description: 'Small Cargoships allow trade between different planets and stars in your empire.' },
+        { id: 'ship-large-cargo', tooltip: 'Large Cargoship', imgSrc: '../static/assets/planet-shipyard-large-cargo-icon.png', description: 'A larger cargo vessel was needed, and so the Large Cargoship was created. It can cross galactic distances.' },
+        { id: 'ship-sattelites', tooltip: 'Satellites', imgSrc: '../static/assets/planet-shipyard-sattelites-icon.png', description: 'Satellites can be used for many purposes, ranging from power generation to spying on others.' },
+        { id: 'ship-colony-ship', tooltip: 'Colony Ship', imgSrc: '../static/assets/planet-shipyard-colony-ship-icon.png', description: 'Colony ships carry colonists to distant planets to expand your empire across the entire Galaxy.' },
+        { id: 'ship-science-ship', tooltip: 'Science Ship', imgSrc: '../static/assets/planet-shipyard-science-ship-icon.png', description: 'Science ships can be used to explore deep space and return valuable resources from it.' },
+        { id: 'ship-construction-ship', tooltip: 'Construction Ship', imgSrc: '../static/assets/planet-shipyard-construction-ship-icon.png', description: 'Construction ships can aid in resource production and can be used to create megastructures for your alliance.' },
     ];
-  
-    const militaryShipsHTML = militaryShips.map(ship => generateShipHTML(ship.id, ship.tooltip, ship.imgSrc, ship.countID)).join('')
-    const civilianShipsHTML = civilianShips.map(ship => generateShipHTML(ship.id, ship.tooltip, ship.imgSrc, ship.countID)).join('')
+
+    const militaryShipsHTML = militaryShips.map(ship => generateShipHTML(ship.id, ship.tooltip, ship.imgSrc)).join('')
+    const civilianShipsHTML = civilianShips.map(ship => generateShipHTML(ship.id, ship.tooltip, ship.imgSrc)).join('')
+    const shipInfoHTML = civilianShips.concat(militaryShips).map(ship => generateShipInformationBox(jsonResponse, ship.id, ship.imgSrc, ship.tooltip, ship.description)).join('')
     return `
-     <div style="display: flex;">
-         <div style="display: grid; grid-template-columns: repeat(4, 104px); grid-gap: 20px; justify-content: left; background: var(--background-color); z-index: 1">
+    <div id="information-box-container" style="justify-content: center; display: flex;">
+        ${shipInfoHTML}
+    </div>
+    <div style="display: flex; background: var(--background-color); z-index: 1; margin: 20px;">
+        <div style="display: grid; grid-template-columns: repeat(4, 104px); grid-gap: 20px; justify-content: left">
             ${militaryShipsHTML}
-         </div>
-         <div style="margin-left: 70px; display: grid; grid-template-columns: repeat(2, 104px); grid-gap: 20px; justify-content: left; background: var(--background-color); z-index: 1">
+        </div>
+        <div style="margin-left: 70px; display: grid; grid-template-columns: repeat(2, 104px); grid-gap: 20px; justify-content: left">
             ${civilianShipsHTML}
-         </div>
-     </div>
+        </div>
+    </div>
     `
 }
 function generateTechnologyGrid(): string {
@@ -373,7 +449,7 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
             document.getElementById("def-l-shield-count")!.innerHTML = `${jsonResponse.def_l_shield}`
         }
         else if (page_name == "shipyard") {
-            document.getElementById("main-content")!.innerHTML += generateShipGrid()
+            document.getElementById("main-content")!.innerHTML += generateShipGrid(jsonResponse)
 
             if (jsonResponse.stationed_fleet !== null) {
                 document.getElementById("ship-fighter-count")!.innerHTML = `${jsonResponse.stationed_fleet.fighters}`
