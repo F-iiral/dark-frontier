@@ -7,8 +7,8 @@ Python- (backend) and TypeScript- (frontend) -based online browser game.
 ### Frontend
 - [x] Add missing assets to every page.
 - [ ] Add functionality to the `/planet/overview` page.
-- [ ] Add functionality to the `/planet/buildings` page.
-- [ ] Add functionality to the `/planet/defenses` page.
+- [x] Add functionality to the `/planet/buildings` page.
+- [x] Add functionality to the `/planet/defenses` page.
 - [ ] Add functionality to the `/planet/shipyard` page.
 - [ ] Add functionality to the `/planet/fleet` page.
 - [ ] Add functionality to the `/planet/technology` page.
