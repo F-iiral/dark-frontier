@@ -57,8 +57,8 @@ function generateBuildingInformationBox(jsonResponse: any, id: string, imgSrc: s
                 <div style="display: flex;">
                     <div>
                         <p style="font-size: 12px;">${metalCost.toLocaleString()} Metal</p>
-                        <p style="font-size: 12px;">${crystalCost.toLocaleString()} Gas</p>
-                        <p style="font-size: 12px;">${gasCost.toLocaleString()} Crystals</p>
+                        <p style="font-size: 12px;">${crystalCost.toLocaleString()} Crystals</p>
+                        <p style="font-size: 12px;">${gasCost.toLocaleString()} Gas</p>
                         <div style="display: block;">
                             <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;">info</i>
                             <p style="font-size: 12px; position:absolute; left: 164px; bottom: -8px;">Technical Details</p>
@@ -113,8 +113,8 @@ function generateDefenseInformationBox(jsonResponse: any, id: string, imgSrc: st
                 <div style="display: flex;">
                     <div>
                         <p style="font-size: 12px;">${metalCost.toLocaleString()} Metal per Unit</p>
-                        <p style="font-size: 12px;">${crystalCost.toLocaleString()} Gas per Unit</p>
-                        <p style="font-size: 12px;">${gasCost.toLocaleString()} Crystals per Unit</p>
+                        <p style="font-size: 12px;">${crystalCost.toLocaleString()} Crystals per Unit</p>
+                        <p style="font-size: 12px;">${gasCost.toLocaleString()} Gas per Unit</p>
                         <div style="display: block;">
                             <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;">info</i>
                             <p style="font-size: 12px; position:absolute; left: 164px; bottom: -8px;">Technical Details</p>
@@ -126,7 +126,7 @@ function generateDefenseInformationBox(jsonResponse: any, id: string, imgSrc: st
                             <span class="upgrade-input-desc">Amount</span>
                         </div>
                         <br>
-                        <a class="planet-button" id="${id}-upgrade-button" onclick="sendPlanetDefenseRequest('${id}')">Upgrade</a>
+                        <a class="planet-button" id="${id}-upgrade-button" onclick="sendPlanetDefenseRequest('${id}')">Construct</a>
                     </div>                 
                 </div>
             </div>
@@ -185,8 +185,8 @@ function generateShipInformationBox(jsonResponse: any, id: string, imgSrc: strin
                 <div style="display: flex;">
                     <div>
                         <p style="font-size: 12px;">${metalCost.toLocaleString()} Metal per Unit</p>
-                        <p style="font-size: 12px;">${crystalCost.toLocaleString()} Gas per Unit</p>
-                        <p style="font-size: 12px;">${gasCost.toLocaleString()} Crystals per Unit</p>
+                        <p style="font-size: 12px;">${crystalCost.toLocaleString()} Crystals per Unit</p>
+                        <p style="font-size: 12px;">${gasCost.toLocaleString()} Gas per Unit</p>
                         <div style="display: block;">
                             <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;">info</i>
                             <p style="font-size: 12px; position:absolute; left: 164px; bottom: -8px;">Technical Details</p>
@@ -198,7 +198,7 @@ function generateShipInformationBox(jsonResponse: any, id: string, imgSrc: strin
                             <span class="upgrade-input-desc">Amount</span>
                         </div>
                         <br>
-                        <a class="planet-button" id="${id}-upgrade-button" onclick="sendPlanetDefenseRequest('${id}')">Upgrade</a>
+                        <a class="planet-button" id="${id}-upgrade-button" onclick="sendPlanetShipyardRequest('${id}')">Construct</a>
                     </div>                 
                 </div>
             </div>
