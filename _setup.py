@@ -6,10 +6,9 @@ import base64
 import os
 import random
 from common.lite_flake_id import LiteFlakeID
-from common.enums import Badges, Activity
+from common.const import Badges, Activity, ConsoleShortcuts
 from common.lib.planet import Planet
 from common.env import SPIRAL_COUNT, STAR_COUNT
-from common.dev import ConsoleShortcuts
 
 ################################
 ### SET UP THE MAIN DATABASE ###

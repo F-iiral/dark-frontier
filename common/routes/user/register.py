@@ -6,9 +6,8 @@ import secrets
 import base64
 import random
 from flask import jsonify
-from common.dev import ConsoleShortcuts
 from common.env import SPIRAL_COUNT, STAR_COUNT
-from common.enums import Activity
+from common.const import Activity, ConsoleShortcuts
 from common.lite_flake_id import LiteFlakeID
 from common.lib.user import User
 from common.lib.planet import Planet
@@ -64,7 +63,7 @@ def store_credentials(username: str, password: str, user_id: int) -> str:
         conn.commit()
     except Exception as e:
         print(f"{ConsoleShortcuts.error()} Failed to store credentials: {e}")
-    
+
     return token
 
 def create_account(user_id) -> None:
@@ -85,6 +84,6 @@ def find_free_planet() -> Planet:
     while True:
         random_position_id = random.randint(1, SPIRAL_COUNT) * 100000 + random.randint(1, STAR_COUNT) * 100 + random.randint(1, 11)
         new_planet = Planet.get_from_db_by_id(random_position_id)
-        
+
         if new_planet.owner == None:
             return new_planet

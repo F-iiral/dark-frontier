@@ -1,5 +1,5 @@
 from common.lib.account import Account
-from common.enums import Badges
+from common.const import Badges
 from common.db_cache import DBCache
 
 def _get_account_from_token(token: str) -> Account | None:

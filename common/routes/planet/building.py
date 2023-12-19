@@ -1,12 +1,11 @@
-from flask import abort
 from common.db_cache import DBCache
-from common.enums import PlanetBuildings
+from common.const import PlanetBuildings
 
 def main(planet_id: int, building_type: int) -> tuple | int:
     planet = DBCache.get_planet(planet_id)
     if planet is None:                      return "Invalid Planet Id.", 400
     planet.update_resource_count()
-    
+
     building_mapping = {
         PlanetBuildings.METAL_MINE.value:      ("bld_metal_mine",      [0, 1, 1],   480),
         PlanetBuildings.CRYSTAL_MINE.value:    ("bld_crystal_mine",    [1, 0, 1],   480),
@@ -22,7 +21,7 @@ def main(planet_id: int, building_type: int) -> tuple | int:
     building_info = building_mapping.get(building_type)
     if building_info is None:
         return "Invalid building.", 400
-    
+
     building_name, building_resources, building_cost_mult = building_info
 
     building_cost = building_cost_mult * (1.4142135 ** planet.__getattribute__(building_name)) / (planet.bld_factory + 1)

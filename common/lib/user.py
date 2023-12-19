@@ -1,6 +1,6 @@
 import sqlite3
 from common.lib.alliance import Alliance
-from common.dev import ConsoleShortcuts
+from common.const import ConsoleShortcuts
 from common.lib.account import Account
 from common.env import FLEET_SPEED, RESOURCE_SPEED, STAR_COUNT, SPIRAL_COUNT
 
@@ -8,7 +8,7 @@ class User():
     """
     Represents a user inside the game.
     """
-    
+
     def __init__(self) -> None:
         ### Account
         self.id                 : int | None        = None
@@ -35,7 +35,7 @@ class User():
         self.tec_ion            : int       = 0
         self.tec_plasma         : int       = 0
         self.tec_disruptor      : int       = 0
-    
+
     def to_dict(self, *args):
         return {
             "id": self.id,
@@ -89,7 +89,7 @@ class User():
 
         conn.commit()
         conn.close()
-    
+
     @staticmethod
     def get_from_db_by_owner(account_id: int) -> 'User':
         conn = sqlite3.connect("database/data.sql")

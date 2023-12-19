@@ -1,6 +1,5 @@
-from flask import abort
 from common.db_cache import DBCache
-from common.enums import PlanetDefenses
+from common.const import PlanetDefenses
 
 def main(planet_id: int, defense_type: int, defense_amount: int) -> tuple:
     planet = DBCache.get_planet(planet_id)

@@ -1,6 +1,6 @@
 import sqlite3
 from common.lite_flake_id import LiteFlakeID
-from common.dev import ConsoleShortcuts
+from common.const import ConsoleShortcuts
 from common.lib.user import User
 
 class Fleet():
@@ -48,7 +48,7 @@ class Fleet():
     def __add__(self, other: 'Fleet') -> 'Fleet':
         if not isinstance(other, Fleet):
             raise TypeError(f"'Fleet' object can only be combined with 'Fleet' not {type(other)}")
-        
+
         combined_fleet = Fleet()
         combined_fleet.owner_id           = self.owner_id
         combined_fleet.owner              = self.owner
@@ -81,7 +81,7 @@ class Fleet():
     def __sub__(self, other: 'Fleet') -> 'Fleet':
         if not isinstance(other, Fleet):
             raise TypeError(f"'Fleet' object can only be combined with 'Fleet' not {type(other)}")
-        
+
         combined_fleet = Fleet()
         combined_fleet.owner_id           = self.owner_id
         combined_fleet.owner              = self.owner
@@ -165,7 +165,7 @@ class Fleet():
 
         conn.commit()
         conn.close()
-    
+
     @staticmethod
     def get_from_db_by_owner(account_id: int) -> 'Fleet':
         conn = sqlite3.connect("database/data.sql")

@@ -1,9 +1,7 @@
 import sqlite3
 import time
-import math
-from common.enums import Badges
-from common.env import FLEET_SPEED, RESOURCE_SPEED
-from common.dev import ConsoleShortcuts
+from common.const import Badges, ConsoleShortcuts
+from common.env import RESOURCE_SPEED
 from common.lib.user import User
 from common.lib.fleet import Fleet
 
@@ -171,7 +169,7 @@ class Planet():
             for fleet in self.inbound_fleets: fleet.save_to_db()
         if (self.outbound_fleets is not None) and (self.outbound_fleets != []):
             for fleet in self.outbound_fleets: fleet.save_to_db()
-    
+
     @staticmethod
     def get_from_db_by_owner(owner_id: int) -> 'Planet':
         conn = sqlite3.connect("database/data.sql")
@@ -207,7 +205,7 @@ class Planet():
         new_planet.gas_amount           = float(planet_data[4])
         new_planet.position             = [int(planet_data[5]), int(planet_data[6]), int(planet_data[7])]
         new_planet.stationed_fleet_id   = planet_data[8]
-        
+
         inbound_fleet_ids_str = planet_data[9]
         new_planet.inbound_fleet_ids    = list(map(int, inbound_fleet_ids_str.split(','))) if inbound_fleet_ids_str else []
         new_planet.inbound_fleets       = []
@@ -282,7 +280,7 @@ class Planet():
         new_planet.gas_amount           = float(planet_data[4])
         new_planet.position             = [int(planet_data[5]), int(planet_data[6]), int(planet_data[7])]
         new_planet.stationed_fleet_id   = planet_data[8]
-        
+
         inbound_fleet_ids_str = planet_data[9]
         new_planet.inbound_fleet_ids    = list(map(int, inbound_fleet_ids_str.split(','))) if inbound_fleet_ids_str else []
         new_planet.inbound_fleets       = []

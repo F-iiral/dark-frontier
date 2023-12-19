@@ -1,5 +1,5 @@
 import sqlite3
-from common.dev import ConsoleShortcuts
+from common.const import ConsoleShortcuts
 
 class Account():
     """
@@ -13,7 +13,7 @@ class Account():
         self.token          : str   = None
         self.badges         : int   = 0
         self.activity       : int   = 0
-    
+
     def to_dict(self, *args):
         """Does not return password and token for security reasons."""
         return {
@@ -34,7 +34,7 @@ class Account():
 
         conn.commit()
         conn.close()
-    
+
     @staticmethod
     def get_from_db_by_id(account_id) -> 'Account':
         conn = sqlite3.connect("database/data.sql")
@@ -78,7 +78,7 @@ class Account():
         if account_data is None:
             print(f"{ConsoleShortcuts.warn()} Could not find 'account' by name {username}.")
             return account_data
-        
+
         new_account = Account()
         new_account.id       = account_data[0]
         new_account.username = str(account_data[1])

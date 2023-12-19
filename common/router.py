@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, abort, request, Request
 from common.auth_checks import is_valid_token, is_administrator, is_moderator, is_planet_owner, is_fleet_owner, is_alliance_owner
-from common.enums import Badges
+from common.const import Badges
 import common.routes.alliance.alliance as alliance_alliance
 import common.routes.alliance.create   as alliance_create
 import common.routes.alliance.disband  as alliance_disband

@@ -160,7 +160,6 @@ function generateShipInformationBox(jsonResponse: any, id: string, imgSrc: strin
     let crystalCost = 0
     let gasCost = 0
     let amount = 1
-    console.log(shipInfo)
     if (shipInfo) {
         const [shipResources, shipCostMult] = shipInfo
         const shipCost = Math.round((shipCostMult * amount) / Math.log2(jsonResponse.bld_shipyard + 1))

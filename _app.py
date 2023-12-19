@@ -1,8 +1,7 @@
 from common.env import DEV_MODE
-from common.dev import ConsoleShortcuts
+from common.const import ConsoleShortcuts
 import common.router as router
 import os
-import time
 
 def get_file_modification_time(file_path: str) -> float:
     return os.path.getmtime(file_path)
@@ -10,7 +9,7 @@ def get_file_modification_time(file_path: str) -> float:
 def compile_ts_to_js(file_name: str) -> None:
     if not (file_name.endswith('ts')):
         return
-    
+
     ts_file_modification_time = get_file_modification_time(file_name)
     js_file_name = file_name.replace('.ts', '.js')
     file_name_end = os.path.basename(file_name)
@@ -20,10 +19,10 @@ def compile_ts_to_js(file_name: str) -> None:
         if ts_file_modification_time < js_file_modification_time:
             print(f"{ConsoleShortcuts.log()} <#> {file_name_end} -> {file_name_end.replace('.ts', '.js')}")
             return
-    
+
     command = f"tsc {file_name} --lib es2015,dom --target es5"
     result = os.system(command)
-    
+
     if result == 0:
         print(f"{ConsoleShortcuts.log()} </> {file_name_end} -> {file_name_end.replace('.ts', '.js')}")
     else:
