@@ -20,7 +20,6 @@ function getCookie_1 (name: string): string | null {
     }
     return null
 }
-
 async function sendPlanetDefenseRequest(id: string): Promise<void> {
     const urlParams = new URLSearchParams(window.location.search)
     const planetID = urlParams.get('planet')

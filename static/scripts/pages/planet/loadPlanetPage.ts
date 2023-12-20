@@ -187,7 +187,7 @@ function generateShipInformationBox(jsonResponse: any, id: string, imgSrc: strin
                         <p style="font-size: 12px;">${crystalCost.toLocaleString()} Crystals per Unit</p>
                         <p style="font-size: 12px;">${gasCost.toLocaleString()} Gas per Unit</p>
                         <div style="display: block;">
-                            <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;">info</i>
+                            <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;" onclick="showShipDetailedInformation('${id}')">info</i>
                             <p style="font-size: 12px; position:absolute; left: 164px; bottom: -8px;">Technical Details</p>
                         </div>
                     </div>
@@ -239,13 +239,13 @@ function generateShipHTML(id: string, tooltip: string, imgSrc: string): string {
     return `
       <div class="image-container-80px">
         <div>
-          <div class="image-overlay-80px tooltip" onclick="showShipInformation('${id}')">
-            <div class="tooltiptext">${tooltip}</div>
-          </div>
-          <img src="${imgSrc}" />
-          <div style="float: left; width: 0px;">
-            <span id="${id}-count" class="image-text-inside-80px">0</span>
-          </div>
+            <div class="image-overlay-80px tooltip" onclick="showShipInformation('${id}')">
+                <div class="tooltiptext">${tooltip}</div>
+            </div>
+            <img src="${imgSrc}" />
+            <div style="float: left; width: 0px;">
+                <span id="${id}-count" class="image-text-inside-80px">0</span>
+            </div>
         </div>
       </div>
     `
