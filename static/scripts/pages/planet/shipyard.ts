@@ -176,7 +176,7 @@ const ShipStatisticsRecord: Record<string, ShipStatisticsFull> = {
         armor: 4800,
         shields: 300,
         weapons: 620,
-        weaponType: ShipWeapons.LASER & ShipWeapons.PLASMA,
+        weaponType: ShipWeapons.LASER + ShipWeapons.PLASMA,
         speed: 3500,
         range: ShipRanges.GALACTIC,
         fuelUsage: 0,
@@ -244,7 +244,7 @@ const ShipStatisticsRecord: Record<string, ShipStatisticsFull> = {
         armor: 220000,
         shields: 20000,
         weapons: 30000,
-        weaponType: ShipWeapons.PLASMA & ShipWeapons.DISRUPTOR,
+        weaponType: ShipWeapons.PLASMA + ShipWeapons.DISRUPTOR,
         speed: 500,
         range: ShipRanges.GALACTIC,
         fuelUsage: 0,
@@ -458,7 +458,7 @@ function getShipStatistics(id: string): string {
         let positiveDamageMultString = ``
         let j = 0
 
-        for (let i of ShipDetails['damageMults']) {
+        for (let i of ShipDetails.damageMults) {
             if (i > 1) {
                 positiveDamageMultString += `<li>Damage against <span style="color:var(--ok-color);">${UnitMultNames[j]}</span>: ${i}x</li>`
             }
@@ -470,13 +470,29 @@ function getShipStatistics(id: string): string {
         let negativeDamageMultString = ``
         let j = 0
 
-        for (let i of ShipDetails['damageMults']) {
+        for (let i of ShipDetails.damageMults) {
             if (i < -1) {
                 negativeDamageMultString += `<li>Damage from  <span style="color:var(--error-color);">${UnitMultNames[j]}</span>: ${-i}x</li>`
             }
             j++
         }
         return negativeDamageMultString
+    }
+    function getRangeName(ShipDetails: ShipStatisticsFull): string {
+        if (ShipDetails.range == ShipRanges.INTERPLANETARY ) { return 'Interplanetary' }
+        else if (ShipDetails.range == ShipRanges.INTERSTELLAR ) { return 'Interstellar' }
+        else if (ShipDetails.range == ShipRanges.INTERSTELLAR_PLUS ) { return 'Interstellar/Galactic' }
+        else if (ShipDetails.range == ShipRanges.GALACTIC ) { return 'Galactic' }
+        else { return '' }
+    }
+    function getWeaponName(ShipDetails: ShipStatisticsFull): string {
+        let weaponName = ''
+        if ((ShipDetails.weaponType & ShipWeapons.CONVENTIONAL) == ShipWeapons.CONVENTIONAL) { weaponName += 'Conventional\n' }
+        if ((ShipDetails.weaponType & ShipWeapons.LASER) == ShipWeapons.LASER) { weaponName += 'Laser\n' }
+        if ((ShipDetails.weaponType & ShipWeapons.ION) == ShipWeapons.ION) { weaponName += 'Ion\n' }
+        if ((ShipDetails.weaponType & ShipWeapons.PLASMA) == ShipWeapons.PLASMA) { weaponName += 'Plasma\n' }
+        if ((ShipDetails.weaponType & ShipWeapons.DISRUPTOR) == ShipWeapons.DISRUPTOR) { weaponName += 'Disruptor\n' }
+        return weaponName.trim()
     }
 
     return `
@@ -487,13 +503,27 @@ function getShipStatistics(id: string): string {
         ${shipDamageMultNegative(ShipDetails)}
     </div>
     <div style="margin-top:10px;padding-left:20px;">
-        <li>Armor: ${ShipDetails['armor']}</li>
-        <li>Shields: ${ShipDetails['shields']}</li>
-        <li>Firepower: ${ShipDetails['weapons']}</li>
-        <li>Speed: ${ShipDetails['speed']}</li>
-        <li>Fuel Usage: ${ShipDetails['fuelUsage']}</li>
-        <li>Cargo Space: ${ShipDetails['cargoSpace']}</li>
-        <li>Hangar Info: ${ShipDetails['hangarSpace']} | ${ShipDetails['hangarUsage']}</li>
+        <li>Armor: ${ShipDetails.armor}</li>
+        <li>Shields: ${ShipDetails.shields}</li>
+        <li>
+            <span style="border-bottom: 1px dotted var(--text-color);">
+                Firepower: ${ShipDetails.weapons}
+                <div class="tooltip" style="position: absolute; height: 20px; width: 92px; left: 40px;">
+                    <div class="tooltiptext" style="position: absolute; white-space: pre-line;">Weapons: ${getWeaponName(ShipDetails)}</div>
+                </div>
+            </span>
+        </li>
+        <li>
+            <span style="border-bottom: 1px dotted var(--text-color);">
+                Speed: ${ShipDetails.speed}
+                <div class="tooltip" style="position: absolute; height: 20px; width: 92px; left: 40px;">
+                    <div class="tooltiptext" style="position: absolute; white-space: pre-line;">Range: ${getRangeName(ShipDetails)}</div>
+                </div>
+            </span>
+        </li>
+        <li>Fuel Usage: ${ShipDetails.fuelUsage}</li>
+        <li>Cargo Space: ${ShipDetails.cargoSpace}</li>
+        <li>Hangar Info: ${ShipDetails.hangarSpace} | ${ShipDetails.hangarUsage}</li>
     </div>
     `
 }
@@ -501,7 +531,7 @@ function showShipDetailedInformation(id: string): void {
     const elementToChange =  document.getElementById('screen-overlay')
 
     if (!elementToChange) { return }
-    if (elementToChange.className == '') {
+    if (elementToChange.className == '' && id != '') {
         elementToChange.setAttribute('class', 'screen-overlay')
         elementToChange.innerHTML = `
             <div class="detailed-information-box">
@@ -509,12 +539,12 @@ function showShipDetailedInformation(id: string): void {
                     <h2>${ShipStatisticsRecord[id]['name']} - Technical Details</h2>
                     <button onclick="showShipDetailedInformation('${id}')">x</button>
                 </div>
-                <div id="ship-info-modal">
+                <div>
                     <div>
                         <!--image is todo-->
                     </div>
-                    <div class="right-col">
-                        <div class="info">
+                    <div>
+                        <div>
                             <p>${ShipStatisticsRecord[id]['descriptionLong']}</p>
                         </div>
                         ${getShipStatistics(id)}
