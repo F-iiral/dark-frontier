@@ -44,6 +44,7 @@ STAR_CIRCLE = False
 STAR_COUNT = 500
 RESOURCE_SPEED = 1.0
 FLEET_SPEED = 1.0
+FLEET_MANAGER_DELAY = 1
 `````
 4. Run the `_setup.py` file to create the database.
 5. Run the `_app.py` file in dev mode to compile TypeScript into JavaScript.
