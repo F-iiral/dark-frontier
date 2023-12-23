@@ -1,4 +1,5 @@
 import math
+import time
 from common.lib.fleet import Fleet
 from common.db_cache import DBCache
 from common.const import FleetShips
@@ -45,13 +46,17 @@ def main(planet_id: int, ship_type: int, ship_amount: int) -> tuple:
     planet.gas_amount     -= ship_amount * ship_cost_mult * ship_resources[2]
 
     if planet.stationed_fleet is not None:
-        planet.stationed_fleet.__setattr__(ship_name, planet.stationed_fleet.__getattribute__(ship_name) + ship_amount)
+        current_amount = planet.stationed_fleet.__getattribute__(ship_name)
+        planet.stationed_fleet.__setattr__(ship_name, current_amount + ship_amount)
     else:
         new_fleet = Fleet()
-        new_fleet.owner_id = new_fleet.owner_id
+        new_fleet.owner_id = planet.owner_id
         new_fleet.owner = planet.owner
+        new_fleet.position = planet.position
         new_fleet.__setattr__(ship_name, ship_amount)
         planet.stationed_fleet = new_fleet
         planet.stationed_fleet_id = new_fleet.fleet_id
+
+        DBCache.recent_fleets[f'{new_fleet.fleet_id}'] = (new_fleet, time.time())
 
     return "Successfully constructed.", 200

@@ -14,7 +14,7 @@ class Account():
         self.badges         : int   = 0
         self.activity       : int   = 0
 
-    def to_dict(self, *args):
+    def to_dict(self, *args) -> dict:
         """Does not return password and token for security reasons."""
         return {
             "id": self.id,

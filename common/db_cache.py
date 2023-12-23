@@ -1,29 +1,35 @@
+from typing import Never as never
 from common.lib.user import User
 from common.lib.planet import Planet
 from common.lib.fleet import Fleet
+from common.const import ConsoleShortcuts
+import asyncio
 import time
 
 class DBCache():
-    recent_users  : dict[str, User] = {}
-    recent_planets: dict[str, Planet] = {}
-    recent_fleets : dict[str, Fleet] = {}
+    recent_users  : dict[str, tuple[User, float]] = {}
+    recent_planets: dict[str, tuple[Planet, float]] = {}
+    recent_fleets : dict[str, tuple[Fleet, float]] = {}
 
     @staticmethod
-    def purge_cache():
-        for item in set(DBCache.recent_users.items()):
-            if time.time() - item[1][1] > 3600:
-                item[1].save_to_db()
-                del DBCache.recent_users[item[0]]
+    async def purge_cache() -> never:
+        while True:
+            await asyncio.sleep(360)
+            print(f"{ConsoleShortcuts.log()} Purging cache.")
+            for item in set(DBCache.recent_users.items()):
+                if time.time() - item[1][1] > 10:
+                    item[1][0].save_to_db()
+                    del DBCache.recent_users[item[0]]
 
-        for item in set(DBCache.recent_planets.items()):
-            if time.time() - item[1][1] > 3600:
-                item[1].save_to_db()
-                del DBCache.recent_planets[item[0]]
+            for item in set(DBCache.recent_planets.items()):
+                if time.time() - item[1][1] > 10:
+                    item[1][0].save_to_db()
+                    del DBCache.recent_planets[item[0]]
 
-        for item in set(DBCache.recent_fleets.items()):
-            if time.time() - item[1][1] > 3600:
-                item[1].save_to_db()
-                del DBCache.recent_fleets[item[0]]
+            for item in set(DBCache.recent_fleets.items()):
+                if time.time() - item[1][1] > 10:
+                    item[1][0].save_to_db()
+                    del DBCache.recent_fleets[item[0]]
 
     @staticmethod
     def get_user(user_id: int) -> User:

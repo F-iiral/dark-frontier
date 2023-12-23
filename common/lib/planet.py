@@ -88,7 +88,7 @@ class Planet():
 
         self.last_checkout = time.time()
 
-    def to_dict(self, *args):
+    def to_dict(self, *args) -> dict:
         return {
             "owner_id": self.owner_id,
             "owner": self.owner.to_dict(),
@@ -205,6 +205,7 @@ class Planet():
         new_planet.gas_amount           = float(planet_data[4])
         new_planet.position             = [int(planet_data[5]), int(planet_data[6]), int(planet_data[7])]
         new_planet.stationed_fleet_id   = planet_data[8]
+        new_planet.stationed_fleet      = Fleet.get_from_db_by_id(new_planet.stationed_fleet_id)
 
         inbound_fleet_ids_str = planet_data[9]
         new_planet.inbound_fleet_ids    = list(map(int, inbound_fleet_ids_str.split(','))) if inbound_fleet_ids_str else []
@@ -280,6 +281,7 @@ class Planet():
         new_planet.gas_amount           = float(planet_data[4])
         new_planet.position             = [int(planet_data[5]), int(planet_data[6]), int(planet_data[7])]
         new_planet.stationed_fleet_id   = planet_data[8]
+        new_planet.stationed_fleet      = Fleet.get_from_db_by_id(new_planet.stationed_fleet_id)
 
         inbound_fleet_ids_str = planet_data[9]
         new_planet.inbound_fleet_ids    = list(map(int, inbound_fleet_ids_str.split(','))) if inbound_fleet_ids_str else []

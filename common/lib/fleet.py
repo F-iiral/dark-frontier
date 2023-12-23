@@ -19,7 +19,7 @@ class Fleet():
         ### Basic Information
         self.fleet_id           : int               = LiteFlakeID.generate_id()
         self.moving             : bool              = False
-        self.position           : list[int]         = None
+        self.position           : list[int] | None  = None
         self.target             : list[int] | None  = None
         self.arrival_time       : float | None      = None
 
@@ -111,10 +111,10 @@ class Fleet():
 
         return combined_fleet
 
-    def to_dict(self, *args):
+    def to_dict(self, *args) -> dict:
         return {
             "owner_id": self.owner_id,
-            "owner": self.owner.to_dict(),
+            "owner": self.owner.to_dict() if self.owner is not None else None,
             "fleet_id": self.fleet_id,
             "moving": self.moving,
             "position": self.position,
@@ -153,7 +153,7 @@ class Fleet():
                 sattelites, small_cargo_ships, big_cargo_ships, colony_ships, science_ships,
                 construction_ships
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             self.fleet_id, self.owner_id, int(self.moving), self.position[0], self.position[1], self.position[2],
             self.target[0] if self.target else None, self.target[1] if self.target else None, self.target[2] if self.target else None,

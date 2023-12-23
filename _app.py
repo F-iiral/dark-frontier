@@ -1,6 +1,10 @@
-from common.env import DEV_MODE
+from common.env import DEV_MODE, FLEET_MANAGER_DELAY
 from common.const import ConsoleShortcuts
+from common.db_cache import DBCache
 import common.router as router
+import common.managers.fleets as fleet_manager
+import asyncio
+import threading
 import os
 
 def get_file_modification_time(file_path: str) -> float:
@@ -38,4 +42,9 @@ if __name__ == "__main__":
         print(f"{ConsoleShortcuts.ok()} Finished compiling modified files, preparing to launch the server")
 
     app = router.start_app()
+    fleet_thread = threading.Thread(target=lambda: asyncio.run(fleet_manager.main(FLEET_MANAGER_DELAY)), daemon=True)
+    cache_thread = threading.Thread(target=lambda: asyncio.run(DBCache.purge_cache()), daemon=True)
+
+    fleet_thread.start()
+    cache_thread.start()
     app.run(debug=DEV_MODE, use_reloader=False)

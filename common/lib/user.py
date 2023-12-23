@@ -36,7 +36,7 @@ class User():
         self.tec_plasma         : int       = 0
         self.tec_disruptor      : int       = 0
 
-    def to_dict(self, *args):
+    def to_dict(self, *args) -> dict:
         return {
             "id": self.id,
             "account": self.account.to_dict(),

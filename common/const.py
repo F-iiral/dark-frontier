@@ -2,12 +2,12 @@ import enum
 import datetime
 
 class ConsoleShortcuts():
-    def log():   return f"{Colors.MAGENTA}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE}"
-    def ok():    return f"{Colors.GREEN}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE}"
-    def warn():  return f"{Colors.YELLOW}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE}"
-    def error(): return f"{Colors.RED}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE}"
+    def log():   return f"{Colors.MAGENTA.value}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE.value}"
+    def ok():    return f"{Colors.GREEN.value}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE.value}"
+    def warn():  return f"{Colors.YELLOW.value}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE.value}"
+    def error(): return f"{Colors.RED.value}[{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')}]{Colors.WHITE.value}"
 
-class Colors():
+class Colors(enum.Enum):
     BLACK = "\u001b[30m"
     RED = "\u001b[31m"
     GREEN = "\u001b[32m"

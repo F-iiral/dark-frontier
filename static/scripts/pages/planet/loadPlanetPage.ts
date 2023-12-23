@@ -162,10 +162,9 @@ function generateShipInformationBox(jsonResponse: any, id: string, imgSrc: strin
     let amount = 1
     if (shipInfo) {
         const [shipResources, shipCostMult] = shipInfo
-        const shipCost = Math.round((shipCostMult * amount) / Math.log2(jsonResponse.bld_shipyard + 1))
-        metalCost = shipCost * shipResources[0]
-        crystalCost = shipCost * shipResources[1]
-        gasCost = shipCost * shipResources[2]
+        metalCost = Math.round(Math.log2(jsonResponse.bld_shipyard + 1) * shipCostMult * shipResources[0])
+        crystalCost = Math.round(Math.log2(jsonResponse.bld_shipyard + 1) * shipCostMult * shipResources[1])
+        gasCost = Math.round(Math.log2(jsonResponse.bld_shipyard + 1) * shipCostMult * shipResources[2])
     }
 
     // To Do: Make this display the total cost, not the one per unit
