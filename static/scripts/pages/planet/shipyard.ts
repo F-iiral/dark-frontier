@@ -32,21 +32,21 @@ enum ShipRanges {
     GALACTIC            = 4
 }
 type ShipStatisticsFull = {
-    name: string;
-    description: string;
-    descriptionLong: string;
-    damageMults: number[];
-    armor: number;
-    shields: number;
-    weapons: number;
-    weaponType: number;
-    speed: number;
-    range: number;
-    fuelUsage: number;
-    cargoSpace: number;
-    hangarSpace: number;
-    hangarUsage: number;
-};
+    name: string
+    description: string
+    descriptionLong: string
+    damageMults: number[]
+    armor: number
+    shields: number
+    weapons: number
+    weaponType: number
+    speed: number
+    range: number
+    fuelUsage: number
+    cargoSpace: number
+    hangarSpace: number
+    hangarUsage: number
+}
 const ShipStatisticsRecord: Record<string, ShipStatisticsFull> = {
     ["ship-fighter"]:
     {
