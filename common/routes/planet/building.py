@@ -1,7 +1,7 @@
 from common.db_cache import DBCache
 from common.const import PlanetBuildings
 
-def main(planet_id: int, building_type: int) -> tuple | int:
+def main(planet_id: int, building_type: int) -> tuple:
     planet = DBCache.get_planet(planet_id)
     if planet is None:                      return "Invalid Planet Id.", 400
     planet.update_resource_count()

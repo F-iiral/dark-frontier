@@ -3,6 +3,7 @@ from common.lib.user import User
 from common.lib.planet import Planet
 from common.lib.fleet import Fleet
 from common.const import ConsoleShortcuts
+from common.env import DEV_MODE
 import asyncio
 import time
 
@@ -13,8 +14,11 @@ class DBCache():
 
     @staticmethod
     async def purge_cache() -> never:
+        if DEV_MODE: delay = 6
+        else:        delay = 360
+
         while True:
-            await asyncio.sleep(360)
+            await asyncio.sleep(delay)
             print(f"{ConsoleShortcuts.log()} Purging cache.")
             for item in set(DBCache.recent_users.items()):
                 if time.time() - item[1][1] > 10:

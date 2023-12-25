@@ -12,6 +12,7 @@ import common.routes.fleet.move        as fleet_move
 import common.routes.fleet.recall      as fleet_recall
 import common.routes.galaxy.galaxy     as galaxy_galaxy
 import common.routes.planet.planet     as planet_planet
+import common.routes.planet.rename     as planet_rename
 import common.routes.planet.building   as planet_building
 import common.routes.planet.defenses   as planet_defenses
 import common.routes.planet.shipyard   as planet_shipyard
@@ -256,6 +257,20 @@ def api_planet_defenses():
     if not (is_planet_owner(auth_token, planet_id))                 : return abort(403)
 
     return planet_defenses.main(planet_id, defense_type, defense_amount)
+
+@app.route("/api/planet/rename", methods=["POST"])
+def api_planet_rename():
+    data = RequestData(request.get_json())
+    auth_token = request.headers.get("Authorization")
+    planet_id = data.get_data("planetID")
+    name = data.get_data("name")
+
+    if not (isinstance(planet_id, int))                             : return "Parameter 'planet_id' must be 'int'.", 400
+    if not (isinstance(name, str))                                  : return "Parameter 'name' must be 'str'.", 400
+    if not (is_valid_token(auth_token))                             : return abort(401)
+    if not (is_planet_owner(auth_token, planet_id))                 : return abort(403)
+
+    return planet_rename.main(planet_id, name)
 
 @app.route("/api/planet/shipyard", methods=["POST"])
 def api_planet_shipyard():

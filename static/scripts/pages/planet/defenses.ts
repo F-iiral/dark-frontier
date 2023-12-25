@@ -23,12 +23,12 @@ function getCookie_1 (name: string): string | null {
 async function sendPlanetDefenseRequest(id: string): Promise<void> {
     const urlParams = new URLSearchParams(window.location.search)
     const planetID = urlParams.get('planet')
-    const token = getCookie_1("Authorization");
+    const token = getCookie_1("Authorization")
     const headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
         "Authorization": token ?? "",
-    };
+    }
 
     let defenseType = 0 
     if (id == 'def-aa') { defenseType = Defenses.AA_GUN }
@@ -54,7 +54,7 @@ async function sendPlanetDefenseRequest(id: string): Promise<void> {
                     'amount': Number((<HTMLInputElement>document.getElementById(`${id}-input-amount`)).value) ?? 0,
                 }),
             }
-        );
+        )
 
         if (!response.ok) {
             console.log(response)
@@ -63,7 +63,7 @@ async function sendPlanetDefenseRequest(id: string): Promise<void> {
         location.reload()
     }
     catch (error) {
-        console.error("Error:", error);
+        console.error("Error:", error)
     }
 }
 
