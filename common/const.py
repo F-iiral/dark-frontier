@@ -554,3 +554,4 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=None,
         hangar_usage=None,
     )
+}
