@@ -1,5 +1,6 @@
 from common.db_cache import DBCache
 from common.const import PlanetDefenses
+import math
 
 def main(planet_id: int, defense_type: int, defense_amount: int) -> tuple:
     planet = DBCache.get_planet(planet_id)
@@ -25,9 +26,9 @@ def main(planet_id: int, defense_type: int, defense_amount: int) -> tuple:
     defense_name, defense_resources, defense_cost_mult, defense_is_unique = defense_info
 
     if not defense_is_unique:
-        building_cost_metal_limited   = (planet.metal_amount / ((planet.bld_factory + 1) * defense_cost_mult * defense_resources[0]))   if defense_resources[0] != 0 else float('inf')
-        building_cost_crystal_limited = (planet.crystal_amount / ((planet.bld_factory + 1) * defense_cost_mult * defense_resources[1])) if defense_resources[1] != 0 else float('inf')
-        building_cost_gas_limited     = (planet.gas_amount / ((planet.bld_factory + 1) * defense_cost_mult * defense_resources[2]))     if defense_resources[2] != 0 else float('inf')
+        building_cost_metal_limited   = planet.metal_amount   / (1/math.log2(planet.bld_shipyard + 1) * defense_cost_mult * defense_resources[0]) if defense_resources[0] != 0 else float('inf')
+        building_cost_crystal_limited = planet.crystal_amount / (1/math.log2(planet.bld_shipyard + 1) * defense_cost_mult * defense_resources[1]) if defense_resources[1] != 0 else float('inf')
+        building_cost_gas_limited     = planet.gas_amount     / (1/math.log2(planet.bld_shipyard + 1) * defense_cost_mult * defense_resources[2]) if defense_resources[2] != 0 else float('inf')
 
         defense_amount = int(min(defense_amount, building_cost_metal_limited, building_cost_crystal_limited, building_cost_gas_limited))
 
@@ -36,9 +37,9 @@ def main(planet_id: int, defense_type: int, defense_amount: int) -> tuple:
         planet.gas_amount     -= defense_amount * defense_cost_mult * defense_resources[2]
         planet.__setattr__(defense_name, planet.__getattribute__(defense_name) + defense_amount)
     elif (defense_is_unique) and (not planet.__getattribute__(defense_name)):
-        building_cost_metal   = defense_cost_mult * defense_resources[0] / (planet.bld_factory + 1)
-        building_cost_crystal = defense_cost_mult * defense_resources[1] / (planet.bld_factory + 1)
-        building_cost_gas     = defense_cost_mult * defense_resources[2] / (planet.bld_factory + 1)
+        building_cost_metal   = 1/math.log2(planet.bld_shipyard + 1) * defense_cost_mult * defense_resources[0]
+        building_cost_crystal = 1/math.log2(planet.bld_shipyard + 1) * defense_cost_mult * defense_resources[1]
+        building_cost_gas     = 1/math.log2(planet.bld_shipyard + 1) * defense_cost_mult * defense_resources[2]
 
         if building_cost_metal   > planet.metal_amount:     return "Insufficent metal resource.", 400
         if building_cost_crystal > planet.crystal_amount:   return "Insufficent crystals resource.", 400

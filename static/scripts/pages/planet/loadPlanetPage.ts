@@ -93,10 +93,9 @@ function generateDefenseInformationBox(jsonResponse: any, id: string, imgSrc: st
     let amount = 1
     if (defenseInfo) {
         const [buildingResources, buildingCostMult] = defenseInfo
-        const buildingCost = Math.round(buildingCostMult * amount / (jsonResponse.bld_factory + 1))
-        metalCost = buildingCost * buildingResources[0]
-        crystalCost = buildingCost * buildingResources[1]
-        gasCost = buildingCost * buildingResources[2]
+        metalCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * buildingCostMult * buildingResources[0])
+        crystalCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * buildingCostMult * buildingResources[1])
+        gasCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * buildingCostMult * buildingResources[2])
     }
 
     // To Do: Make this display the total cost, not the one per unit
@@ -116,7 +115,7 @@ function generateDefenseInformationBox(jsonResponse: any, id: string, imgSrc: st
                         <p style="font-size: 12px;">${crystalCost.toLocaleString()} Crystals per Unit</p>
                         <p style="font-size: 12px;">${gasCost.toLocaleString()} Gas per Unit</p>
                         <div style="display: block;">
-                            <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;">info</i>
+                        <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;" onclick="showDefenseDetailedInformation('${id}')">info</i>
                             <p style="font-size: 12px; position:absolute; left: 164px; bottom: -8px;">Technical Details</p>
                         </div>
                     </div>
@@ -162,9 +161,9 @@ function generateShipInformationBox(jsonResponse: any, id: string, imgSrc: strin
     let amount = 1
     if (shipInfo) {
         const [shipResources, shipCostMult] = shipInfo
-        metalCost = Math.round(Math.log2(jsonResponse.bld_shipyard + 1) * shipCostMult * shipResources[0])
-        crystalCost = Math.round(Math.log2(jsonResponse.bld_shipyard + 1) * shipCostMult * shipResources[1])
-        gasCost = Math.round(Math.log2(jsonResponse.bld_shipyard + 1) * shipCostMult * shipResources[2])
+        metalCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * shipCostMult * shipResources[0])
+        crystalCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * shipCostMult * shipResources[1])
+        gasCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * shipCostMult * shipResources[2])
     }
 
     // To Do: Make this display the total cost, not the one per unit
