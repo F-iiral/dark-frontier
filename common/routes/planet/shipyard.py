@@ -35,15 +35,16 @@ def main(planet_id: int, ship_type: int, ship_amount: int) -> tuple:
 
     ship_name, ship_resources, ship_cost_mult = ship_info
 
-    building_cost_metal_limited   = planet.metal_amount   / (1/math.log2(planet.bld_shipyard + 1) * ship_cost_mult * ship_resources[0])   if ship_resources[0] != 0 else float('inf')
+    building_cost_metal_limited   = planet.metal_amount   / (1/math.log2(planet.bld_shipyard + 1) * ship_cost_mult * ship_resources[0]) if ship_resources[0] != 0 else float('inf')
     building_cost_crystal_limited = planet.crystal_amount / (1/math.log2(planet.bld_shipyard + 1) * ship_cost_mult * ship_resources[1]) if ship_resources[1] != 0 else float('inf')
-    building_cost_gas_limited     = planet.gas_amount     / (1/math.log2(planet.bld_shipyard + 1) * ship_cost_mult * ship_resources[2])     if ship_resources[2] != 0 else float('inf')
+    building_cost_gas_limited     = planet.gas_amount     / (1/math.log2(planet.bld_shipyard + 1) * ship_cost_mult * ship_resources[2]) if ship_resources[2] != 0 else float('inf')
 
     ship_amount = int(min(ship_amount, building_cost_metal_limited, building_cost_crystal_limited, building_cost_gas_limited))
+    if ship_amount == 0: "Insufficent resources.", 400
 
-    planet.metal_amount   -= ship_amount * ship_cost_mult * ship_resources[0] / math.log2(planet.bld_shipyard + 1)
-    planet.crystal_amount -= ship_amount * ship_cost_mult * ship_resources[1] / math.log2(planet.bld_shipyard + 1)
-    planet.gas_amount     -= ship_amount * ship_cost_mult * ship_resources[2] / math.log2(planet.bld_shipyard + 1)
+    planet.metal_amount   -= ship_amount * ship_cost_mult * ship_resources[0] * 1/math.log2(planet.bld_shipyard + 1)
+    planet.crystal_amount -= ship_amount * ship_cost_mult * ship_resources[1] * 1/math.log2(planet.bld_shipyard + 1)
+    planet.gas_amount     -= ship_amount * ship_cost_mult * ship_resources[2] * 1/math.log2(planet.bld_shipyard + 1)
 
     if planet.stationed_fleet is not None:
         current_amount = planet.stationed_fleet.__getattribute__(ship_name)

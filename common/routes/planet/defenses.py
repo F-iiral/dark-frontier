@@ -31,10 +31,11 @@ def main(planet_id: int, defense_type: int, defense_amount: int) -> tuple:
         building_cost_gas_limited     = planet.gas_amount     / (1/math.log2(planet.bld_shipyard + 1) * defense_cost_mult * defense_resources[2]) if defense_resources[2] != 0 else float('inf')
 
         defense_amount = int(min(defense_amount, building_cost_metal_limited, building_cost_crystal_limited, building_cost_gas_limited))
+        if defense_amount == 0: "Insufficent resources.", 400
 
-        planet.metal_amount   -= defense_amount * defense_cost_mult * defense_resources[0]
-        planet.crystal_amount -= defense_amount * defense_cost_mult * defense_resources[1]
-        planet.gas_amount     -= defense_amount * defense_cost_mult * defense_resources[2]
+        planet.metal_amount   -= defense_amount * defense_cost_mult * defense_resources[0] * 1/math.log2(planet.bld_shipyard + 1)
+        planet.crystal_amount -= defense_amount * defense_cost_mult * defense_resources[1] * 1/math.log2(planet.bld_shipyard + 1)
+        planet.gas_amount     -= defense_amount * defense_cost_mult * defense_resources[2] * 1/math.log2(planet.bld_shipyard + 1)
         planet.__setattr__(defense_name, planet.__getattribute__(defense_name) + defense_amount)
     elif (defense_is_unique) and (not planet.__getattribute__(defense_name)):
         building_cost_metal   = 1/math.log2(planet.bld_shipyard + 1) * defense_cost_mult * defense_resources[0]
