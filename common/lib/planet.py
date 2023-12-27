@@ -78,9 +78,9 @@ class Planet():
         elif self.temperature <= -152: bonus_gas = 1.1
         if bonus_metal == 1 and bonus_gas == 1: bonus_crystals = 1.15
 
-        self.metal_amount   += (8 * (self.bld_metal_mine   ** 1.1)) * (time.time() - self.last_checkout) * bonus_metal    * RESOURCE_SPEED
-        self.crystal_amount += (8 * (self.bld_crystal_mine ** 1.1)) * (time.time() - self.last_checkout) * bonus_crystals * RESOURCE_SPEED
-        self.gas_amount     += (8 * (self.bld_gas_mine     ** 1.1)) * (time.time() - self.last_checkout) * bonus_gas      * RESOURCE_SPEED
+        self.metal_amount   += (8 * ((self.bld_metal_mine   + 14) ** 1.1)) * (time.time() - self.last_checkout) * bonus_metal    * RESOURCE_SPEED
+        self.crystal_amount += (8 * ((self.bld_crystal_mine + 14) ** 1.1)) * (time.time() - self.last_checkout) * bonus_crystals * RESOURCE_SPEED
+        self.gas_amount     += (8 * ((self.bld_gas_mine     + 14) ** 1.1)) * (time.time() - self.last_checkout) * bonus_gas      * RESOURCE_SPEED
 
         if self.metal_amount   > (2 ** (0.5 * self.bld_metal_storage  )) * 500000: self.metal_amount   = (2 ** (0.5 * self.bld_metal_storage  )) * 500000
         if self.crystal_amount > (2 ** (0.5 * self.bld_crystal_storage)) * 500000: self.crystal_amount = (2 ** (0.5 * self.bld_crystal_storage)) * 500000

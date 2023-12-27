@@ -7,6 +7,56 @@ function getCookie (name: string): string | null {
     }
     return null
 }
+function setCookie (name: string, value: string, duration: number=30, priority: number=1, secure: boolean=false): void {
+    const currentDate = new Date();
+    const expirationDate = new Date(currentDate.getTime() + duration * 24 * 60 * 60 * 1000);
+
+    document.cookie = `${name}=${value}; expires=${expirationDate.toUTCString()}; priority=${priority}; secure=${secure}`
+}
+const buildingMapping: Record<string, [number[], number]> = {
+    ['bld-metal-mine']: [[0, 1, 1], 48000],
+    ['bld-crystal-mine']: [[1, 0, 1], 48000],
+    ['bld-gas-mine']: [[1, 1, 0], 48000],
+    ['bld-metal-storage']: [[0, 1, 1], 24000],
+    ['bld-crystal-storage']: [[1, 0, 1], 24000],
+    ['bld-gas-storage']: [[1, 1, 0], 24000],
+    ['bld-factory']: [[1, 1, 0.5], 72000],
+    ['bld-shipyard']: [[1, 0.5, 1], 48000],
+    ['bld-laboratory']: [[0.5, 1, 1], 48000],
+    ['bld-terraformer']: [[1, 1, 1], 72000],
+}
+const defenseMapping: Record<string, [number[], number]> = {
+    ['def-aa']: [[1, 0, 0], 6000],
+    ['def-railgun']: [[1, 0.1, 0], 30000],
+    ['def-rocket']: [[1, 0.5, 0.5], 30000],
+    ['def-laser']: [[0.5, 1, 0.5], 750000],
+    ['def-ion']: [[0.4, 1, 0.5], 1200000],
+    ['def-plasma']: [[0.3, 1, 0.5], 1650000],
+    ['def-disruptor']:[[0.2, 1, 0.5], 2100000],
+    ['def-s-shield']: [[0.2, 1, 0.5], 180000],
+    ['def-m-shield']: [[0.2, 1, 0.5], 3800000],
+    ['def-l-shield']:[[0.2, 1, 0.5], 15000000],
+}
+const shipMapping: Record<string, [number[], number]> = {
+    ["ship-fighter"]: [[0.5, 1, 0.5], 6000],
+    ["ship-interceptor"]: [[0.5, 0.5, 1.0], 6000],
+    ["ship-tac-bomber"]: [[1, 0.5, 0.5], 6000],
+    ["ship-str-bomber"]: [[1, 0.5, 0.5], 30000],
+    ["ship-frigate"]: [[1, 0.8, 0.2], 180000],
+    ["ship-destroyer"]: [[1, 0.7, 0.5], 725000],
+    ["ship-cruiser"]: [[1, 0.7, 0.5], 2500000],
+    ["ship-battlecruiser"]: [[1, 0.7, 0.5], 3800000],
+    ["ship-battleship"]: [[1, 0.8, 1.5], 15000000],
+    ["ship-escort-carrier"]: [[0.7, 1, 0.5], 2500000],
+    ["ship-fleet-carrier"]: [[0.7, 1, 0.5], 15000000],
+    ["ship-titan"]: [[1, 0.8, 0.5], 180000000],
+    ["ship-sattelites"]: [[0, 1, 0.25], 6000],
+    ["ship-small-cargo"]: [[0.6, 0.6, 1], 30000],
+    ["ship-large-cargo"]: [[0.6, 0.6, 1], 725000],
+    ["ship-colony-ship"]: [[1, 0.5, 0.7], 30000],
+    ["ship-science-ship"]: [[1, 0.5, 0.7], 30000],
+    ["ship-construction-ship"]: [[1, 0.5, 0.7], 30000],
+}
 
 function getResourceColor(value: number, max_value: number): string {
     if (value >= max_value * 0.99) {
@@ -19,18 +69,6 @@ function getResourceColor(value: number, max_value: number): string {
 }
 
 function generateBuildingInformationBox(jsonResponse: any, id: string, imgSrc: string, name: string, description: string): string {
-    const buildingMapping: Record<string, [number[], number]> = {
-        ['bld-metal-mine']: [[0, 1, 1], 480],
-        ['bld-crystal-mine']: [[1, 0, 1], 480],
-        ['bld-gas-mine']: [[1, 1, 0], 480],
-        ['bld-factory']: [[0, 1, 1], 240],
-        ['bld-shipyard']: [[1, 0, 1], 240],
-        ['bld-metal-storage']: [[1, 1, 0], 240],
-        ['bld-crystal-storage']: [[1, 1, 0.5], 720],
-        ['bld-gas-storage']: [[1, 0.5, 1], 480],
-        ['bld-laboratory']: [[0.5, 1, 1], 480],
-        ['bld-terraformer']: [[1, 1, 1], 720],
-    };
     const buildingInfo = buildingMapping[id]
 
     let metalCost = 0
@@ -44,7 +82,6 @@ function generateBuildingInformationBox(jsonResponse: any, id: string, imgSrc: s
         gasCost = buildingCost * buildingResources[2]
     }
 
-    // To Do: Make this display if one can afford it or not
     return `<div id="${id}-information-box" class="planet-information-box">
     <div style="display: flex;">
             <div style="margin: 10px;">
@@ -56,9 +93,9 @@ function generateBuildingInformationBox(jsonResponse: any, id: string, imgSrc: s
                 <hr />
                 <div style="display: flex;">
                     <div>
-                        <p style="font-size: 12px;">${metalCost.toLocaleString()} Metal</p>
-                        <p style="font-size: 12px;">${crystalCost.toLocaleString()} Crystals</p>
-                        <p style="font-size: 12px;">${gasCost.toLocaleString()} Gas</p>
+                        <p id="${id}-metal-cost-display" style="font-size: 12px;">${metalCost.toLocaleString()} Metal</p>
+                        <p id="${id}-crystal-cost-display" style="font-size: 12px;">${crystalCost.toLocaleString()} Crystals</p>
+                        <p id="${id}-gas-cost-display" style="font-size: 12px;">${gasCost.toLocaleString()} Gas</p>
                         <div style="display: block;">
                             <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;">info</i>
                             <p style="font-size: 12px; position:absolute; left: 164px; bottom: -8px;">Technical Details</p>
@@ -73,24 +110,11 @@ function generateBuildingInformationBox(jsonResponse: any, id: string, imgSrc: s
     </div>`
 }
 function generateDefenseInformationBox(jsonResponse: any, id: string, imgSrc: string, name: string, description: string): string {
-    const defenseMapping: Record<string, [number[], number]> = {
-        ['def-aa']: [[1, 0, 0], 6000],
-        ['def-railgun']: [[1, 0.1, 0], 30000],
-        ['def-rocket']: [[1, 0.5, 0.5], 30000],
-        ['def-laser']: [[0.5, 1, 0.5], 750000],
-        ['def-ion']: [[0.4, 1, 0.5], 1200000],
-        ['def-plasma']: [[0.3, 1, 0.5], 1650000],
-        ['def-disruptor']:[[0.2, 1, 0.5], 2100000],
-        ['def-s-shield']: [[0.2, 1, 0.5], 180000],
-        ['def-m-shield']: [[0.2, 1, 0.5], 3800000],
-        ['def-l-shield']:[[0.2, 1, 0.5], 15000000],
-    };
     const defenseInfo = defenseMapping[id]
 
     let metalCost = 0
     let crystalCost = 0
     let gasCost = 0
-    let amount = 1
     if (defenseInfo) {
         const [buildingResources, buildingCostMult] = defenseInfo
         metalCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * buildingCostMult * buildingResources[0])
@@ -98,8 +122,6 @@ function generateDefenseInformationBox(jsonResponse: any, id: string, imgSrc: st
         gasCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * buildingCostMult * buildingResources[2])
     }
 
-    // To Do: Make this display the total cost, not the one per unit
-    // To Do: Make this display if one can afford it or not
     return `<div id="${id}-information-box" class="planet-information-box">
     <div style="display: flex;">
             <div style="margin: 10px;">
@@ -111,9 +133,9 @@ function generateDefenseInformationBox(jsonResponse: any, id: string, imgSrc: st
                 <hr />
                 <div style="display: flex;">
                     <div>
-                        <p style="font-size: 12px;">${metalCost.toLocaleString()} Metal per Unit</p>
-                        <p style="font-size: 12px;">${crystalCost.toLocaleString()} Crystals per Unit</p>
-                        <p style="font-size: 12px;">${gasCost.toLocaleString()} Gas per Unit</p>
+                        <p id="${id}-metal-cost-display" style="font-size: 12px;">${metalCost.toLocaleString()} Metal</p>
+                        <p id="${id}-crystal-cost-display" style="font-size: 12px;">${crystalCost.toLocaleString()} Crystals</p>
+                        <p id="${id}-gas-cost-display" style="font-size: 12px;">${gasCost.toLocaleString()} Gas</p>
                         <div style="display: block;">
                         <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;" onclick="showDefenseDetailedInformation('${id}')">info</i>
                             <p style="font-size: 12px; position:absolute; left: 164px; bottom: -8px;">Technical Details</p>
@@ -133,26 +155,6 @@ function generateDefenseInformationBox(jsonResponse: any, id: string, imgSrc: st
     </div>`
 }
 function generateShipInformationBox(jsonResponse: any, id: string, imgSrc: string, name: string, description: string): string {
-    const shipMapping: Record<string, [number[], number]> = {
-        ["ship-fighter"]: [[0.5, 1, 0.5], 6000],
-        ["ship-interceptor"]: [[0.5, 0.5, 1.0], 6000],
-        ["ship-tac-bomber"]: [[1, 0.5, 0.5], 6000],
-        ["ship-str-bomber"]: [[1, 0.5, 0.5], 30000],
-        ["ship-frigate"]: [[1, 0.8, 0.2], 180000],
-        ["ship-destroyer"]: [[1, 0.7, 0.5], 725000],
-        ["ship-cruiser"]: [[1, 0.7, 0.5], 2500000],
-        ["ship-battlecruiser"]: [[1, 0.7, 0.5], 3800000],
-        ["ship-battleship"]: [[1, 0.8, 1.5], 15000000],
-        ["ship-escort-carrier"]: [[0.7, 1, 0.5], 2500000],
-        ["ship-fleet-carrier"]: [[0.7, 1, 0.5], 15000000],
-        ["ship-titan"]: [[1, 0.8, 0.5], 180000000],
-        ["ship-sattelites"]: [[0, 1, 0.25], 6000],
-        ["ship-small-cargo"]: [[0.6, 0.6, 1], 30000],
-        ["ship-large-cargo"]: [[0.6, 0.6, 1], 725000],
-        ["ship-colony-ship"]: [[1, 0.5, 0.7], 30000],
-        ["ship-science-ship"]: [[1, 0.5, 0.7], 30000],
-        ["ship-construction-ship"]: [[1, 0.5, 0.7], 30000],
-    };
     const shipInfo = shipMapping[id]
 
     let metalCost = 0
@@ -166,8 +168,6 @@ function generateShipInformationBox(jsonResponse: any, id: string, imgSrc: strin
         gasCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * shipCostMult * shipResources[2])
     }
 
-    // To Do: Make this display the total cost, not the one per unit
-    // To Do: Make this display if one can afford it or not
     return `<div id="${id}-information-box" class="planet-information-box">
     <div style="display: flex;">
             <div style="margin: 16px;">
@@ -181,9 +181,9 @@ function generateShipInformationBox(jsonResponse: any, id: string, imgSrc: strin
                 <hr />
                 <div style="display: flex;">
                     <div>
-                        <p style="font-size: 12px;">${metalCost.toLocaleString()} Metal per Unit</p>
-                        <p style="font-size: 12px;">${crystalCost.toLocaleString()} Crystals per Unit</p>
-                        <p style="font-size: 12px;">${gasCost.toLocaleString()} Gas per Unit</p>
+                        <p id="${id}-metal-cost-display" style="font-size: 12px;">${metalCost.toLocaleString()} Metal</p>
+                        <p id="${id}-crystal-cost-display"style="font-size: 12px;">${crystalCost.toLocaleString()} Crystals</p>
+                        <p id="${id}-gas-cost-display" style="font-size: 12px;">${gasCost.toLocaleString()} Gas</p>
                         <div style="display: block;">
                             <i class="material-icons" style="font-size:12px; color: var(--text-color); cursor: pointer; margin-top: 10px; position: absolute;" onclick="showShipDetailedInformation('${id}')">info</i>
                             <p style="font-size: 12px; position:absolute; left: 164px; bottom: -8px;">Technical Details</p>
@@ -380,6 +380,7 @@ function generateTechnologyGrid(): string {
 
 async function loadPlanetPage (planetID: number, page_name: string): Promise<void> {
     const token = getCookie("Authorization");
+    if (token) { setCookie("Authorization", token, 14, 1, true) }
     const headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
@@ -432,6 +433,11 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
             document.getElementById("bld-terraformer-count")!.innerHTML = jsonResponse.bld_terraformer.toLocaleString()
         }
         else if (page_name == "defense") {
+            function shieldActive (value: boolean): string {
+                if (value) { return "Active" }
+                return "Inactive"
+            }
+
             document.getElementById("main-content")!.innerHTML += generateDefenseGrid(jsonResponse)
 
             document.getElementById("def-aa-count")!.innerHTML = `${jsonResponse.def_aa}`
@@ -441,9 +447,9 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
             document.getElementById("def-ion-count")!.innerHTML = `${jsonResponse.def_ion}`
             document.getElementById("def-plasma-count")!.innerHTML = `${jsonResponse.def_plasma}`
             document.getElementById("def-disruptor-count")!.innerHTML = `${jsonResponse.def_disruptor}`
-            document.getElementById("def-s-shield-count")!.innerHTML = `${jsonResponse.def_s_shield}`
-            document.getElementById("def-m-shield-count")!.innerHTML = `${jsonResponse.def_m_shield}`
-            document.getElementById("def-l-shield-count")!.innerHTML = `${jsonResponse.def_l_shield}`
+            document.getElementById("def-s-shield-count")!.innerHTML = shieldActive(jsonResponse.def_s_shield)
+            document.getElementById("def-m-shield-count")!.innerHTML = shieldActive(jsonResponse.def_m_shield)
+            document.getElementById("def-l-shield-count")!.innerHTML = shieldActive(jsonResponse.def_l_shield)
         }
         else if (page_name == "shipyard") {
             document.getElementById("main-content")!.innerHTML += generateShipGrid(jsonResponse)
@@ -492,28 +498,144 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
         if (bonusMetal == 1 && bonusGas == 1) { bonusCrystals = 1.15 }
 
         while (true) {
+            const startTime = Date.now()
+
             if (metalAmount < maxMetalAmount) { 
-                metalAmount = Math.round(jsonResponse.metal_amount + 8 * (jsonResponse.bld_metal_mine ** 1.1) * jsonResponse.owner.galaxy.resource_speed * bonusMetal * loopCalls)
+                metalAmount = Math.round(jsonResponse.metal_amount + 8 * ((jsonResponse.bld_metal_mine  + 14) ** 1.1) * jsonResponse.owner.galaxy.resource_speed * bonusMetal * loopCalls)
             }
             if (crystalAmount < maxCrystalAmount) {
-                crystalAmount = Math.round(jsonResponse.crystal_amount + 8 * (jsonResponse.bld_crystal_mine ** 1.1) * jsonResponse.owner.galaxy.resource_speed * bonusCrystals * loopCalls)
+                crystalAmount = Math.round(jsonResponse.crystal_amount + 8 * ((jsonResponse.bld_crystal_mine + 14) ** 1.1) * jsonResponse.owner.galaxy.resource_speed * bonusCrystals * loopCalls)
             }
             if (gasAmount < maxGasAmount) {
-                gasAmount = Math.round(jsonResponse.gas_amount + 8 * (jsonResponse.bld_gas_mine ** 1.1) * jsonResponse.owner.galaxy.resource_speed * bonusGas * loopCalls)
+                gasAmount = Math.round(jsonResponse.gas_amount + 8 * ((jsonResponse.bld_gas_mine + 14) ** 1.1) * jsonResponse.owner.galaxy.resource_speed * bonusGas * loopCalls)
             }
 
             document.getElementById("metal-amount")!.innerHTML = `${metalAmount}`;
             document.getElementById("crystal-amount")!.innerHTML = `${crystalAmount}`;
             document.getElementById("gas-amount")!.innerHTML = `${gasAmount}`; 
-            document.getElementById("metal-amount")!.style.setProperty("color", getResourceColor(metalAmount, maxMetalAmount))
-            document.getElementById("crystal-amount")!.style.setProperty("color", getResourceColor(crystalAmount, maxCrystalAmount))
-            document.getElementById("gas-amount")!.style.setProperty("color", getResourceColor(gasAmount, maxGasAmount))
-            loopCalls++;
+            document.getElementById("metal-amount")!.style.setProperty("color", getResourceColor(metalAmount.toLocaleString(), maxMetalAmount))
+            document.getElementById("crystal-amount")!.style.setProperty("color", getResourceColor(crystalAmount.toLocaleString(), maxCrystalAmount))
+            document.getElementById("gas-amount")!.style.setProperty("color", getResourceColor(gasAmount.toLocaleString(), maxGasAmount))
+            
+            if (page_name == "buildings") {
+                for (const buildingName in buildingMapping) {
+                    const buildingInfo = {'id': buildingName, 'information': buildingMapping[buildingName]}
+                    const buildingCost = Math.round(buildingInfo.information[1] * Math.pow(1.4142135, jsonResponse[`${buildingName.replace(/-/g, '_')}`]) / (jsonResponse.bld_factory + 1))
+                    let metalCost = buildingCost * buildingInfo.information[0][0]
+                    let crystalCost = buildingCost * buildingInfo.information[0][1]
+                    let gasCost = buildingCost * buildingInfo.information[0][2]
     
-            await new Promise(resolve => setTimeout(resolve, 1000))
+                    if (metalAmount < metalCost) {
+                        document.getElementById(`${buildingName}-metal-cost-display`)!.setAttribute("style", "font-size: 12px; color: var(--error-color)")
+                    } else {
+                        document.getElementById(`${buildingName}-metal-cost-display`)!.setAttribute("style", "font-size: 12px")
+                    }
+
+                    if (crystalAmount < crystalCost) {
+                        document.getElementById(`${buildingName}-crystal-cost-display`)!.setAttribute("style", "font-size: 12px; color: var(--error-color)")
+                    } else {
+                        document.getElementById(`${buildingName}-crystal-cost-display`)!.setAttribute("style", "font-size: 12px")
+                    }
+
+                    if (gasAmount < gasCost) {
+                        document.getElementById(`${buildingName}-gas-cost-display`)!.setAttribute("style", "font-size: 12px; color: var(--error-color)")
+                    } else {
+                        document.getElementById(`${buildingName}-gas-cost-display`)!.setAttribute("style", "font-size: 12px")
+                    }
+                }
+            }
+            else if (page_name == "defense") {
+                for (const defenseName in defenseMapping) {
+                    const defenseInfo = {'id': defenseName, 'information': defenseMapping[defenseName]}
+                    let amount = Number((<HTMLInputElement>document.getElementById(`${defenseName}-input-amount`)).value) ?? 1
+                    if (amount <= 0) { amount = 1 } //display cost per Unit instead
+
+                    const metalCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * defenseInfo.information[1] * defenseInfo.information[0][0] * amount)
+                    const crystalCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * defenseInfo.information[1] * defenseInfo.information[0][1] * amount)
+                    const gasCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * defenseInfo.information[1] * defenseInfo.information[0][2] * amount)
+    
+                    if (metalAmount < metalCost) {
+                        const elementToChange = document.getElementById(`${defenseName}-metal-cost-display`)!
+                        elementToChange.setAttribute("style", "font-size: 12px; color: var(--error-color)")
+                        elementToChange.innerHTML = `${metalCost.toLocaleString()} Metal`
+                    } else {
+                        const elementToChange = document.getElementById(`${defenseName}-metal-cost-display`)!
+                        elementToChange.setAttribute("style", "font-size: 12px")
+                        elementToChange.innerHTML = `${metalCost.toLocaleString()} Metal`
+                    }
+
+                    if (crystalAmount < crystalCost) {
+                        const elementToChange = document.getElementById(`${defenseName}-crystal-cost-display`)!
+                        elementToChange.setAttribute("style", "font-size: 12px; color: var(--error-color)")
+                        elementToChange.innerHTML = `${crystalCost.toLocaleString()} Crystals`
+                    } else {
+                        const elementToChange = document.getElementById(`${defenseName}-crystal-cost-display`)!
+                        elementToChange.setAttribute("style", "font-size: 12px")
+                        elementToChange.innerHTML = `${crystalCost.toLocaleString()} Crystals`
+                    }
+
+                    if (gasAmount < gasCost) {
+                        const elementToChange = document.getElementById(`${defenseName}-gas-cost-display`)!
+                        elementToChange.setAttribute("style", "font-size: 12px; color: var(--error-color)")
+                        elementToChange.innerHTML = `${gasCost.toLocaleString()} Gas`
+                    } else {
+                        const elementToChange = document.getElementById(`${defenseName}-gas-cost-display`)!
+                        elementToChange.setAttribute("style", "font-size: 12px")
+                        elementToChange.innerHTML = `${gasCost.toLocaleString()} Gas`
+                    }
+                }
+            }
+            else if (page_name == "shipyard") {
+                for (const shipName in shipMapping) {
+                    const shipInfo = {'id': shipName, 'information': shipMapping[shipName]}
+                    let amount = Number((<HTMLInputElement>document.getElementById(`${shipName}-input-amount`)).value) ?? 1
+                    if (amount <= 0) { amount = 1 } //display cost per Unit instead
+
+                    const metalCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * shipInfo.information[1] * shipInfo.information[0][0] * amount)
+                    const crystalCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * shipInfo.information[1] * shipInfo.information[0][1] * amount)
+                    const gasCost = Math.round(1/Math.log2(jsonResponse.bld_shipyard + 1) * shipInfo.information[1] * shipInfo.information[0][2] * amount)
+    
+                    if (metalAmount < metalCost) {
+                        const elementToChange = document.getElementById(`${shipName}-metal-cost-display`)!
+                        elementToChange.setAttribute("style", "font-size: 12px; color: var(--error-color)")
+                        elementToChange.innerHTML = `${metalCost.toLocaleString()} Metal`
+                    } else {
+                        const elementToChange = document.getElementById(`${shipName}-metal-cost-display`)!
+                        elementToChange.setAttribute("style", "font-size: 12px")
+                        elementToChange.innerHTML = `${metalCost.toLocaleString()} Metal`
+                    }
+
+                    if (crystalAmount < crystalCost) {
+                        const elementToChange = document.getElementById(`${shipName}-crystal-cost-display`)!
+                        elementToChange.setAttribute("style", "font-size: 12px; color: var(--error-color)")
+                        elementToChange.innerHTML = `${crystalCost.toLocaleString()} Crystals`
+                    } else {
+                        const elementToChange = document.getElementById(`${shipName}-crystal-cost-display`)!
+                        elementToChange.setAttribute("style", "font-size: 12px")
+                        elementToChange.innerHTML = `${crystalCost.toLocaleString()} Crystals`
+                    }
+
+                    if (gasAmount < gasCost) {
+                        const elementToChange = document.getElementById(`${shipName}-gas-cost-display`)!
+                        elementToChange.setAttribute("style", "font-size: 12px; color: var(--error-color)")
+                        elementToChange.innerHTML = `${gasCost.toLocaleString()} Gas`
+                    } else {
+                        const elementToChange = document.getElementById(`${shipName}-gas-cost-display`)!
+                        elementToChange.setAttribute("style", "font-size: 12px")
+                        elementToChange.innerHTML = `${gasCost.toLocaleString()} Gas`
+                    }
+                }
+            }
+
+            loopCalls++
+            const elapsedTime = Date.now() - startTime
+            const remainingTime = Math.max(0, 1000 - elapsedTime)
+            await new Promise(resolve => setTimeout(resolve, remainingTime))
         }
     } 
     catch (error) {
         console.error("Error:", error);
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        location.reload()
     }
 }
