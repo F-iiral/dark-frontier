@@ -75,6 +75,17 @@ class FleetShips(enum.Enum):
     SCIENCE_SHIPS      = 16
     CONSTRUCTION_SHIPS = 17
 
+class FleetMissions(enum.Enum):
+    HOLD = 0
+    DEPLOY = 1
+    TRANSPORT = 2
+    COLLECT = 3
+    SPY = 4
+    ATTACK = 5
+    EXPLORE = 6
+    COLONIZE = 7
+    RECYCLE = 8
+
 class ShipWeapons(enum.Enum):
     CONVENTIONAL = 0
     LASER = 1

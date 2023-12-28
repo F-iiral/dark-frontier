@@ -510,12 +510,12 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
                 gasAmount = Math.round(jsonResponse.gas_amount + 8 * ((jsonResponse.bld_gas_mine + 14) ** 1.1) * jsonResponse.owner.galaxy.resource_speed * bonusGas * loopCalls)
             }
 
-            document.getElementById("metal-amount")!.innerHTML = `${metalAmount}`;
-            document.getElementById("crystal-amount")!.innerHTML = `${crystalAmount}`;
-            document.getElementById("gas-amount")!.innerHTML = `${gasAmount}`; 
-            document.getElementById("metal-amount")!.style.setProperty("color", getResourceColor(metalAmount.toLocaleString(), maxMetalAmount))
-            document.getElementById("crystal-amount")!.style.setProperty("color", getResourceColor(crystalAmount.toLocaleString(), maxCrystalAmount))
-            document.getElementById("gas-amount")!.style.setProperty("color", getResourceColor(gasAmount.toLocaleString(), maxGasAmount))
+            document.getElementById("metal-amount")!.innerHTML = `${metalAmount.toLocaleString()}`;
+            document.getElementById("crystal-amount")!.innerHTML = `${crystalAmount.toLocaleString()}`;
+            document.getElementById("gas-amount")!.innerHTML = `${gasAmount.toLocaleString()}`; 
+            document.getElementById("metal-amount")!.style.setProperty("color", getResourceColor(metalAmount, maxMetalAmount))
+            document.getElementById("crystal-amount")!.style.setProperty("color", getResourceColor(crystalAmount, maxCrystalAmount))
+            document.getElementById("gas-amount")!.style.setProperty("color", getResourceColor(gasAmount, maxGasAmount))
             
             if (page_name == "buildings") {
                 for (const buildingName in buildingMapping) {

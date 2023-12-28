@@ -31,7 +31,10 @@ class DBCache():
                     del DBCache.recent_planets[item[0]]
 
             for item in set(DBCache.recent_fleets.items()):
-                if time.time() - item[1][1] > 10:
+                if not time.time() - item[1][1] > 10:
+                    continue
+
+                if not item[1][0].moving:
                     item[1][0].save_to_db()
                     del DBCache.recent_fleets[item[0]]
 

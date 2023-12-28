@@ -101,7 +101,7 @@ cursor.execute("""
     CREATE TABLE IF NOT EXISTS fleets (
         fleet_id INTEGER PRIMARY KEY,
         owner_id INTEGER,
-        moving INTEGER,
+        mission INTEGER,
         position_planet INTEGER,
         position_system INTEGER,
         position_spiral INTEGER,

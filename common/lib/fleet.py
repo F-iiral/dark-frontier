@@ -1,6 +1,6 @@
 import sqlite3
 from common.lite_flake_id import LiteFlakeID
-from common.const import ConsoleShortcuts
+from common.const import ConsoleShortcuts, FleetMissions
 from common.lib.user import User
 
 class Fleet():
@@ -18,7 +18,7 @@ class Fleet():
 
         ### Basic Information
         self.fleet_id           : int               = LiteFlakeID.generate_id()
-        self.moving             : bool              = False
+        self.mission            : int               = FleetMissions.HOLD.value
         self.position           : list[int] | None  = None
         self.target             : list[int] | None  = None
         self.arrival_time       : float | None      = None
@@ -53,7 +53,7 @@ class Fleet():
         combined_fleet.owner_id           = self.owner_id
         combined_fleet.owner              = self.owner
         combined_fleet.fleet_id           = self.fleet_id
-        combined_fleet.moving             = False
+        combined_fleet.mission            = FleetMissions.HOLD.value
         combined_fleet.position           = self.position          
         combined_fleet.target             = None
         combined_fleet.arrival_time       = None
@@ -86,7 +86,7 @@ class Fleet():
         combined_fleet.owner_id           = self.owner_id
         combined_fleet.owner              = self.owner
         combined_fleet.fleet_id           = self.fleet_id
-        combined_fleet.moving             = False
+        combined_fleet.mission            = FleetMissions.HOLD.value
         combined_fleet.position           = self.position
         combined_fleet.target             = None
         combined_fleet.arrival_time       = None
@@ -116,7 +116,7 @@ class Fleet():
             "owner_id": self.owner_id,
             "owner": self.owner.to_dict() if self.owner is not None else None,
             "fleet_id": self.fleet_id,
-            "moving": self.moving,
+            "mission": self.mission,
             "position": self.position,
             "target": self.target,
             "arrival_time": self.arrival_time,
@@ -146,7 +146,7 @@ class Fleet():
 
         cursor.execute("""
             INSERT OR REPLACE INTO fleets (
-                fleet_id, owner_id, moving, position_planet, position_system, position_spiral,
+                fleet_id, owner_id, mission, position_planet, position_system, position_spiral,
                 target_planet, target_system, target_spiral, arrival_time,
                 fighters, interceptors, tac_bombers, str_bombers, frigates, destroyers,
                 cruisers, battlecruisers, battleships, escort_carriers, fleet_carriers, titans,
@@ -155,7 +155,7 @@ class Fleet():
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
-            self.fleet_id, self.owner_id, int(self.moving), self.position[0], self.position[1], self.position[2],
+            self.fleet_id, self.owner_id, self.mission, self.position[0], self.position[1], self.position[2],
             self.target[0] if self.target else None, self.target[1] if self.target else None, self.target[2] if self.target else None,
             self.arrival_time, self.fighters, self.interceptors, self.tac_bombers, self.str_bombers,
             self.frigates, self.destroyers, self.cruisers, self.battlecruisers, self.battleships,
@@ -173,7 +173,7 @@ class Fleet():
 
         cursor.execute("""
             SELECT
-                fleet_id, owner_id, moving, position_planet, position_system, position_spiral,
+                fleet_id, owner_id, mission, position_planet, position_system, position_spiral,
                 target_planet, target_system, target_spiral, arrival_time,
                 fighters, interceptors, tac_bombers, str_bombers,
                 frigates, destroyers, cruisers, battlecruisers, battleships,
@@ -193,7 +193,7 @@ class Fleet():
         fleet.fleet_id           = fleet_data[0]
         fleet.owner_id           = fleet_data[1]
         fleet.owner              = User.get_from_db_by_owner(fleet_data[1])
-        fleet.moving             = bool(fleet_data[2])
+        fleet.mission            = fleet_data[2]
         fleet.position           = [fleet_data[3], fleet_data[4], fleet_data[5]]
         fleet.target             = [fleet_data[6], fleet_data[7], fleet_data[8]] if fleet_data[6] is not None else None
         fleet.arrival_time       = float(fleet_data[9])                          if fleet_data[9] is not None else None
@@ -225,7 +225,7 @@ class Fleet():
 
         cursor.execute("""
             SELECT
-                fleet_id, owner_id, moving, position_planet, position_system, position_spiral,
+                fleet_id, owner_id, mission, position_planet, position_system, position_spiral,
                 target_planet, target_system, target_spiral, arrival_time,
                 fighters, interceptors, tac_bombers, str_bombers,
                 frigates, destroyers, cruisers, battlecruisers, battleships,
@@ -245,7 +245,7 @@ class Fleet():
         fleet.fleet_id           = fleet_data[0]
         fleet.owner_id           = fleet_data[1]
         fleet.owner              = User.get_from_db_by_owner(fleet_data[1])
-        fleet.moving             = bool(fleet_data[2])
+        fleet.mission            = fleet_data[2]
         fleet.position           = [fleet_data[3], fleet_data[4], fleet_data[5]]
         fleet.target             = [fleet_data[6], fleet_data[7], fleet_data[8]] if fleet_data[6] is not None else None
         fleet.arrival_time       = float(fleet_data[9])                          if fleet_data[9] is not None else None
