@@ -171,7 +171,7 @@ class Planet():
             for fleet in self.outbound_fleets: fleet.save_to_db()
 
     @staticmethod
-    def get_from_db_by_owner(owner_id: int) -> 'Planet':
+    def get_from_db_by_owner(owner_id: int) -> 'Planet' | None:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
 
@@ -247,7 +247,7 @@ class Planet():
         return new_planet
 
     @staticmethod
-    def get_from_db_by_id(planet_id: int) -> 'Planet':
+    def get_from_db_by_id(planet_id: int) -> 'Planet' | None:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
 

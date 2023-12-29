@@ -1,6 +1,6 @@
 import sqlite3
 from common.lite_flake_id import LiteFlakeID
-from common.const import ConsoleShortcuts, FleetMissions
+from common.const import ConsoleShortcuts, FleetMissions, ShipRanges, ship_statistics_record
 from common.lib.user import User
 
 class Fleet():
@@ -140,6 +140,52 @@ class Fleet():
             "construction_ships": self.construction_ships
         }
 
+    def get_fleet_worth(self) -> float:
+        return (self.fighters             *      6000 * 2.0
+                + self.interceptors       *      6000 * 2.0
+                + self.tac_bombers        *      6000 * 2.0
+                + self.str_bombers        *     30000 * 2.0
+                + self.frigates           *    180000 * 2.0
+                + self.destroyers         *    725000 * 2.2
+                + self.cruisers           *   2500000 * 2.2
+                + self.battlecruisers     *   3800000 * 2.2
+                + self.battleships        *  15000000 * 3.3
+                + self.escort_carriers    *   2500000 * 2.2
+                + self.fleet_carriers     *  15000000 * 2.2
+                + self.titans             * 180000000 * 2.3
+                + self.sattelites         *      6000 * 1.25
+                + self.small_cargo_ships  *     30000 * 2.2
+                + self.big_cargo_ships    *    725000 * 2.2
+                + self.colony_ships       *     30000 * 2.2
+                + self.science_ships      *     30000 * 2.2
+                + self.construction_ships *     30000 * 2.2)
+    
+    def get_fleet_speed(self) -> float:
+        values = []
+        if self.fighters            > 0: values.append(ship_statistics_record["ship_fighter"].speed)
+        if self.interceptors        > 0: values.append(ship_statistics_record["ship_interceptor"].speed)
+        if self.tac_bombers         > 0: values.append(ship_statistics_record["ship_tac_bomber"].speed)
+        if self.str_bombers         > 0: values.append(ship_statistics_record["ship_str_bomber"].speed)
+        if self.frigates            > 0: values.append(ship_statistics_record["ship_frigate"].speed)
+        if self.destroyers          > 0: values.append(ship_statistics_record["ship_destroyer"].speed)
+        if self.cruisers            > 0: values.append(ship_statistics_record["ship_cruiser"].speed)
+        if self.battlecruisers      > 0: values.append(ship_statistics_record["ship_battlecruiser"].speed)
+        if self.battleships         > 0: values.append(ship_statistics_record["ship_battleship"].speed)
+        if self.escort_carriers     > 0: values.append(ship_statistics_record["ship_escort_carrier"].speed)
+        if self.fleet_carriers      > 0: values.append(ship_statistics_record["ship_fleet_carrier"].speed)
+        if self.titans              > 0: values.append(ship_statistics_record["ship_titan"].speed)
+        if self.sattelites          > 0: values.append(ship_statistics_record["ship_sattelites"].speed)
+        if self.small_cargo_ships   > 0: values.append(ship_statistics_record["ship_small_cargo"].speed)
+        if self.big_cargo_ships     > 0: values.append(ship_statistics_record["ship_large_cargo"].speed)
+        if self.colony_ships        > 0: values.append(ship_statistics_record["ship_colony_ship"].speed)
+        if self.science_ships       > 0: values.append(ship_statistics_record["ship_science_ship"].speed)
+        if self.construction_ships  > 0: values.append(ship_statistics_record["ship_construction_ship"].speed)
+
+        return min(values)
+
+    def get_fleet_range(self) -> int:
+        return ShipRanges.GALACTIC.value
+
     def save_to_db(self) -> None:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
@@ -167,7 +213,7 @@ class Fleet():
         conn.close()
 
     @staticmethod
-    def get_from_db_by_owner(account_id: int) -> 'Fleet':
+    def get_from_db_by_owner(account_id: int) -> 'Fleet'  | None:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
 
@@ -219,7 +265,7 @@ class Fleet():
         return fleet
 
     @staticmethod
-    def get_from_db_by_id(fleet_id: int) -> 'Fleet':
+    def get_from_db_by_id(fleet_id: int) -> 'Fleet' | None:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
 

@@ -165,7 +165,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-str-bomber": UnitStatisticsFull(
+    "ship_str_bomber": UnitStatisticsFull(
         name="Strategic Bomber",
         description="Strategic bombers were designed to carry out long distance bombing runs on other planets.",
         description_long="Strategic Bombers are designed to execute precision bombing runs across distant planets. With an arsenal tailored for planetary assault, they unleash cataclysmic damage, devastating any static planetary defenses. Unfortunately, they are helpless in space-to-space combat.",
@@ -181,7 +181,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-frigate": UnitStatisticsFull(
+    "ship_frigate": UnitStatisticsFull(
         name="Frigate",
         description="Frigates are ideal for interstellar patrol duties and planetary defense forces.",
         description_long="Frigates are designed to protect planets in smaller planetary defense force fleets but can also be used in larger fleetgroups to destroy any smaller craft like fighters or bombers. This is possible thanks to the extensive point defense and anti-air grid on their hulls.",
@@ -197,7 +197,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-destroyer": UnitStatisticsFull(
+    "ship_destroyer": UnitStatisticsFull(
         name="Destroyer",
         description="Destroyers form the backbone of any interstellar strike force, as they are fast and can operate as escorts.",
         description_long="Destroyers, the backbone of interstellar strike forces, combine speed and versatility to operate effectively as escorts. With double damage against Frigates and Battleships, thanks to torpedos, they are able to screen against smaller vessels or use numbers to attack larger craft.",
@@ -213,7 +213,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-cruiser": UnitStatisticsFull(
+    "ship_cruiser": UnitStatisticsFull(
         name="Cruiser",
         description="Cruisers are large enough to operate independently and cross galactic distances without refueling at all.",
         description_long="Cruisers were designed for two goals=They needed to be large enough to cross galactic distances and they needed to protect even heavier ships against the rise of destroyers. Their shields were reinforced as well, making them able to withstand fire for extended periods of time.",
@@ -229,7 +229,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-battlecruiser": UnitStatisticsFull(
+    "ship_battlecruiser": UnitStatisticsFull(
         name="Battlecruiser",
         description="Battlecruisers were designed to outgun everything they cant run from and outrun anything they do not outgun.",
         description_long="Battlecruisers were an offshoot of the cruiser that was designed to carry bigger guns and still be comperatively fast. They have a combined arsenal of lasers and plasma weapons to achieve the first goal and are also still the same speed as Cruiser though they did have to sacrifice both armor and shield strength.",
@@ -245,7 +245,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-battleship": UnitStatisticsFull(
+    "ship_battleship": UnitStatisticsFull(
         name="Battleship",
         description="Battleships carry heavy guns, are well armored and have strong shields, making them the flagship of an interstellar strike force.",
         description_long="Battleships are large capital ships with plasma weapons, heavy armor and strong shields. As such, they are often the flagship of any given fleet. While powerful in their own right, they require an escort fleet as they would rapidly fall to Bombers or larger Destroyer groups without them.",
@@ -261,7 +261,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-escort-carrier": UnitStatisticsFull(
+    "ship_escort_carrier": UnitStatisticsFull(
         name="Escort Carrier",
         description="Escort Carriers were designed to transport small Fighters that cannot cross interstellar distances themselves.",
         description_long="Escort Carriers, designed for transporting small Fighters incapable of interstellar travel, excel in low-priority strategic deployment. Unfortunetly, they are not fast enough to keep pace with combat ships, but they are able to keep pace with Large Cargoships, which is how they go their name.",
@@ -277,7 +277,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=400,
         hangar_usage=0,
     ),
-    "ship-fleet-carrier": UnitStatisticsFull(
+    "ship_fleet_carrier": UnitStatisticsFull(
         name="Fleet Carrier",
         description="Fleet Carriers are a larger version of the Escort Carries and are fast enough to keep pace with Cruisers.",
         description_long="Fleet Carriers, an enlarged iteration of Escort Carriers, match the speed of Cruisers while also having enhanced offensive capabilities. While this does not mean that they are designed to engage in the frontline, they are much less likely to fall to a stray bomber that somehow got through its extensive fighter screen.",
@@ -293,7 +293,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=2300,
         hangar_usage=0,
     ),
-    "ship-titan": UnitStatisticsFull(
+    "ship_titan": UnitStatisticsFull(
         name="Titan",
         description="Titans are gigantic and ludicrously expensive flagships only few can afford. They are a navy's pride.",
         description_long="Titans, colossal and exorbitantly priced flagships, stand as the epitome of a navy's prestige, reserved for the empire few who can afford them. With awe-inspiring damage against any smaller ships, Titans reign supreme on the galactic battlefield and are naval supremacy made manifest.",
@@ -309,7 +309,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-sattelites": UnitStatisticsFull(
+    "ship_sattelites": UnitStatisticsFull(
         name="Sattelites",
         description="Satellites can be used for many purposes, ranging from power generation to spying on others.",
         description_long="Satellites can be used for many purposes, ranging from power generation to spying on others. However, they are EXTREMELY, fragile and will die to just about anything.",
@@ -325,7 +325,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-small-cargo": UnitStatisticsFull(
+    "ship_small_cargo": UnitStatisticsFull(
         name="Small Cargoship",
         description="Small Cargoships allow trade between different planets and stars in your empire.",
         description_long="Small Cargoships allow trade between different planets and stars in your empire. They are not capable of crossing between different spiral arms without upgrades and have nearly no armor, resulting in them requiring escorts to keep alive.",
@@ -341,7 +341,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-large-cargo": UnitStatisticsFull(
+    "ship_large_cargo": UnitStatisticsFull(
         name="Large Cargoship",
         description="A larger cargo vessel was needed, and so the Large Cargoship was created. It can cross galactic distances.",
         description_long="A larger cargo vessel was needed, and so the Large Cargoship was created. It has been upgraded to be able to cross between different spiral arms, increased cargo capacity and has also been equipped with some self-defense weapons to reduce the risk of them being destroyed in pirate attacks.",
@@ -357,7 +357,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-colony-ship": UnitStatisticsFull(
+    "ship_colony_ship": UnitStatisticsFull(
         name="Colony Ship",
         description="Colony ships carry colonists to distant planets to expand your empire across the entire Galaxy.",
         description_long="Colony ships carry colonists to distant planets to expand your empire across the entire Galaxy.",
@@ -373,7 +373,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-science-ship": UnitStatisticsFull(
+    "ship_science_ship": UnitStatisticsFull(
         name="Science Ship",
         description="Science ships can be used to explore deep space and return valuable resources from it.",
         description_long="Science ships can be used to explore deep space and return valuable resources from it.",
@@ -389,7 +389,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "ship-construction-ship": UnitStatisticsFull(
+    "ship_construction_ship": UnitStatisticsFull(
         name="Construction Ship",
         description="Construction ships can aid in resource production and can be used to create megastructures for your alliance.",
         description_long="Construction ships can aid in resource production and can be used to create megastructures for your alliance.",
@@ -405,7 +405,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=0,
         hangar_usage=0,
     ),
-    "def-aa": UnitStatisticsFull(
+    "def_aa": UnitStatisticsFull(
         name= "AA Guns",
         description= "AA Guns are small and not very strong, but they are very cheap and can be constructed en masse.",
         description_long= "AA Guns are small and not very strong, but they are very cheap and can be constructed en masse.",
@@ -421,7 +421,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=None,
         hangar_usage=None,
     ),
-    "def-railgun": UnitStatisticsFull(
+    "def_railgun": UnitStatisticsFull(
         name= "Railgun Turrets",
         description= "Railgun turrets use electromagnets to launch hypersonic slugs at the enemy.",
         description_long= "Railgun turrets use electromagnets to launch hypersonic slugs at the enemy.",
@@ -437,7 +437,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=None,
         hangar_usage=None,
     ),
-    "def-rocket": UnitStatisticsFull(
+    "def_rocket": UnitStatisticsFull(
         name= "Rocket Launchers",
         description= "Rocket Launchers are able to launch surface-to-orbit missiles tipped with nukes at enemy capital ships.",
         description_long= "Rocket Launchers are able to launch surface-to-orbit missiles tipped with nukes at enemy capital ships.",
@@ -453,7 +453,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=None,
         hangar_usage=None,
     ),
-    "def-laser": UnitStatisticsFull(
+    "def_laser": UnitStatisticsFull(
         name= "Laser Turrets",
         description= "Laser turrets are ideal to use against small- or midsized ships due to their comparatively low cost and high output.",
         description_long= "Laser turrets are ideal to use against small- or midsized ships due to their comparatively low cost and high output.",
@@ -469,7 +469,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=None,
         hangar_usage=None,
     ),
-    "def-ion": UnitStatisticsFull(
+    "def_ion": UnitStatisticsFull(
         name= "Ion Turrets",
         description= "Ion turrets have the same raw power as lasers, but sacrifice armor for shield strength.",
         description_long= "Ion turrets have the same raw power as lasers, but sacrifice armor for shield strength.",
@@ -485,7 +485,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=None,
         hangar_usage=None,
     ),
-    "def-plasma": UnitStatisticsFull(
+    "def_plasma": UnitStatisticsFull(
         name= "Plasma Turrets",
         description= "Plasma turrets launch large plasma bolts against medium and large ships to melt their armor away.",
         description_long= "Plasma turrets launch large plasma bolts against medium and large ships to melt their armor away.",
@@ -501,7 +501,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=None,
         hangar_usage=None,
     ),
-    "def-disruptor": UnitStatisticsFull(
+    "def_disruptor": UnitStatisticsFull(
         name= "Disruptor Turrets",
         description= "Disruptor turrets can be used to rapidly disassemble even large capital ships in orbit.",
         description_long= "Disruptor turrets can be used to rapidly disassemble even large capital ships in orbit.",
@@ -517,7 +517,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=None,
         hangar_usage=None,
     ),
-    "def-s-shield": UnitStatisticsFull(
+    "def_s_shield": UnitStatisticsFull(
         name= "Small Shield",
         description= "A small shield generator that can protect the area surrounding it from the enemy. Only one can be built.",
         description_long= "A small shield generator that can protect the area surrounding it from the enemy. Only one can be built.",
@@ -533,7 +533,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=None,
         hangar_usage=None,
     ),
-    "def-m-shield": UnitStatisticsFull(
+    "def_m_shield": UnitStatisticsFull(
         name= "Large Shield",
         description= "A large shield generator that can protect large regions from the enemy. Only one can be built.",
         description_long= "A large shield generator that can protect large regions from the enemy. Only one can be built.",
@@ -549,7 +549,7 @@ ship_statistics_record: dict[str, UnitStatisticsFull] = {
         hangar_space=None,
         hangar_usage=None,
     ),
-    "def-l-shield": UnitStatisticsFull(
+    "def_l_shield": UnitStatisticsFull(
         name= "Planetary Shield",
         description= "A gigantic shield generator that can protect the entire planet from the enemy. Only one can be built.",
         description_long= "A gigantic shield generator that can protect the entire planet from the enemy. Only one can be built.",

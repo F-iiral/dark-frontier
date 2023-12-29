@@ -178,7 +178,7 @@ def api_fleet():
     auth_token = request.headers.get("Authorization")
     fleet_id = data.get_data("fleetID")
 
-    if fleet_id is None                                             : return abort(400)
+    if not (isinstance(fleet_id, int))                              : return "Parameter 'fleet_id' must be 'int'.", 400
     if not (is_valid_token(auth_token))                             : return abort(401)
     if not (is_fleet_owner(auth_token, fleet_id))                   : return abort(403)
 
@@ -189,12 +189,20 @@ def api_fleet_move():
     data = RequestData(request.get_json())
     auth_token = request.headers.get("Authorization")
     fleet_id = data.get_data("fleetID")
+    mission = data.get_data("mission")
+    target = data.get_data("target")
+    speed_factor = data.get_data("speedFactor")
 
-    if fleet_id is None                                             : return abort(400)
+    if not (isinstance(fleet_id, int))                              : return "Parameter 'fleet_id' must be 'int'.", 400
+    if not (isinstance(mission, int))                               : return "Parameter 'mission' must be 'int'.", 400
+    if not (isinstance(speed_factor, float))                        : return "Parameter 'speed_factor' must be 'float'.", 400
+    if not (isinstance(target, list))                               : return "Parameter 'target' must be 'list'.", 400
+    if not (len(target) == 3)                                       : return "Paramater 'target' must contain 3 entries.", 400
+    if not (isinstance(i, int) for i in target)                     : return "All entries in 'target' must be 'int'.", 400
     if not (is_valid_token(auth_token))                             : return abort(401)
     if not (is_fleet_owner(auth_token, fleet_id))                   : return abort(403)
 
-    return fleet_move.main()
+    return fleet_move.main(fleet_id, mission, target, speed_factor)
 
 @app.route("/api/fleet/recall", methods=["POST"])
 def api_fleet_recall():
@@ -202,7 +210,7 @@ def api_fleet_recall():
     auth_token = request.headers.get("Authorization")
     fleet_id = data.get_data("fleetID")
 
-    if fleet_id is None                                             : return abort(400)
+    if not (isinstance(fleet_id, int))                              : return "Parameter 'fleet_id' must be 'int'.", 400
     if not (is_valid_token(auth_token))                             : return abort(401)
     if not (is_fleet_owner(auth_token, fleet_id))                   : return abort(403)
 

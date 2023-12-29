@@ -2,7 +2,7 @@ from typing import Never as never
 from common.lib.user import User
 from common.lib.planet import Planet
 from common.lib.fleet import Fleet
-from common.const import ConsoleShortcuts
+from common.const import ConsoleShortcuts, FleetMissions
 from common.env import DEV_MODE
 import asyncio
 import time
@@ -34,12 +34,12 @@ class DBCache():
                 if not time.time() - item[1][1] > 10:
                     continue
 
-                if not item[1][0].moving:
+                if item[1][0].mission == FleetMissions.HOLD.value:
                     item[1][0].save_to_db()
                     del DBCache.recent_fleets[item[0]]
 
     @staticmethod
-    def get_user(user_id: int) -> User:
+    def get_user(user_id: int) -> User | None:
         user_id_str = str(user_id)
 
         if user_id_str in DBCache.recent_users.keys():
@@ -50,7 +50,7 @@ class DBCache():
         return user
 
     @staticmethod
-    def get_planet(planet_id: int) -> Planet:
+    def get_planet(planet_id: int) -> Planet | None:
         planet_id_str = str(planet_id)
 
         if planet_id_str in DBCache.recent_planets.keys():
@@ -61,7 +61,7 @@ class DBCache():
         return planet
 
     @staticmethod
-    def get_fleet(fleet_id: int) -> Fleet:
+    def get_fleet(fleet_id: int) -> Fleet | None:
         fleet_id_str = str(fleet_id)
 
         if fleet_id_str in DBCache.recent_fleets.keys():
