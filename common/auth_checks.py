@@ -1,8 +1,9 @@
 from common.lib.account import Account
 from common.const import Badges
 from common.db_cache import DBCache
+from typing import Union
 
-def _get_account_from_token(token: str) -> Account | None:
+def _get_account_from_token(token: str) -> Union[Account, None]:
     if (token is None) or (token == ""):
         return None
 

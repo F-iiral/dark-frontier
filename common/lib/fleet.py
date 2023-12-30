@@ -1,4 +1,5 @@
 import sqlite3
+from typing import Union
 from common.lite_flake_id import LiteFlakeID
 from common.const import ConsoleShortcuts, FleetMissions, ShipRanges, ship_statistics_record
 from common.lib.user import User
@@ -215,7 +216,7 @@ class Fleet():
         conn.close()
 
     @staticmethod
-    def get_from_db_by_owner(account_id: int) -> 'Fleet'  | None:
+    def get_from_db_by_owner(account_id: int) -> Union['Fleet', None]:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
 
@@ -268,7 +269,7 @@ class Fleet():
         return fleet
 
     @staticmethod
-    def get_from_db_by_id(fleet_id: int) -> 'Fleet' | None:
+    def get_from_db_by_id(fleet_id: int) -> Union['Fleet', None]:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
 

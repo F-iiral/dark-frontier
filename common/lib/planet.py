@@ -1,5 +1,6 @@
 import sqlite3
 import time
+from typing import Union
 from common.const import Badges, ConsoleShortcuts
 from common.env import RESOURCE_SPEED
 from common.lib.user import User
@@ -171,7 +172,7 @@ class Planet():
             for fleet in self.outbound_fleets: fleet.save_to_db()
 
     @staticmethod
-    def get_from_db_by_owner(owner_id: int) -> 'Planet' | None:
+    def get_from_db_by_owner(owner_id: int) -> Union['Planet', None]:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
 
@@ -247,7 +248,7 @@ class Planet():
         return new_planet
 
     @staticmethod
-    def get_from_db_by_id(planet_id: int) -> 'Planet' | None:
+    def get_from_db_by_id(planet_id: int) -> Union['Planet', None]:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
 

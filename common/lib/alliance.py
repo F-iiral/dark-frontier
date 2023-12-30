@@ -1,4 +1,5 @@
 import sqlite3
+from typing import Union
 
 class Alliance():
     def __init__(self) -> None:
@@ -73,7 +74,7 @@ class Alliance():
         conn.close()
 
     @staticmethod
-    def get_from_db_by_id(alliance_id: int) -> 'Alliance':
+    def get_from_db_by_id(alliance_id: int) -> Union['Alliance', None]:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
 

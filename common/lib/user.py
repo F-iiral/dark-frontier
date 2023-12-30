@@ -1,4 +1,5 @@
 import sqlite3
+from typing import Union
 from common.lib.alliance import Alliance
 from common.const import ConsoleShortcuts
 from common.lib.account import Account
@@ -91,7 +92,7 @@ class User():
         conn.close()
 
     @staticmethod
-    def get_from_db_by_owner(account_id: int) -> 'User' | None:
+    def get_from_db_by_owner(account_id: int) -> Union['User', None]:
         conn = sqlite3.connect("database/data.sql")
         cursor = conn.cursor()
 

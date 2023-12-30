@@ -1,4 +1,5 @@
 from typing import Never as never
+from typing import Union
 from common.lib.user import User
 from common.lib.planet import Planet
 from common.lib.fleet import Fleet
@@ -39,7 +40,7 @@ class DBCache():
                     del DBCache.recent_fleets[item[0]]
 
     @staticmethod
-    def get_user(user_id: int) -> User | None:
+    def get_user(user_id: int) -> Union[User, None]:
         user_id_str = str(user_id)
 
         if user_id_str in DBCache.recent_users.keys():
@@ -50,7 +51,7 @@ class DBCache():
         return user
 
     @staticmethod
-    def get_planet(planet_id: int) -> Planet | None:
+    def get_planet(planet_id: int) -> Union[Planet, None]:
         planet_id_str = str(planet_id)
 
         if planet_id_str in DBCache.recent_planets.keys():
@@ -61,7 +62,7 @@ class DBCache():
         return planet
 
     @staticmethod
-    def get_fleet(fleet_id: int) -> Fleet | None:
+    def get_fleet(fleet_id: int) -> Union[Fleet, None]:
         fleet_id_str = str(fleet_id)
 
         if fleet_id_str in DBCache.recent_fleets.keys():

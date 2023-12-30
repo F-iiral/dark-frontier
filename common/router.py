@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, abort, request, Request
+from typing import Union
 from common.auth_checks import is_valid_token, is_administrator, is_moderator, is_planet_owner, is_fleet_owner, is_alliance_owner
 from common.const import Badges
 import common.routes.alliance.alliance as alliance_alliance
@@ -34,7 +35,7 @@ class RequestData():
     def __init__(self, request_data: dict) -> None:
         self.data = request_data
     
-    def get_data(self, name: str | list[str]) -> object | list[object] | None:
+    def get_data(self, name: str | list[str]) -> Union[object, list[object], None]:
         if isinstance(name, list):
             list_of_data = []
             for entry in name:
