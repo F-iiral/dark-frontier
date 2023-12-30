@@ -85,6 +85,7 @@ class FleetMissions(enum.Enum):
     EXPLORE = 6
     COLONIZE = 7
     RECYCLE = 8
+    RECALL = 9
 
 class ShipWeapons(enum.Enum):
     CONVENTIONAL = 0

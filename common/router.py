@@ -214,7 +214,7 @@ def api_fleet_recall():
     if not (is_valid_token(auth_token))                             : return abort(401)
     if not (is_fleet_owner(auth_token, fleet_id))                   : return abort(403)
 
-    return fleet_recall.main()
+    return fleet_recall.main(fleet_id)
 
 @app.route("/api/galaxy", methods=["GET"])
 def api_galaxy():

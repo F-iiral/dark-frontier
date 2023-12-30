@@ -53,6 +53,9 @@ def main(fleet_id: int, mission: int, target: list[int], speed_factor: float) ->
     else:
         spiral_distance = abs(target[0] - fleet.position[0])
     
+    if speed_factor not in [0.01, 0.03, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
+        return "Cannot use the speed factor.", 400
+
     if star_distance > 0 and fleet.get_fleet_range() < ShipRanges.INTERSTELLAR.value:
         return "Fleet does not have enough range for interstellar travel.", 400
     if spiral_distance > 0 and fleet.get_fleet_range() < ShipRanges.GALACTIC.value:
@@ -69,7 +72,9 @@ def main(fleet_id: int, mission: int, target: list[int], speed_factor: float) ->
     
     arrival_time = time.time() + ((10 + 3500/speed_factor + math.sqrt(10 * distance / fleet.get_fleet_speed())) / FLEET_SPEED)
 
+    fleet.start_time = time.time()
     fleet.arrival_time = arrival_time
     fleet.mission = mission
+    fleet.target = target
     DBCache.recent_fleets[f'{fleet.fleet_id}'] = (fleet, time.time())
     return "Successfully moved fleet.", 200
