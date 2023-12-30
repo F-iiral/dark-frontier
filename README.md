@@ -29,7 +29,7 @@ Python- (backend) and TypeScript- (frontend) -based online browser game.
 - [ ] Add support for multiple galaxies (subdomains + multiple DBs).
 
 ## Requirements
-- Python 3.11.4+
+- Python 3.12.1+
 - TypeScript 5.3.2+
 
 ## Setup
