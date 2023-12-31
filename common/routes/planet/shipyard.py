@@ -57,6 +57,7 @@ def main(planet_id: int, ship_type: int, ship_amount: int) -> tuple:
         new_fleet.__setattr__(ship_name, ship_amount)
         planet.stationed_fleet = new_fleet
         planet.stationed_fleet_id = new_fleet.fleet_id
+        new_fleet.owner.fleet_ids.append(new_fleet.fleet_id)
 
         DBCache.recent_fleets[f'{new_fleet.fleet_id}'] = (new_fleet, time.time())
 

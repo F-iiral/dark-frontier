@@ -78,6 +78,9 @@ class Fleet():
         combined_fleet.science_ships      = self.science_ships      + other.science_ships
         combined_fleet.construction_ships = self.construction_ships + other.construction_ships
 
+        if other.fleet_id in self.owner.fleet_ids:
+            self.owner.fleet_ids.remove(other.fleet_id)
+
         return combined_fleet
 
     def __sub__(self, other: 'Fleet') -> 'Fleet':
@@ -110,6 +113,9 @@ class Fleet():
         combined_fleet.colony_ships       = self.colony_ships       - other.colony_ships
         combined_fleet.science_ships      = self.science_ships      - other.science_ships
         combined_fleet.construction_ships = self.construction_ships - other.construction_ships
+
+        if other.fleet_id in self.owner.fleet_ids:
+            self.owner.fleet_ids.remove(other.fleet_id)
 
         return combined_fleet
 

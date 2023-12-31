@@ -36,6 +36,7 @@ cursor.execute("""
         account_id INTEGER PRIMARY KEY,
         planet_ids TEXT,
         alliance_id INTEGER,
+        fleet_ids TEXT,
         tec_energy INTEGER,
         tec_computing INTEGER,
         tec_hyperspace INTEGER,

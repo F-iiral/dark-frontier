@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path=".env")
+load_dotenv(dotenv_path=".env", verbose=True)
 
 DEV_MODE        : bool      = True if os.getenv("DEV_MODE").casefold() == 'true' else False
 SPIRAL_CIRCLE   : bool      = True if os.getenv("SPIRAL_CIRCLE").casefold() == 'true' else False

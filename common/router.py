@@ -175,15 +175,14 @@ def api_coffee():
 
 @app.route("/api/fleet", methods=["GET"])
 def api_fleet():
-    data = RequestData(request.get_json())
     auth_token = request.headers.get("Authorization")
-    fleet_id = data.get_data("fleetID")
+    fleet_id = request.args.get("planet") if not request.args.get("planet") == 'null' else None
 
-    if not (isinstance(fleet_id, int))                              : return "Parameter 'fleet_id' must be 'int'.", 400
+    if fleet_id is None                                             : return "Parameter 'fleet_id' must be 'int'.", 400
     if not (is_valid_token(auth_token))                             : return abort(401)
     if not (is_fleet_owner(auth_token, fleet_id))                   : return abort(403)
 
-    return fleet_fleet.main()
+    return fleet_fleet.main(int(fleet_id))
 
 @app.route("/api/fleet/move", methods=["POST"])
 def api_fleet_move():

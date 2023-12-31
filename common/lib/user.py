@@ -19,6 +19,7 @@ class User():
         self.planet_ids         : list[int]         = []
         self.alliance_id        : int | None        = None
         self.alliance           : Alliance | None   = None
+        self.fleet_ids          : list[int]         = []
 
         ### Technologies
         self.tec_energy         : int       = 0
@@ -44,6 +45,7 @@ class User():
             "planet_ids": self.planet_ids,
             "alliance_id": self.alliance_id,
             "alliance": self.alliance.to_dict() if self.alliance is not None else None,
+            "fleet_ids": self.fleet_ids,
             "tec_energy": self.tec_energy,
             "tec_computing": self.tec_computing,
             "tec_hyperspace": self.tec_hyperspace,
@@ -74,15 +76,15 @@ class User():
         cursor.execute("""
             INSERT OR REPLACE INTO users (
                 account_id, tec_energy,
-                planet_ids, alliance_id,
+                planet_ids, alliance_id, fleet_ids,
                 tec_computing, tec_hyperspace, tec_production,
                 tec_colonization, tec_shield, tec_armor, tec_engine, tec_storage,
                 tec_hangar, tec_conv_weapon, tec_laser, tec_ion, tec_plasma, tec_disruptor
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             self.id, self.tec_energy,
-            ",".join(map(str, self.planet_ids)), self.alliance_id,
+            ",".join(map(str, self.planet_ids)), self.alliance_id, ",".join(map(str, self.fleet_ids)),
             self.tec_computing, self.tec_hyperspace, self.tec_production,
             self.tec_colonization, self.tec_shield, self.tec_armor, self.tec_engine, self.tec_storage,
             self.tec_hangar, self.tec_conv_weapon, self.tec_laser, self.tec_ion, self.tec_plasma, self.tec_disruptor,
@@ -98,7 +100,7 @@ class User():
 
         cursor.execute("""
             SELECT
-                account_id, planet_ids, alliance_id,
+                account_id, planet_ids, alliance_id, fleet_ids,
                 tec_energy, tec_computing, tec_hyperspace, tec_production,
                 tec_colonization, tec_shield, tec_armor, tec_engine, tec_storage,
                 tec_hangar, tec_conv_weapon, tec_laser, tec_ion, tec_plasma, tec_disruptor
@@ -118,20 +120,21 @@ class User():
         user.planet_ids       = list(map(int, user_data[1].split(','))) if not user_data[1] == '' else []
         user.alliance_id      = user_data[2] if user_data[2] is not None else None
         user.alliance         = Alliance.get_from_db_by_id(user_data[2]) if user_data[2] is not None else None
-        user.tec_energy       = int(user_data[3])
-        user.tec_computing    = int(user_data[4])
-        user.tec_hyperspace   = int(user_data[5])
-        user.tec_production   = int(user_data[6])
-        user.tec_colonization = int(user_data[7])
-        user.tec_shield       = int(user_data[8])
-        user.tec_armor        = int(user_data[9])
-        user.tec_engine       = int(user_data[10])
-        user.tec_storage      = int(user_data[11])
-        user.tec_hangar       = int(user_data[12])
-        user.tec_conv_weapon  = int(user_data[13])
-        user.tec_laser        = int(user_data[14])
-        user.tec_ion          = int(user_data[15])
-        user.tec_plasma       = int(user_data[16])
-        user.tec_disruptor    = int(user_data[17])
+        user.fleet_ids       = list(map(int, user_data[3].split(','))) if not user_data[3] == '' else []
+        user.tec_energy       = int(user_data[4])
+        user.tec_computing    = int(user_data[5])
+        user.tec_hyperspace   = int(user_data[6])
+        user.tec_production   = int(user_data[7])
+        user.tec_colonization = int(user_data[8])
+        user.tec_shield       = int(user_data[9])
+        user.tec_armor        = int(user_data[10])
+        user.tec_engine       = int(user_data[11])
+        user.tec_storage      = int(user_data[12])
+        user.tec_hangar       = int(user_data[13])
+        user.tec_conv_weapon  = int(user_data[14])
+        user.tec_laser        = int(user_data[15])
+        user.tec_ion          = int(user_data[16])
+        user.tec_plasma       = int(user_data[17])
+        user.tec_disruptor    = int(user_data[18])
 
         return user
