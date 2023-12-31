@@ -19,7 +19,7 @@ Python- (backend) and TypeScript- (frontend) -based online browser game.
 
 ### Backend
 - [x] Add functionality to the `/planet` API.
-- [ ] Add functionality to the `/fleet` API.
+- [x] Add functionality to the `/fleet` API.
 - [ ] Add functionality to the `/user` API.
 - [ ] Add functionality to the `/galaxy` API.
 - [ ] Add functionality to the `/alliance` API.
