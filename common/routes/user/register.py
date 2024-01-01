@@ -69,7 +69,6 @@ def store_credentials(username: str, password: str, user_id: int) -> str:
 def create_account(user_id) -> None:
     new_user = User()
     new_user.id = user_id
-    new_user.save_to_db()
 
     new_planet = find_free_planet()
     new_planet.owner_id = user_id
@@ -78,7 +77,10 @@ def create_account(user_id) -> None:
     new_planet.metal_amount = 100000
     new_planet.crystal_amount = 100000
     new_planet.gas_amount = 100000
+    new_user.planet_ids.append(new_planet.planet_id)
+
     new_planet.save_to_db()
+    new_user.save_to_db()
 
 def find_free_planet() -> Planet:
     while True:

@@ -60,5 +60,6 @@ def main(planet_id: int, ship_type: int, ship_amount: int) -> tuple:
         new_fleet.owner.fleet_ids.append(new_fleet.fleet_id)
 
         DBCache.recent_fleets[f'{new_fleet.fleet_id}'] = (new_fleet, time.time())
+        DBCache.recent_users[f'{new_fleet.owner.id}'] = (new_fleet.owner, time.time())
 
     return "Successfully constructed.", 200

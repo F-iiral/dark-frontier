@@ -120,7 +120,7 @@ class User():
         user.planet_ids       = list(map(int, user_data[1].split(','))) if not user_data[1] == '' else []
         user.alliance_id      = user_data[2] if user_data[2] is not None else None
         user.alliance         = Alliance.get_from_db_by_id(user_data[2]) if user_data[2] is not None else None
-        user.fleet_ids       = list(map(int, user_data[3].split(','))) if not user_data[3] == '' else []
+        user.fleet_ids        = list(map(int, user_data[3].split(','))) if not ((user_data[3] == '') or (user_data[3] is None)) else []
         user.tec_energy       = int(user_data[4])
         user.tec_computing    = int(user_data[5])
         user.tec_hyperspace   = int(user_data[6])

@@ -109,6 +109,7 @@ cursor.execute("""
         target_planet INTEGER,
         target_system INTEGER,
         target_spiral INTEGER,
+        start_time REAL,
         arrival_time REAL,
         fighters REAL,
         interceptors REAL,
