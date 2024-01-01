@@ -378,6 +378,58 @@ function generateTechnologyGrid(): string {
     </div>`
 }
 
+async function generateTopbar(jsonResponse: any): Promise<string> {
+    function getMissionName(mission: number): string {
+        switch(mission) {
+            case 0: { return "Holding" }
+            case 1: { return "Deploy" }
+            case 2: { return "Transport" }
+            case 3: { return "Collect" }
+            case 4: { return "Spy" }
+            case 5: { return "Attack" }
+            case 6: { return "Explore" }
+            case 7: { return "Colonize" }
+            case 8: { return "Recycle" }
+            case 8: { return "Recall" }
+            default: { return "Unknown" }
+        }
+    }
+
+    let fleets = await jsonResponse.json()
+    console.log(fleets)
+    fleets.sort((a, b) => {
+        if (a.arrival_time === null && b.arrival_time === null) {
+            return 0 // if both keys are null, leave them in the current order
+        } else if (a.arrival_time === null) {
+            return 1 // if a.key is null, move it to the end
+        } else if (b.arrival_time === null) {
+            return -1 // if b.key is null, move it to the end
+        } else {
+            return a.arrival_time - b.arrival_time // regular numeric comparison for non-null keys
+        }
+    })
+
+
+    return `
+    <div>
+        <div style="cursor:pointer; text-align:left; padding-left:20px;">
+        <div style="padding:4px; font-size:12px;">
+            <span> <b>${fleets.length}</b> Relevant Fleets: </span> 
+            <br>
+            <span style="color:var(--ok-color);">3 Own</span>
+            <span style="color:var(--warn-color);">2 Foreign</span>
+            <span style="color:var(--error-color);">1 Aggressive</span>
+        </div>
+        <div style="padding:4px; font-size:12px; float:left;">
+            <span> Next: ${new Date(fleets[0].arrival_time * 1000).toISOString().slice(11, 19)} </span>
+        </div>
+        <div style="padding:4px; font-size:12px; float:left;">
+            <span>Type: ${getMissionName(fleets[0].mission)}</span>
+        </div>
+    </div>
+    `
+}
+
 async function loadPlanetPage (planetID: number, page_name: string): Promise<void> {
     const token = getCookie("Authorization");
     if (token) { setCookie("Authorization", token, 14, 1, true) }
@@ -394,7 +446,7 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
                 method: 'GET',
                 headers: headers,
             }
-        );
+        )
 
         if (!response.ok) {
             console.log(response)
@@ -411,6 +463,15 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
         document.getElementById("shipyard-button")!.setAttribute('href', `shipyard?planet=${planetID}`)
         document.getElementById("fleet-button")!.setAttribute('href', `fleet?planet=${planetID}`)
         document.getElementById("technology-button")!.setAttribute('href', `technology?planet=${planetID}`)
+
+        const fleetResponse = await fetch(
+            `../api/user/fleets`,
+            {
+                method: 'GET',
+                headers: headers,
+            }
+        )
+        document.getElementById("topbar")!.innerHTML += await generateTopbar(fleetResponse)
 
         if (page_name === "overview") {
             document.getElementById("planet-name")!.innerHTML   = jsonResponse.name

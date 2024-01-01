@@ -19,6 +19,7 @@ import common.routes.planet.defenses   as planet_defenses
 import common.routes.planet.shipyard   as planet_shipyard
 import common.routes.planet.spy        as planet_spy
 import common.routes.user.activity     as user_activity
+import common.routes.user.fleets       as user_fleets
 import common.routes.user.technology   as user_technology
 import common.routes.user.register     as user_register
 import common.routes.user.login        as user_login
@@ -306,6 +307,12 @@ def api_planet_spy():
     if not (is_valid_token(auth_token))                             : return abort(401)
 
     return planet_spy.main(planet_id, auth_token)
+
+@app.route("/api/user/fleets", methods=["GET"])
+def api_user_fleets():
+    auth_token = request.headers.get("Authorization")
+
+    return user_fleets.main(auth_token)
 
 @app.route("/api/user/technology", methods=["POST"])
 def api_user_technology():
