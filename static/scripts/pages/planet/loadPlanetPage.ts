@@ -378,7 +378,7 @@ function generateTechnologyGrid(): string {
     </div>`
 }
 
-async function generateTopbar(jsonResponse: any): Promise<string> {
+async function generateTopbar(fleetResponse: any, planetResponse: any): Promise<string> {
     function getMissionName(mission: number): string {
         switch(mission) {
             case 0: { return "Holding" }
@@ -395,8 +395,26 @@ async function generateTopbar(jsonResponse: any): Promise<string> {
         }
     }
 
-    let fleets = await jsonResponse.json()
-    console.log(fleets)
+    function getFleetType(fleets: any): Array<number> {
+        let own_fleet = 0
+        let friendly_fleet = 0
+        let hostile_fleet = 0
+        for (let fleet of fleets) {
+            console.log("hi")
+            if (fleet.owner.id == planetResponse.owner.id) {
+                own_fleet++
+            }
+            else if (fleet.mission == 4 || fleet.mission == 5) {
+                hostile_fleet++
+            }
+            else {
+                friendly_fleet++
+            }
+        }
+        return [own_fleet, friendly_fleet, hostile_fleet]
+    }
+
+    let fleets = await fleetResponse.json()
     fleets.sort((a, b) => {
         if (a.arrival_time === null && b.arrival_time === null) {
             return 0 // if both keys are null, leave them in the current order
@@ -409,6 +427,7 @@ async function generateTopbar(jsonResponse: any): Promise<string> {
         }
     })
 
+    let fleetTypes = getFleetType(fleets)
 
     return `
     <div>
@@ -416,12 +435,12 @@ async function generateTopbar(jsonResponse: any): Promise<string> {
         <div style="padding:4px; font-size:12px;">
             <span> <b>${fleets.length}</b> Relevant Fleets: </span> 
             <br>
-            <span style="color:var(--ok-color);">3 Own</span>
-            <span style="color:var(--warn-color);">2 Foreign</span>
-            <span style="color:var(--error-color);">1 Aggressive</span>
+            <span style="color:var(--ok-color);">${fleetTypes[0]} Own</span>
+            <span style="color:var(--warn-color);">${fleetTypes[1]} Friendly</span>
+            <span style="color:var(--error-color);">${fleetTypes[2]} Aggressive</span>
         </div>
         <div style="padding:4px; font-size:12px; float:left;">
-            <span> Next: ${new Date(fleets[0].arrival_time * 1000).toISOString().slice(11, 19)} </span>
+            <span> Next: ${new Date(fleets[0].arrival_time * 1000).toISOString().slice(9, 19).replace('T', 'T ')} </span>
         </div>
         <div style="padding:4px; font-size:12px; float:left;">
             <span>Type: ${getMissionName(fleets[0].mission)}</span>
@@ -471,7 +490,7 @@ async function loadPlanetPage (planetID: number, page_name: string): Promise<voi
                 headers: headers,
             }
         )
-        document.getElementById("topbar")!.innerHTML += await generateTopbar(fleetResponse)
+        document.getElementById("topbar")!.innerHTML += await generateTopbar(fleetResponse, jsonResponse)
 
         if (page_name === "overview") {
             document.getElementById("planet-name")!.innerHTML   = jsonResponse.name
